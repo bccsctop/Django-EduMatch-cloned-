@@ -5,7 +5,6 @@ from selenium.webdriver.common.keys import Keys
 import time 
 import unittest
 
-
 class NewVisitorTest(LiveServerTestCase):
 
     def setUp(self):
@@ -27,9 +26,17 @@ class NewVisitorTest(LiveServerTestCase):
         self.assertIn('edumatch',self.browser.title)
 
         #He could see a list of tutor user.
-        #He select ploy to be his tutor.
+        table = self.browser.find_element_by_id('user_list_table')
+        rows = table.find_elements_by_tag_name('tr')
+        self.assertTrue(
+            any(row.text == 'Tutor: Ploy' for row in rows),
+           f"Tutor: Ploy did not appear in table. Content were: \n{table.text}"
+        )
 
+        #He select ploy to be his tutor.
         #He click on a ploy's match button.
+
+
         #The page will show that tutor ploy is match for him.
         self.fail('finist the test !!')
         
