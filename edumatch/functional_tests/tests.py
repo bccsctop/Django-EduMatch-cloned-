@@ -37,7 +37,7 @@ class NewVisitorTest(LiveServerTestCase):
 
         #He could see a list of tutor user.
         table = self.browser.find_element_by_id('user_list_table')
-        rows = table.find_elements_by_tag_name('tr')
+        rows = table.find_elements_by_tag_name('td')
         self.assertTrue(
             any(row.text == 'Tutor: Ploy' for row in rows),
            f"Tutor: Ploy did not appear in table. Content were: \n{table.text}"

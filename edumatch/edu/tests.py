@@ -14,6 +14,14 @@ class HomepageTest(TestCase):
     def test_uses_home_template(self):
         response = self.client.get('/')
         self.assertTemplateUsed(response, 'home.html')
+    
+    def test_displays_all_items(self):
+        Tutor.objects.create(name='Mark')
+        Tutor.objects.create(name='Ploy')
+        response = self.client.get('/')
+        self.assertContains(response,'Mark')
+        self.assertContains(response,'Ploy')
+
 
 class TutorModelTest(TestCase):
     
@@ -34,3 +42,4 @@ class TutorModelTest(TestCase):
 
         self.assertEqual(first_saved_tutor.name,'Mark')
         self.assertEqual(second_saved_tutor.name,'Ploy')
+
