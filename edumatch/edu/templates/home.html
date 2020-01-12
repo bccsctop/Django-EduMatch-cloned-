@@ -3,6 +3,9 @@
     <body>
         <h1>EduMatch</h1>
         <table id='user_list_table'>
+            {% for tutor in tutors %}
+                <tr><td>Tutor: {{tutor.name}}</td></tr>
+            {% endfor %}
         </table>
     </body>
 </html>

@@ -4,6 +4,7 @@ from selenium.common.exceptions import WebDriverException
 from selenium.webdriver.common.keys import Keys
 import time 
 import unittest
+from edu.models import Tutor 
 
 class NewVisitorTest(LiveServerTestCase):
 
@@ -14,6 +15,15 @@ class NewVisitorTest(LiveServerTestCase):
         self.browser.quit()
 
     def test_can_start_a_list_for_one_user(self):
+        
+        #set up database 
+        first_tutor = Tutor()
+        first_tutor.name = 'Mark'
+        first_tutor.save()
+
+        second_tutor = Tutor()
+        second_tutor.name = 'Ploy'
+        second_tutor.save()
 
         #Mark is a student at some university. 
         #He feel very stressed about upcomming midterm exam.
@@ -32,12 +42,17 @@ class NewVisitorTest(LiveServerTestCase):
             any(row.text == 'Tutor: Ploy' for row in rows),
            f"Tutor: Ploy did not appear in table. Content were: \n{table.text}"
         )
-
+        time.sleep(1)
         #He select ploy to be his tutor.
         #He click on a ploy's match button.
 
-
+        button = table.find_element_by_name('Ploy')
+        button.send_keys(Keys.ENTER)
+    
         #The page will show that tutor ploy is match for him.
+        result = self.browser.find_element_by_id('match_result')
+        self.assertEqual(result.text,'match!!!')
+        
         self.fail('finist the test !!')
         
 
