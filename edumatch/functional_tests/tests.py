@@ -29,7 +29,6 @@ class NewVisitorTest(LiveServerTestCase):
         #He could see a list of tutor user.
         #He select ploy to be his tutor.
 
-
         #He click on a ploy's match button.
         #The page will show that tutor ploy is match for him.
         self.fail('finist the test !!')
