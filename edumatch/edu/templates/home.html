@@ -9,6 +9,10 @@
     <title>edumatch</title>
     <body>
         <h1>EduMatch</h1>
+        <form method="POST">
+            <input name="subject_text" id="user_select_subject" placeholder="Enter your Subject that you need help!!!" />
+            {% csrf_token %}
+        </form>
         <table id='user_list_table'>
             {% for tutor in tutors %}
                 <tr>

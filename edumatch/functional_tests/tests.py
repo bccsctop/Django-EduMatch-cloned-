@@ -41,9 +41,8 @@ class NewVisitorTest(LiveServerTestCase):
         inputbox = self.browser.find_element_by_id('user_select_subject')  
         self.assertEqual(
             inputbox.get_attribute('placeholder'),
-            'Enter your "Subject" that you need help!!!'
+            'Enter your Subject that you need help!!!'
         )
-
 
         #After that he could see a list of tutor user that agree
         #to teach with that subject that he enter.

@@ -15,6 +15,10 @@ class HomepageTest(TestCase):
         response = self.client.get('/')
         self.assertTemplateUsed(response, 'home.html')
     
+    def test_checking_a_POST_request(self):
+        response = self.client.post('/', data={'subject_text': 'A select subject'})
+        self.assertIn('A select subject', response.content.decode())
+
     def test_displays_modelItems_(self):
         Tutor.objects.create(name='Mark')
         Tutor.objects.create(name='Ploy')
