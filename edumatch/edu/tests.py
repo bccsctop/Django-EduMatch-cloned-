@@ -3,7 +3,7 @@ from django.test import TestCase
 from django.http import HttpRequest
 from django.template.loader import render_to_string
 from edu.views import home_page
-from edu.models import Tutor
+from edu.models import Tutor,Selected_Subject
 
 class HomepageTest(TestCase):
 
@@ -16,8 +16,15 @@ class HomepageTest(TestCase):
         self.assertTemplateUsed(response, 'home.html')
     
     def test_checking_a_POST_request(self):
+        self.client.post('/', data={'subject_text': 'A select subject'})
+        self.assertEqual(Selected_Subject.objects.count(), 1)
+        new_subject = Selected_Subject.objects.first()
+        self.assertEqual(new_subject.subject, 'A select subject')
+    
+    def test_redirects_after_POST(self):
         response = self.client.post('/', data={'subject_text': 'A select subject'})
-        self.assertIn('A select subject', response.content.decode())
+        self.assertEqual(response.status_code, 302)
+        self.assertEqual(response['location'], '/')
 
     def test_displays_modelItems_(self):
         Tutor.objects.create(name='Mark')

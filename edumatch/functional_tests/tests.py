@@ -43,6 +43,8 @@ class NewVisitorTest(LiveServerTestCase):
             inputbox.get_attribute('placeholder'),
             'Enter your Subject that you need help!!!'
         )
+        inputbox.send_keys(Keys.ENTER)
+        time.sleep(1)
 
         #After that he could see a list of tutor user that agree
         #to teach with that subject that he enter.
