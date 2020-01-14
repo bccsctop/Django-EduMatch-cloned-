@@ -7,15 +7,15 @@ from edu.models import Tutor
 
 class HomepageTest(TestCase):
 
-    def test_root_resolve_to_home_page_view(self):
+    def test_rootURL_maping_to_homepageVIEW(self):
         found = resolve('/')
         self.assertEqual(found.func,home_page)
     
-    def test_uses_home_template(self):
+    def test_rendering_homepageTemplate(self):
         response = self.client.get('/')
         self.assertTemplateUsed(response, 'home.html')
     
-    def test_displays_all_items(self):
+    def test_displays_modelItems_(self):
         Tutor.objects.create(name='Mark')
         Tutor.objects.create(name='Ploy')
         response = self.client.get('/')
@@ -25,7 +25,7 @@ class HomepageTest(TestCase):
 
 class TutorModelTest(TestCase):
     
-    def test_saving_and_retrieving_items(self):
+    def test_saving_and_verifying_modelItems(self):
         first_tutor = Tutor()
         first_tutor.name = 'Mark'
         first_tutor.save()

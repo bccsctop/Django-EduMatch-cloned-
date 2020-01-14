@@ -9,12 +9,12 @@ from edu.models import Tutor
 class NewVisitorTest(LiveServerTestCase):
 
     def setUp(self):
-        self.browser = webdriver.Firefox(executable_path="/mnt/c/djangoProject/Django-EduMatch/geckodriver.exe")
-    
+        self.browser = webdriver.Firefox()
+
     def tearDown(self):
         self.browser.quit()
 
-    def test_can_start_a_list_for_one_user(self):
+    def test_can_start_match_for_one_user(self):
         
         #set up database 
         first_tutor = Tutor()
@@ -35,7 +35,18 @@ class NewVisitorTest(LiveServerTestCase):
         #He notices the page title and header mention edumatch
         self.assertIn('edumatch',self.browser.title)
 
-        #He could see a list of tutor user.
+        #He see textbox with "Subject".So he enter subject that he
+        #want to learn straight away.
+        #He types "Signal and System" into a text box
+        inputbox = self.browser.find_element_by_id('user_select_subject')  
+        self.assertEqual(
+            inputbox.get_attribute('placeholder'),
+            'Enter your "Subject" that you need help!!!'
+        )
+
+
+        #After that he could see a list of tutor user that agree
+        #to teach with that subject that he enter.
         table = self.browser.find_element_by_id('user_list_table')
         rows = table.find_elements_by_tag_name('td')
         self.assertTrue(
