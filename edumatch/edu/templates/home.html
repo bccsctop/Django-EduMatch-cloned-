@@ -6,9 +6,9 @@
         result.innerText = 'match!!!'
     }
 </script>
-    <title>edumatch</title>
+    <title>SPARK</title>
     <body>
-        <h1>EduMatch</h1>
+        <h1>SPARK</h1>
         <form method="POST">
             <input name="subject_text" id="user_select_subject" placeholder="Enter your Subject that you need help!!!" />
             {% csrf_token %}
@@ -17,6 +17,7 @@
             {% for tutor in tutors %}
                 <tr>
                     <td>Tutor: {{tutor.name}}</td>
+                    <td>Expert: {{tutor.expert}}</td>
                     <td><button name={{tutor.name}} onclick='match_tutor()'>match</button></td>
                 </tr>
             {% endfor %}

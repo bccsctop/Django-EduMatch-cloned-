@@ -26,14 +26,13 @@ class HomepageTest(TestCase):
         self.assertEqual(response.status_code, 302)
         self.assertEqual(response['location'], '/')
 
-    def test_displays_modelItems_(self):
+    def test_searching_modelTutor_(self):
         Tutor.objects.create(name='Mark')
         Tutor.objects.create(name='Ploy')
         response = self.client.get('/')
         self.assertContains(response,'Mark')
         self.assertContains(response,'Ploy')
-
-
+        
 class TutorModelTest(TestCase):
     
     def test_saving_and_verifying_modelItems(self):
