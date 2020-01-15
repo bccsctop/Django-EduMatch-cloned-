@@ -9,7 +9,12 @@
     <title>SPARK</title>
     <body>
         <h1>SPARK</h1>
-        <form method="POST">
+        <form method="POST" action="/spark/register">
+            <table id='user_register_and_sign_in'>
+                <td><button name=register >Register</button></td>
+            </table>
+        </form>
+        <form method="POST" >
             <input name="subject_text" id="user_select_subject" placeholder="Enter your Subject that you need help!!!" />
             {% csrf_token %}
         </form>

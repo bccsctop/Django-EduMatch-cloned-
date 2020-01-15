@@ -78,6 +78,26 @@ class NewVisitorTest(LiveServerTestCase):
         self.assertEqual(result.text,'match!!!')
         
         self.fail('finist the test !!')
+
+class RegisterTest(unittest.TestCase):
+
+    def setUp(self):
+        self.browser = webdriver.Firefox()
+
+    def tearDown(self):
+        self.browser.quit()
+
+    def test_can_register_user(self):
+        #Mark is a student at some university. 
+        #He has no members.
+        #So he goes to register.
+        
+        self.browser.get('http://localhost:8000')
+
+        #He notices the page title and header mention register
+        self.assertIn('Register',self.browser.title)
+
+        self.fail('finist the test !!')
         
 
        

@@ -3,6 +3,7 @@ from django.test import TestCase
 from django.http import HttpRequest
 from django.template.loader import render_to_string
 from edu.views import home_page
+from edu.views import register
 from edu.models import Tutor,Selected_Subject
 
 class HomepageTest(TestCase):
@@ -52,4 +53,26 @@ class TutorModelTest(TestCase):
 
         self.assertEqual(first_saved_tutor.name,'Mark')
         self.assertEqual(second_saved_tutor.name,'Ploy')
+
+class RegisterTest(TestCase):
+
+    def test_rootURL_maping_to_homepageVIEW(self):
+        found = resolve('/spark/register')
+        self.assertEqual(found.func,register)
+
+    
+    def test_rendering_homepageTemplate(self):
+        response = self.client.get('/spark/register')
+        self.assertTemplateUsed(response, 'register.html')
+
+    def test_home_page_returns_correct_html(self):
+        response = self.client.get('/spark/register')  
+
+        html = response.content.decode('utf8')  
+        self.assertTrue(html.startswith('<html>'))
+        self.assertIn('<title>Register</title>', html)
+        self.assertTrue(html.strip().endswith('</html>'))
+
+        self.assertTemplateUsed(response, 'register.html') 
+
 

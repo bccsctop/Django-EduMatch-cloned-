@@ -18,3 +18,7 @@ def home_page(request):
     return render(request,'home.html',{
         'tutors':tutors
     })
+
+def register(request):
+    return redirect('/spark/register')
+    return render(request, 'register.html')

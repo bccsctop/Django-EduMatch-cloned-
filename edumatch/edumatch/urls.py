@@ -20,4 +20,5 @@ from edu import views
 urlpatterns = [
     url(r'^admin/', admin.site.urls),
     url(r'^$',views.home_page,name='home'),
+    url(r'^spark/register',views.register,name='register'),
 ]
