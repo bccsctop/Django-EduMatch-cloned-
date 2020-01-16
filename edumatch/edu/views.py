@@ -20,5 +20,7 @@ def home_page(request):
     })
 
 def register(request):
-    return redirect('/spark/register')
+    if request.method == 'POST':
+        return redirect('/register')
+    #return redirect('/register')
     return render(request, 'register.html')

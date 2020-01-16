@@ -1,4 +1,10 @@
 <html>
+    <script>
+            function successfully_register(){
+                let result = document.getElementById('register_result');
+                result.innerText = 'successfully register'
+            }
+    </script>
     <title>REGISTER</title>
     <body>
         <h1>REGISTER</h1>
@@ -16,8 +22,10 @@
                 <input name="email" id="email" placeholder="Enter your Email" />
             <br>
             <h2> </h2>
-            <td><button name="sign_up" id="sign_up" >Register</button></td>
-        <table id='user_register_and_sign_in'>
-        </form>
+            <td><button name="sign_up" id="sign_up" onclick='successfully_register()' >Register</button></td>
+            {% csrf_token %}
+                </form>
+        </table>
+        <h3 id='register_result'></h3>
     </body>
 </html>

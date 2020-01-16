@@ -9,9 +9,10 @@
     <title>SPARK</title>
     <body>
         <h1>SPARK</h1>
-        <form method="POST" action="/spark/register">
+        <form method="GET" action="/register">
             <table id='user_register_and_sign_in'>
-                <input name='register'id='register' type="submit" value="Register">
+                <td><input name="register"id="register" type="submit" value="Register"></td>
+                {% csrf_token %}
             </table>
         </form>
         <form method="POST" >

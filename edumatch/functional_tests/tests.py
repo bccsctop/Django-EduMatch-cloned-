@@ -80,75 +80,95 @@ class NewVisitorTest(LiveServerTestCase):
         self.fail('finist the test !!')
 
 
+class NewRegisterTest(unittest.TestCase):
+
+    def setUp(self):
+        self.browser = webdriver.Firefox()
+
+    def tearDown(self):
+        self.browser.quit()
+
+
     def test_can_register_user(self):
         #Mark Parker is a student at some university. 
         #He has no members.
         #So he goes to register.
         
-        self.browser.get(self.live_server_url)
+        self.browser.get('http://127.0.0.1:8000')
         #He click on a register button.
         register_table = self.browser.find_element_by_id('user_register_and_sign_in')
-        register_button = table.find_element_by_name('register')
+        register_button = register_table.find_element_by_name('register')
         register_button.send_keys(Keys.ENTER)
 
+        register_url = self.browser.current_url
+
+        self.browser.get('http://127.0.0.1:8000/register')
+
         #He notices the page title and header mention register
-        self.assertIn('Register',self.browser.title)
+        #self.assertIn('REGISTER',self.browser.title)
 
         #He see form for register
         form_table = self.browser.find_element_by_id('user_register_form')
+        
 
         #He see textbox with "Username".So he enter username
         #He types "MarkZa55" into a text box
         username_box = self.browser.find_element_by_id('username')  
         self.assertEqual(
-            inputbox.get_attribute('placeholder'),
+            username_box.get_attribute('placeholder'),
             'Enter your Username'
         )
-        inputbox.send_keys('MarkZa55')
+        username_box.send_keys('MarkZa55')
 
         #He see textbox with "Password".So he enter password
         #He types "123456" into a text box
         password_box = self.browser.find_element_by_id('password')  
         self.assertEqual(
-            inputbox.get_attribute('placeholder'),
+            password_box.get_attribute('placeholder'),
             'Enter your Password'
         )
-        inputbox.send_keys('123456')
+        password_box.send_keys('123456')
 
         #He see textbox with "Name".So he enter name
         #He types "Mark" into a text box
         name_box = self.browser.find_element_by_id('name')  
         self.assertEqual(
-            inputbox.get_attribute('placeholder'),
+            name_box.get_attribute('placeholder'),
             'Enter your Name'
         )
-        inputbox.send_keys('Mark')
+        name_box.send_keys('Mark')
 
         #He see textbox with "Last name".So he enter lastname
         #He types "Parker" into a text box
         lastname_box = self.browser.find_element_by_id('lastname')  
         self.assertEqual(
-            inputbox.get_attribute('placeholder'),
+            lastname_box.get_attribute('placeholder'),
             'Enter your Last name'
         )
-        inputbox.send_keys('Parker')
+        lastname_box.send_keys('Parker')
 
 
         #He see textbox with "Email".So he enter email
         #He types "Spiderman@email.com" into a text box
         email_box = self.browser.find_element_by_id('email')  
         self.assertEqual(
-            inputbox.get_attribute('placeholder'),
+            email_box.get_attribute('placeholder'),
             'Enter your Email'
         )
-        inputbox.send_keys('Spiderman@email.com')
+        email_box.send_keys('Spiderman@email.com')
 
         #He click on a Register button.
-        button = table.find_element_by_name('sign_up')
-        button.send_keys(Keys.ENTER)
+        sign_up_button = form_table.find_element_by_name('sign_up')
+        sign_up_button.send_keys(Keys.ENTER)
+
+
+        #The page will show that successfully register.
+        result = self.browser.find_element_by_id('register_result')
+        self.assertEqual(result.text,'successfully register')
 
 
         self.fail('finist the test !!')
+        
         
 
 

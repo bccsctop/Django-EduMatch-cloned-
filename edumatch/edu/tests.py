@@ -57,22 +57,16 @@ class TutorModelTest(TestCase):
 class RegisterTest(TestCase):
 
     def test_rootURL_maping_to_homepageVIEW(self):
-        found = resolve('/spark/register')
+        found = resolve('/register')
         self.assertEqual(found.func,register)
 
     
     def test_rendering_homepageTemplate(self):
-        response = self.client.get('/spark/register')
+        response = self.client.get('/register')
         self.assertTemplateUsed(response, 'register.html')
 
-    def test_home_page_returns_correct_html(self):
-        response = self.client.get('/spark/register')  
 
-        html = response.content.decode('utf8')  
-        self.assertTrue(html.startswith('<html>'))
-        self.assertIn('<title>Register</title>', html)
-        self.assertTrue(html.strip().endswith('</html>'))
-
-        self.assertTemplateUsed(response, 'register.html') 
-
-
+    def test_redirects_after_POST(self):
+        response = self.client.post('/register')
+        self.assertEqual(response.status_code, 302)
+        self.assertEqual(response['location'], '/register')
