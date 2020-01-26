@@ -41,12 +41,12 @@ class NewVisitorTest(LiveServerTestCase):
         table = self.browser.find_element_by_id('user_list_table')
         rows = table.find_elements_by_tag_name('td')
         self.assertTrue(
-            any(row.text == 'Tutor: Frankin' for row in rows),
+            any(row.text == 'Frankin' for row in rows),
            f"Tutor: Frankin did not appear in table. Content were: \n{table.text}"
         )
         self.assertTrue(
-            any(row.text == 'Tutor: Ronnie' for row in rows),
-           f"Tutor: Ronnie did not appear in table. Content were: \n{table.text}"
+            any(row.text == 'Ronnie' for row in rows),
+           f"Ronnie did not appear in table. Content were: \n{table.text}"
         )
         time.sleep(1)
         #He see textbox with "Subject".So he enter subject that he
@@ -58,14 +58,13 @@ class NewVisitorTest(LiveServerTestCase):
             'Enter your Subject that you need help!!!'
         )
         inputbox.send_keys('Signal')
-        inputbox.send_keys(Keys.ENTER)
         time.sleep(1)
 
         #After that he could see a list of tutor user that agree
         #to teach with that subject that he enter.
         table = self.browser.find_element_by_id('user_list_table')
         rows = table.find_elements_by_tag_name('td')
-        self.assertIn('Tutor: Ronnie', [row.text for row in rows])
+        self.assertIn('Ronnie', [row.text for row in rows])
         time.sleep(1)
         #He select Ronnie to be his tutor.
         #He click on a Ronnie's match button.

@@ -15,24 +15,13 @@ class HomepageTest(TestCase):
     def test_rendering_homepageTemplate(self):
         response = self.client.get('/')
         self.assertTemplateUsed(response, 'home.html')
-    
-    def test_checking_a_POST_request(self):
-        self.client.post('/', data={'subject_text': 'A select subject'})
-        self.assertEqual(Selected_Subject.objects.count(), 1)
-        new_subject = Selected_Subject.objects.first()
-        self.assertEqual(new_subject.subject, 'A select subject')
-    
-    def test_redirects_after_POST(self):
-        response = self.client.post('/', data={'subject_text': 'A select subject'})
-        self.assertEqual(response.status_code, 302)
-        self.assertEqual(response['location'], '/')
 
-    def test_searching_modelTutor_(self):
-        Tutor.objects.create(name='Mark')
-        Tutor.objects.create(name='Ploy')
+    def test_display_itemInTable_(self):
+        Tutor.objects.create(name='Frankin',expert ='Statistic')
+        Tutor.objects.create(name='Ronnie',expert ='Signal')
         response = self.client.get('/')
-        self.assertContains(response,'Mark')
-        self.assertContains(response,'Ploy')
+        self.assertContains(response,'Frankin')
+        self.assertContains(response,'Ronnie')
         
 class TutorModelTest(TestCase):
     
