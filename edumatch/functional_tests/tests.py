@@ -9,10 +9,24 @@ from edu.models import Tutor
 class NewVisitorTest(LiveServerTestCase):
 
     def setUp(self):
-        self.browser = webdriver.Firefox()
+        self.browser = webdriver.Firefox(executable_path="/mnt/c/django/geckodriver.exe")
+        #executable_path="/mnt/c/django/geckodriver.exe"
 
     def tearDown(self):
         self.browser.quit()
+
+    def wait_for_row_in_list_table(self,row_text):
+        start_time = time.time()
+        while True:
+            try:
+                table = self.browser.find_element_by_id('user_list_table')
+                rows = table.find_elements_by_tag_name('td')
+                self.assertIn(row_text, [row.text for row in rows])
+                return
+            except (AssertionError, WebDriverException) as e:
+                if time.time() - start_time > MAX_WAIT:
+                    raise e
+                time.sleep(0.5)
 
     def test_can_start_match_for_one_user(self):
         
@@ -38,16 +52,8 @@ class NewVisitorTest(LiveServerTestCase):
         self.assertIn('SPARK',self.browser.title)
 
         #He see a ton of Tutor list in that website 
-        table = self.browser.find_element_by_id('user_list_table')
-        rows = table.find_elements_by_tag_name('td')
-        self.assertTrue(
-            any(row.text == 'Frankin' for row in rows),
-           f"Tutor: Frankin did not appear in table. Content were: \n{table.text}"
-        )
-        self.assertTrue(
-            any(row.text == 'Ronnie' for row in rows),
-           f"Ronnie did not appear in table. Content were: \n{table.text}"
-        )
+        self.wait_for_row_in_list_table('Frankin')
+        self.wait_for_row_in_list_table('Ronnie')
         time.sleep(1)
         #He see textbox with "Subject".So he enter subject that he
         #want to learn straight away.
@@ -78,11 +84,38 @@ class NewVisitorTest(LiveServerTestCase):
         
         self.fail('finist the test !!')
 
+    def test_multiple_users_can_login_to_different_urls(self):
+        #Frankin logins to his spark web application 
+        #(wait for login function to be completed so assume frankin was logined)
+        #when he has logined , he notices that it has unique urls 
+        self.browser.get('http://127.0.0.1:8000/spark/1') #his id = 1
+
+        frankin_url = self.browser.current_url
+        self.assertRegex(frankin_url,'/spark/.+')
+
+        #He found that he can match with ronnie
+        page_text = self.browser.find_element_by_tag_name('body').text
+        self.assertIn('Ronnie',page_text)
+        self.assertNotIn('Frankin',page_text)
+        time.sleep(1)
+        
+        #Ronnie also logined , he notices that it has unique urls #Assume he login
+        self.browser.get('http://127.0.0.1:8000/spark/2') #his id = 2
+        ronnie_url = self.browser.current_url
+        self.assertRegex(ronnie_url,'/spark/.+')
+        self.assertNotEqual(frankin_url,ronnie_url)
+
+        #He found that he can match with frankin
+        page_text = self.browser.find_element_by_tag_name('body').text
+        self.assertIn('Frankin',page_text)
+        self.assertNotIn('Ronnie',page_text)
+        time.sleep(1)
 
 class NewRegisterTest(unittest.TestCase):
 
     def setUp(self):
-        self.browser = webdriver.Firefox()
+        self.browser = webdriver.Firefox(executable_path="/mnt/c/django/geckodriver.exe")
+        #executable_path="/mnt/c/django/geckodriver.exe"
 
     def tearDown(self):
         self.browser.quit()
