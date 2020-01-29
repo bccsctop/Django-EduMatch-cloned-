@@ -11,9 +11,12 @@ class NewVisitorTest(LiveServerTestCase):
     def setUp(self):
         self.browser = webdriver.Firefox(executable_path="/mnt/c/django/geckodriver.exe")
         #executable_path="/mnt/c/django/geckodriver.exe"
+        frankin = Tutor.objects.create(name='Frankin',expert ='Statistic')
+        ronnie = Tutor.objects.create(name='Ronnie',expert ='Signal')
 
     def tearDown(self):
         self.browser.quit()
+
 
     def wait_for_row_in_list_table(self,row_text):
         start_time = time.time()
@@ -29,18 +32,6 @@ class NewVisitorTest(LiveServerTestCase):
                 time.sleep(0.5)
 
     def test_can_start_match_for_one_user(self):
-        
-        #set up database 
-        first_tutor = Tutor()
-        first_tutor.name = 'Frankin'
-        first_tutor.expert = 'Statistic'
-        first_tutor.save()
-
-        second_tutor = Tutor()
-        second_tutor.name = 'Ronnie'
-        second_tutor.expert = 'Signal'
-        second_tutor.save()
-
         #Mark is a student at some university. 
         #He feel very stressed about upcomming midterm exam.
         #His friend suggest a tutor-finder online app. So he goes
@@ -82,27 +73,27 @@ class NewVisitorTest(LiveServerTestCase):
         result = self.browser.find_element_by_id('match_result')
         self.assertEqual(result.text,'match!!!')
         
-        self.fail('finist the test !!')
 
     def test_multiple_users_can_login_to_different_urls(self):
         #Frankin logins to his spark web application 
         #(wait for login function to be completed so assume frankin was logined)
         #when he has logined , he notices that it has unique urls 
-        self.browser.get('http://127.0.0.1:8000/spark/1') #his id = 1
-
+        frankin_id = Tutor.objects.get(name='Frankin').id
+        self.browser.get(f'{self.live_server_url}/lists/{frankin_id}') 
         frankin_url = self.browser.current_url
-        self.assertRegex(frankin_url,'/spark/.+')
+        self.assertRegex(frankin_url,'/lists/.+')
 
         #He found that he can match with ronnie
         page_text = self.browser.find_element_by_tag_name('body').text
         self.assertIn('Ronnie',page_text)
         self.assertNotIn('Frankin',page_text)
         time.sleep(1)
-        
+
         #Ronnie also logined , he notices that it has unique urls #Assume he login
-        self.browser.get('http://127.0.0.1:8000/spark/2') #his id = 2
+        ronnie_id = Tutor.objects.get(name='Ronnie').id
+        self.browser.get(f'{self.live_server_url}/lists/{ronnie_id}') 
         ronnie_url = self.browser.current_url
-        self.assertRegex(ronnie_url,'/spark/.+')
+        self.assertRegex(ronnie_url,'/lists/.+')
         self.assertNotEqual(frankin_url,ronnie_url)
 
         #He found that he can match with frankin
@@ -110,6 +101,7 @@ class NewVisitorTest(LiveServerTestCase):
         self.assertIn('Frankin',page_text)
         self.assertNotIn('Ronnie',page_text)
         time.sleep(1)
+
 
 class NewRegisterTest(unittest.TestCase):
 

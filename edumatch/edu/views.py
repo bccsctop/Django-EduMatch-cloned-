@@ -13,3 +13,9 @@ def register(request):
         return redirect('/register')
     #return redirect('/register')
     return render(request, 'register.html')
+
+def tutor_list(request,tutor_id):
+    tutors = Tutor.objects.all().exclude(id=tutor_id)
+    return render(request,'list.html',{
+        'tutors':tutors
+    })

@@ -8,7 +8,7 @@ from edu.models import Tutor,Selected_Subject
 
 class HomepageTest(TestCase):
 
-    def test_rootURL_maping_to_homepageVIEW(self):
+    def test_rootURL_mapping_to_homepageView(self):
         found = resolve('/')
         self.assertEqual(found.func,home_page)
     
@@ -23,6 +23,21 @@ class HomepageTest(TestCase):
         self.assertContains(response,'Frankin')
         self.assertContains(response,'Ronnie')
         
+
+class ListViewTest(TestCase):
+
+    def test_displays_itemInTable(self):
+        frankin = Tutor.objects.create(name='Frankin',expert ='Statistic')
+        ronnie = Tutor.objects.create(name='Ronnie',expert ='Signal')
+        response = self.client.get(f'/lists/{ronnie.id}')
+        self.assertContains(response,'Frankin')
+        self.assertNotContains(response,'Ronnie')
+
+    def test_uses_list_template(self):
+        frankin = Tutor.objects.create(name='Frankin',expert ='Statistic')
+        response = self.client.get(f'/lists/{frankin.id}')
+        self.assertTemplateUsed(response, 'list.html')
+
 class TutorModelTest(TestCase):
     
     def test_saving_and_verifying_modelItems(self):
