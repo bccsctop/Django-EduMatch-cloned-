@@ -78,12 +78,15 @@
     <div class="page-header">
         <h1><a href="/"></a>SPARK</h1>
     </div>
-    <form method="POST" action="/register">
-        <table id='user_register_and_sign_in'>
-            <td><input name="register" id="register" type="submit" value="Register"></td>
-            {% csrf_token %}
-        </table>
-    </form>
+    {% if user.is_authenticated %}
+    Hi {{ user.username }}!
+    <p><a href="{% url 'logout' %}">Logout</a></p>
+    {% else %}
+    <p>You are not logged in</p>
+    <a href="{% url 'login' %}">login</a>
+    <br>
+    <a href="{% url 'register' %}">Register</a>
+    {% endif %}
     <input name="subject_text" id="user_select_subject" onkeyup="seach_subject()"
         placeholder="Enter your Subject that you need help!!!" />
     <table id='user_list_table'>

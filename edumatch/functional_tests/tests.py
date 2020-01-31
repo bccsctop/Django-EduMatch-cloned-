@@ -103,7 +103,7 @@ class NewVisitorTest(LiveServerTestCase):
         time.sleep(1)
 
 
-class NewRegisterTest(unittest.TestCase):
+class RegistrationTest(unittest.TestCase):
 
     def setUp(self):
         self.browser = webdriver.Firefox()
@@ -117,19 +117,10 @@ class NewRegisterTest(unittest.TestCase):
         #Mark Parker is a student at some university. 
         #He has no members.
         #So he goes to register.
-        
-        self.browser.get('http://127.0.0.1:8000')
-        #He click on a register button.
-        register_table = self.browser.find_element_by_id('user_register_and_sign_in')
-        register_button = register_table.find_element_by_name('register')
-        register_button.send_keys(Keys.ENTER)
-
-        register_url = self.browser.current_url
-
         self.browser.get('http://127.0.0.1:8000/register')
 
         #He notices the page title and header mention register
-        #self.assertIn('REGISTER',self.browser.title)
+        self.assertIn('REGISTER',self.browser.title)
         
 
         #He see form for register
@@ -147,9 +138,9 @@ class NewRegisterTest(unittest.TestCase):
         #He see textbox with "Password".So he enter password
         #He types "m123456" into a text box
         password1_box = self.browser.find_element_by_id('id_password1')  
-        password1_box.send_keys('m123456')
+        password1_box.send_keys('m12345678')
 
-        #He see textbox with "Name".So he enter first name
+        #He see textbox with "First name".So he enter first name
         #He types "Mark" into a text box
         name_box = self.browser.find_element_by_id('id_first_name')  
         name_box.send_keys('Mark')
@@ -162,16 +153,47 @@ class NewRegisterTest(unittest.TestCase):
         #He see textbox with "Password confirmation".So he enter password confirmation
         #He types "m123456" into a text box
         password2_box = self.browser.find_element_by_id('id_password2')  
-        password2_box.send_keys('m123456')
+        password2_box.send_keys('m12345678')
 
 
 
         #He click on a Register button.
         sign_up_button = self.browser.find_element_by_name('sign_up')
         sign_up_button.send_keys(Keys.ENTER)
+        time.sleep(1)
         
 
         self.fail('finist the test !!')
+
+    def test_can_login_user(self):
+        #Mark Parker is a student at some university. 
+        #He has members.
+        #So he goes to login.
+        self.browser.get('http://127.0.0.1:8000/accounts/login/')
+
+        #He see form for Login
+        header_text = self.browser.find_element_by_tag_name('h2').text
+        self.assertIn('LOGIN',header_text)
+
+        #He see textbox with "Username".So he enter username
+        #He types "Mark" into a text box
+        username_box = self.browser.find_element_by_id('id_username') 
+        username_box.send_keys('Mark')
+        
+
+        #He see textbox with "Password".So he enter password
+        #He types "m123456" into a text box
+        password1_box = self.browser.find_element_by_id('id_password')  
+        password1_box.send_keys('m12345678')
+
+        #He click on a Register button.
+        sign_in_button = self.browser.find_element_by_name('sign_in')
+        sign_in_button.send_keys(Keys.ENTER)
+        time.sleep(1)
+
+
+        self.fail('finist the test !!')
+
         
         
 
