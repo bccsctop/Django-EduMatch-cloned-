@@ -9,7 +9,7 @@ from edu.models import Tutor
 class NewVisitorTest(LiveServerTestCase):
 
     def setUp(self):
-        self.browser = webdriver.Firefox(executable_path="/mnt/c/django/geckodriver.exe")
+        self.browser = webdriver.Firefox()
         #executable_path="/mnt/c/django/geckodriver.exe"
         frankin = Tutor.objects.create(name='Frankin',expert ='Statistic')
         ronnie = Tutor.objects.create(name='Ronnie',expert ='Signal')
@@ -106,7 +106,7 @@ class NewVisitorTest(LiveServerTestCase):
 class NewRegisterTest(unittest.TestCase):
 
     def setUp(self):
-        self.browser = webdriver.Firefox(executable_path="/mnt/c/django/geckodriver.exe")
+        self.browser = webdriver.Firefox()
         #executable_path="/mnt/c/django/geckodriver.exe"
 
     def tearDown(self):
@@ -130,66 +130,46 @@ class NewRegisterTest(unittest.TestCase):
 
         #He notices the page title and header mention register
         #self.assertIn('REGISTER',self.browser.title)
+        
 
         #He see form for register
-        form_table = self.browser.find_element_by_id('user_register_form')
+        header_text = self.browser.find_element_by_tag_name('h2').text
+        self.assertIn('REGISTER',header_text)
+
         
 
         #He see textbox with "Username".So he enter username
-        #He types "MarkZa55" into a text box
-        username_box = self.browser.find_element_by_id('username')  
-        self.assertEqual(
-            username_box.get_attribute('placeholder'),
-            'Enter your Username'
-        )
-        username_box.send_keys('MarkZa55')
+        #He types "Mark" into a text box
+        username_box = self.browser.find_element_by_id('id_username') 
+        username_box.send_keys('Mark')
+        
 
         #He see textbox with "Password".So he enter password
-        #He types "123456" into a text box
-        password_box = self.browser.find_element_by_id('password')  
-        self.assertEqual(
-            password_box.get_attribute('placeholder'),
-            'Enter your Password'
-        )
-        password_box.send_keys('123456')
+        #He types "m123456" into a text box
+        password1_box = self.browser.find_element_by_id('id_password1')  
+        password1_box.send_keys('m123456')
 
-        #He see textbox with "Name".So he enter name
+        #He see textbox with "Name".So he enter first name
         #He types "Mark" into a text box
-        name_box = self.browser.find_element_by_id('name')  
-        self.assertEqual(
-            name_box.get_attribute('placeholder'),
-            'Enter your Name'
-        )
+        name_box = self.browser.find_element_by_id('id_first_name')  
         name_box.send_keys('Mark')
 
         #He see textbox with "Last name".So he enter lastname
         #He types "Parker" into a text box
-        lastname_box = self.browser.find_element_by_id('lastname')  
-        self.assertEqual(
-            lastname_box.get_attribute('placeholder'),
-            'Enter your Last name'
-        )
+        lastname_box = self.browser.find_element_by_id('id_last_name')  
         lastname_box.send_keys('Parker')
 
+        #He see textbox with "Password confirmation".So he enter password confirmation
+        #He types "m123456" into a text box
+        password2_box = self.browser.find_element_by_id('id_password2')  
+        password2_box.send_keys('m123456')
 
-        #He see textbox with "Email".So he enter email
-        #He types "Spiderman@email.com" into a text box
-        email_box = self.browser.find_element_by_id('email')  
-        self.assertEqual(
-            email_box.get_attribute('placeholder'),
-            'Enter your Email'
-        )
-        email_box.send_keys('Spiderman@email.com')
+
 
         #He click on a Register button.
-        sign_up_button = form_table.find_element_by_name('sign_up')
+        sign_up_button = self.browser.find_element_by_name('sign_up')
         sign_up_button.send_keys(Keys.ENTER)
-
-
-        #The page will show that successfully register.
-        result = self.browser.find_element_by_id('register_result')
-        self.assertEqual(result.text,'successfully register')
-
+        
 
         self.fail('finist the test !!')
         

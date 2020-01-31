@@ -70,7 +70,3 @@ class RegisterTest(TestCase):
         self.assertTemplateUsed(response, 'register.html')
 
 
-    def test_redirects_after_POST(self):
-        response = self.client.post('/register')
-        self.assertEqual(response.status_code, 302)
-        self.assertEqual(response['location'], '/register')

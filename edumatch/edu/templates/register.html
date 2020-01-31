@@ -1,31 +1,19 @@
-<html>
-    <script>
-            function successfully_register(){
-                let result = document.getElementById('register_result');
-                result.innerText = 'successfully register'
-            }
-    </script>
-    <title>REGISTER</title>
-    <body>
-        <h1>REGISTER</h1>
-        <form method="POST" >
-        <table id='user_register_form'>
-            <h2>Username</h2>
-                <input name="username" id="username" placeholder="Enter your Username" />
-            <h2>Password</h2>
-                <input name="password" id="password" placeholder="Enter your Password" />
-            <h2>Name</h2>
-                <input name="name" id="name" placeholder="Enter your Name" />
-            <h2>Last name</h2>
-                <input name="lastname" id="lastname" placeholder="Enter your Last name" />
-            <h2>Email address</h2>
-                <input name="email" id="email" placeholder="Enter your Email" />
-            <br>
-            <h2> </h2>
-            <td><button name="sign_up" id="sign_up" onclick='successfully_register()' >Register</button></td>
-            {% csrf_token %}
-                </form>
-        </table>
-        <h3 id='register_result'></h3>
-    </body>
-</html>
+{% block content %}
+  <h2>REGISTER</h2>
+  <form method="post">
+    {% csrf_token %}
+    {% for field in form %}
+      <p>
+        {{ field.label_tag }}<br>
+        {{ field }}
+        {% if field.help_text %}
+          <small style="color: grey">{{ field.help_text }}</small>
+        {% endif %}
+        {% for error in field.errors %}
+          <p style="color: red">{{ error }}</p>
+        {% endfor %}
+      </p>
+    {% endfor %}
+    <button name="sign_up" id="sign_up" type="submit">Sign up</button>
+  </form>
+{% endblock %}
