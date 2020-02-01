@@ -87,8 +87,12 @@
     <br>
     <a href="{% url 'register' %}">Register</a>
     {% endif %}
-    <input name="subject_text" id="user_select_subject" onkeyup="seach_subject()"
-        placeholder="Enter your Subject that you need help!!!" />
+
+    <form method="POST" >
+    <input name="subject_text" id="user_select_subject" placeholder="Enter your Subject that you need help!!!" />
+        {% csrf_token %}
+    </form>
+
     <table id='user_list_table'>
         <tr class="header">
             <th style="width:40%;">Subject</th>
@@ -111,25 +115,7 @@
             result.innerText = 'match!!!'
         }
 
-        function seach_subject() {
-            var input, filter, table, tr, td, i, txtValue;
-            input = document.getElementById("user_select_subject");
-            filter = input.value.toUpperCase();
-            table = document.getElementById("user_list_table");
-            tr = table.getElementsByTagName("tr");
-
-            for (i = 0; i < tr.length; i++) {
-                td = tr[i].getElementsByTagName("td")[0];
-                if (td) {
-                    txtValue = td.textContent || td.innerText;
-                    if (txtValue.toUpperCase().indexOf(filter) > -1) {
-                        tr[i].style.display = "";
-                    } else {
-                        tr[i].style.display = "none";
-                    }
-                }
-            }
-        }
+        
 
     </script>
 

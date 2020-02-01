@@ -6,9 +6,15 @@ from edu.models import Tutor,Selected_Subject
 from edu.forms import SignUpForm
 # Create your views here.
 def home_page(request):
+    if request.POST.get('subject_text', '') != '':
+        tutors = Tutor.objects.filter(expert=request.POST['subject_text'])
+        return render(request,'home.html',{
+        'tutors':tutors
+        })
+        
     tutors = Tutor.objects.all()
     return render(request,'home.html',{
-        'tutors':tutors
+    'tutors':tutors
     })
 
 def register(request):

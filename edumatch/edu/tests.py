@@ -16,11 +16,11 @@ class HomepageTest(TestCase):
         response = self.client.get('/')
         self.assertTemplateUsed(response, 'home.html')
 
-    def test_display_itemInTable_(self):
+    def test_search_itemInTable_(self):
         Tutor.objects.create(name='Frankin',expert ='Statistic')
         Tutor.objects.create(name='Ronnie',expert ='Signal')
-        response = self.client.get('/')
-        self.assertContains(response,'Frankin')
+        response = self.client.post('/', data={'subject_text': 'Signal'})
+        self.assertNotContains(response,'Frankin')
         self.assertContains(response,'Ronnie')
         
 
