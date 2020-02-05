@@ -4,11 +4,11 @@ from django.db.models.signals import post_save
 from django.dispatch import receiver
 
 class Tutor(models.Model):
-    name = models.TextField(default='')
-    expert = models.TextField(default='')
+    user = models.OneToOneField(User, on_delete=models.CASCADE ,default=None)
+    name = models.TextField(default='',blank=True)
+    expert = models.TextField(default='',blank=True)
     
 class Selected_Subject(models.Model):
     subject = models.TextField(default='')
 
-class Profile(models.Model):
-    user = models.OneToOneField(User, on_delete=models.CASCADE)
+
