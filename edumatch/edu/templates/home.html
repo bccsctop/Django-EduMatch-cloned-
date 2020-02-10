@@ -88,20 +88,44 @@
     <a id="register" href="{% url 'register' %}">Register</a>
     {% endif %}
 
-    <form method="POST" >
-    <input name="subject_text" id="user_select_subject" placeholder="Enter your Subject that you need help!!!" />
+    <form method="POST">
+        <label for="user_select_gender">Gender:</label>
+
+        <select name="gender_text" id="user_select_gender">
+            <option value="">-----</option>
+            <option value="Male">Male</option>
+            <option value="Female">Female</option>
+        </select>
+
+        <label for="user_city_subject">City:</label>
+
+        <select name="city_text" id="user_city_subject">
+            <option value="">---------</option>
+            <option value="Ayutthaya">Ayutthaya</option>
+            <option value="Bangkok">Bangkok</option>
+            <option value="Chiangmai">Chiangmai</option>
+            <option value="Kanchanaburi">Kanchanaburi</option>
+            <option value="Krabi">Krabi</option>
+            <option value="Lampang">Lampang</option>
+        </select>
+
+        <input name="subject_text" id="user_select_subject" placeholder="Enter your Subject that you need help!!!" />
         {% csrf_token %}
     </form>
 
     <table id='user_list_table'>
         <tr class="header">
-            <th style="width:40%;">Subject</th>
-            <th style="width:60%;">Name</th>
+            <th style="width:30%;">Subject</th>
+            <th style="width:30%;">Name</th>
+            <th style="width:20%;">Gender</th>
+            <th style="width:20%;">City</th>
         </tr>
         {% for tutor in tutors %}
         <tr>
             <td>{{tutor.expert}}</td>
             <td>{{tutor.name}}</td>
+            <td>{{tutor.gender}}</td>
+            <td>{{tutor.city}}</td>
             <td><button name={{tutor.name}} onclick='match_tutor()'>match</button></td>
         </tr>
         {% endfor %}
@@ -115,7 +139,7 @@
             result.innerText = 'match!!!'
         }
 
-        
+
 
     </script>
 

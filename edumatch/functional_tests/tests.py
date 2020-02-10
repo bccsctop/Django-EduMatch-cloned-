@@ -3,6 +3,7 @@ from selenium import webdriver
 from selenium.common.exceptions import WebDriverException
 from selenium.webdriver.common.keys import Keys
 from django.contrib.auth.models import User
+from selenium.webdriver.support.ui import Select
 import time 
 import unittest
 from edu.models import Tutor 
@@ -10,12 +11,17 @@ from edu.models import Tutor
 class NewVisitorTest(LiveServerTestCase):
 
     def setUp(self):
-        self.browser = webdriver.Firefox(executable_path="/mnt/c/django/geckodriver.exe")
+        self.browser = webdriver.Firefox()
         #executable_path="/mnt/c/django/geckodriver.exe"
         frankin_user = User.objects.create_user('frankin','frankin@test.com','frankinpassword')
         ronnie_user = User.objects.create_user('ronnie','ronnie@test.com','ronniepassword')
-        frankin = Tutor.objects.create(user=frankin_user,name='Frankin',expert ='Statistic')
-        ronnie = Tutor.objects.create(user=ronnie_user,name='Ronnie',expert ='Signal')
+        betty_user = User.objects.create_user('betty','betty@test.com','bettypassword')
+        henderson_user = User.objects.create_user('henderson','henderson@test.com','hendersonpassword')
+        frankin = Tutor.objects.create(user=frankin_user,name='Frankin',gender = 'Male',city = 'Bangkok',expert ='Statistic')
+        ronnie = Tutor.objects.create(user=ronnie_user,name='Ronnie',gender = 'Male',city = 'Bangkok',expert ='Signal')
+        betty = Tutor.objects.create(user=betty_user,name='Betty',gender = 'Female',city = 'Bangkok',expert ='Signal')
+        henderson = Tutor.objects.create(user=henderson_user,name='Henderson',gender = 'Male',city = 'Chiangmai',expert ='Signal')
+
 
     def tearDown(self):
         self.browser.quit()
@@ -48,25 +54,29 @@ class NewVisitorTest(LiveServerTestCase):
         #He found that he can match with ronnie
         page_text = self.browser.find_element_by_tag_name('body').text
         self.assertIn('Ronnie',page_text)
+        self.assertIn('Betty',page_text)
+        self.assertIn('Henderson',page_text)
         self.assertNotIn('Frankin',page_text)
         time.sleep(1)
 
-        #Ronnie also logined , he notices that it has unique urls #Assume he login
+        #Ronnie also logined , he notices that it has unique urls #Assume she login
         ronnie_id = Tutor.objects.get(name='Ronnie').id
         self.browser.get(f'{self.live_server_url}/lists/{ronnie_id}') 
         ronnie_url = self.browser.current_url
         self.assertRegex(ronnie_url,'/lists/.+')
         self.assertNotEqual(frankin_url,ronnie_url)
 
-        #He found that he can match with frankin
+        #She found that he can match with frankin
         page_text = self.browser.find_element_by_tag_name('body').text
         self.assertIn('Frankin',page_text)
+        self.assertIn('Betty',page_text)
+        self.assertIn('Henderson',page_text)
         self.assertNotIn('Ronnie',page_text)
         time.sleep(1)
 
     def test_user_can_register_then_login_to_each_user_URL(self):
 
-        #Mark is a student at some university. 
+        #Mark is a student at KMUTNB(Bangkok). 
         #He feel very stressed about upcomming midterm exam.
         #His friend suggest a tutor-finder online app. So he goes
         # to check out its homepage.
@@ -143,12 +153,60 @@ class NewVisitorTest(LiveServerTestCase):
         page_text = self.browser.find_element_by_tag_name('body').text
         self.assertIn('Hi Mark_kmutnb!',page_text)
 
-        #He found that he can match with ronnie and frankin
+        #He found  a ton of user he can match with.
         self.assertIn('Ronnie',page_text)
         self.assertIn('Frankin',page_text)
+        self.assertIn('Betty',page_text)
+        self.assertIn('Henderson',page_text)
 
-        #He want to match with Ronnie So He click match on Ronnie
+        #He want to study more about Signal Subject
+        #Then he see textbox with "Enter your Subject that you need help!!!".
+        #So he enter subject that he want to learn straight away.
+        #He types "Signal" into a text box
+        inputbox = self.browser.find_element_by_id('user_select_subject')  
+        self.assertEqual(
+            inputbox.get_attribute('placeholder'),
+            'Enter your Subject that you need help!!!'
+        )
+        inputbox.send_keys('Signal')
+        inputbox.send_keys(Keys.ENTER)
+        time.sleep(5)
 
+        #After that he still see a ton of tutor user that agree 
+        #to teach with that subject 
+        table = self.browser.find_element_by_id('user_list_table')
+        rows = table.find_elements_by_tag_name('td')
+        self.assertNotIn('Frankin', [row.text for row in rows])
+        self.assertIn('Ronnie', [row.text for row in rows])
+        self.assertIn('Betty', [row.text for row in rows])
+        self.assertIn('Henderson', [row.text for row in rows])
+        time.sleep(1)
+
+        #So he realize that he dont't want to go far from his City
+        #and he's a shy guy so he want to student with same gender
+        #Then he see drop down with city and gender option
+        #He select "Male" and "Bangkok" from dropdown
+        inputbox = self.browser.find_element_by_id('user_select_subject') 
+        gender_dropdown = Select(self.browser.find_element_by_id('user_select_gender'))  
+        city_dropdown = Select(self.browser.find_element_by_id('user_city_subject'))  
+        gender_dropdown.select_by_visible_text('Male')
+        city_dropdown.select_by_visible_text('Bangkok')
+        inputbox.send_keys('Signal')
+        inputbox.send_keys(Keys.ENTER)
+        time.sleep(5)
+
+        #After that he still see a ton of tutor user that agree 
+        #to teach with that subject 
+        table = self.browser.find_element_by_id('user_list_table')
+        rows = table.find_elements_by_tag_name('td')
+        self.assertNotIn('Frankin', [row.text for row in rows])
+        self.assertIn('Ronnie', [row.text for row in rows])
+        self.assertNotIn('Betty', [row.text for row in rows])
+        self.assertNotIn('Henderson', [row.text for row in rows])
+        time.sleep(1)
+
+        #He select Ronnie to be his tutor.
+        #He click on a Ronnie's match button.
         button = self.browser.find_element_by_name('Ronnie')
         button.send_keys(Keys.ENTER)
         time.sleep(1)

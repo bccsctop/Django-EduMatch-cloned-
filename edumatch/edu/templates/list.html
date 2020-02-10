@@ -78,23 +78,54 @@
     <div class="page-header">
         <h1><a href="/"></a>SPARK</h1>
     </div>
-    <form method="GET" action="/register">
-        <table id='user_register_and_sign_in'>
-            <td><input name="register" id="register" type="submit" value="Register"></td>
-            {% csrf_token %}
-        </table>
+    {% if user.is_authenticated %}
+    Hi {{ user.username }}!
+    <p><a id="logout" href="{% url 'logout' %}">Logout</a></p>
+    {% else %}
+    <p>You are not logged in</p>
+    <a id="login" href="{% url 'login' %}">login</a>
+    <br>
+    <a id="register" href="{% url 'register' %}">Register</a>
+    {% endif %}
+
+    <form method="POST">
+        <label for="user_select_gender">Gender:</label>
+
+        <select name="gender_text" id="user_select_gender">
+            <option value="">-----</option>
+            <option value="Male">Male</option>
+            <option value="Female">Female</option>
+        </select>
+
+        <label for="user_city_subject">City:</label>
+
+        <select name="city_text" id="user_city_subject">
+            <option value="">---------</option>
+            <option value="Ayutthaya">Ayutthaya</option>
+            <option value="Bangkok">Bangkok</option>
+            <option value="Chiangmai">Chiangmai</option>
+            <option value="Kanchanaburi">Kanchanaburi</option>
+            <option value="Krabi">Krabi</option>
+            <option value="Lampang">Lampang</option>
+        </select>
+
+        <input name="subject_text" id="user_select_subject" placeholder="Enter your Subject that you need help!!!" />
+        {% csrf_token %}
     </form>
-    <input name="subject_text" id="user_select_subject" onkeyup="seach_subject()"
-        placeholder="Enter your Subject that you need help!!!" />
+
     <table id='user_list_table'>
         <tr class="header">
-            <th style="width:40%;">Subject</th>
-            <th style="width:60%;">Name</th>
+            <th style="width:30%;">Subject</th>
+            <th style="width:30%;">Name</th>
+            <th style="width:20%;">Gender</th>
+            <th style="width:20%;">City</th>
         </tr>
         {% for tutor in tutors %}
         <tr>
             <td>{{tutor.expert}}</td>
             <td>{{tutor.name}}</td>
+            <td>{{tutor.gender}}</td>
+            <td>{{tutor.city}}</td>
             <td><button name={{tutor.name}} onclick='match_tutor()'>match</button></td>
         </tr>
         {% endfor %}
@@ -108,25 +139,7 @@
             result.innerText = 'match!!!'
         }
 
-        function seach_subject() {
-            var input, filter, table, tr, td, i, txtValue;
-            input = document.getElementById("user_select_subject");
-            filter = input.value.toUpperCase();
-            table = document.getElementById("user_list_table");
-            tr = table.getElementsByTagName("tr");
 
-            for (i = 0; i < tr.length; i++) {
-                td = tr[i].getElementsByTagName("td")[0];
-                if (td) {
-                    txtValue = td.textContent || td.innerText;
-                    if (txtValue.toUpperCase().indexOf(filter) > -1) {
-                        tr[i].style.display = "";
-                    } else {
-                        tr[i].style.display = "none";
-                    }
-                }
-            }
-        }
 
     </script>
 

@@ -6,6 +6,8 @@ from django.dispatch import receiver
 class Tutor(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE ,default=None)
     name = models.TextField(default='',blank=True)
+    gender = models.TextField(default='',blank=True)
+    city = models.TextField(default='',blank=True)
     expert = models.TextField(default='',blank=True)
     
 class Selected_Subject(models.Model):
