@@ -70,6 +70,9 @@ def register(request):
             raw_password = form.cleaned_data.get('password1')
             user = authenticate(username=user.username, password=raw_password)
             login(request, user)
+           
+            tutor = Tutor.objects.create(user=user, name=form.cleaned_data['first_name'], gender=form.cleaned_data['gender'], city=form.cleaned_data['city'], expert=form.cleaned_data['subject'])
+
             return redirect('login')
     else:
         form = SignUpForm()

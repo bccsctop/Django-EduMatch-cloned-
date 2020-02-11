@@ -11,7 +11,7 @@ from edu.models import Tutor
 class NewVisitorTest(LiveServerTestCase):
 
     def setUp(self):
-        self.browser = webdriver.Firefox()
+        self.browser = webdriver.Firefox(executable_path="/mnt/c/django/geckodriver.exe")
         #executable_path="/mnt/c/django/geckodriver.exe"
         frankin_user = User.objects.create_user('frankin','frankin@test.com','frankinpassword')
         ronnie_user = User.objects.create_user('ronnie','ronnie@test.com','ronniepassword')
@@ -144,7 +144,7 @@ class NewVisitorTest(LiveServerTestCase):
         password1_box.send_keys('m9724617')
 
         #He click on a Register button.
-        sign_in_button = self.browser.find_element_by_name('sign_in')
+        sign_in_button = self.browser.find_element_by_id('sign_in')
         sign_in_button.send_keys(Keys.ENTER)
         time.sleep(1)
 
