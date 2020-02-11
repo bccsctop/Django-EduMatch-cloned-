@@ -6,59 +6,41 @@ from edu.models import Tutor,Selected_Subject
 from edu.forms import SignUpForm
 # Create your views here.
 def home_page(request):
-    if request.POST.get('subject_text', '') != '' and request.POST.get('gender_text', '') != '' and request.POST.get('city_text', '') != '':
 
+    tutors = Tutor.objects.all()
+    if request.POST.get('subject_text', '') != '' and request.POST.get('gender_text', '') != '' and request.POST.get('city_text', '') != '':
         tutors = Tutor.objects.filter(expert=request.POST['subject_text'],gender=request.POST['gender_text'],city=request.POST['city_text'])
-        return render(request,'home.html',{
-        'tutors':tutors
-        })
     
     if request.POST.get('subject_text', '') != '' and request.POST.get('gender_text', '') != '':
-
         tutors = Tutor.objects.filter(expert=request.POST['subject_text'],gender=request.POST['gender_text'])
-        return render(request,'home.html',{
-        'tutors':tutors
-        })
 
     if request.POST.get('subject_text', '') != '' and request.POST.get('city_text', '') != '':
-
         tutors = Tutor.objects.filter(expert=request.POST['subject_text'],city=request.POST['city_text'])
-        return render(request,'home.html',{
-        'tutors':tutors
-        })
 
     if request.POST.get('gender_text', '') != '' and request.POST.get('city_text', '') != '':
-
         tutors = Tutor.objects.filter(gender=request.POST['gender_text'],city=request.POST['city_text'])
-        return render(request,'home.html',{
-        'tutors':tutors
-        })
 
     if request.POST.get('subject_text', '') != '':
-
         tutors = Tutor.objects.filter(expert=request.POST['subject_text'])
-        return render(request,'home.html',{
-        'tutors':tutors
-        })
+
     
     if request.POST.get('gender_text', '') != '':
-
         tutors = Tutor.objects.filter(gender=request.POST['gender_text'])
-        return render(request,'home.html',{
-        'tutors':tutors
-        })
 
     if request.POST.get('city_text', '') != '':
 
         tutors = Tutor.objects.filter(city=request.POST['city_text'])
-        return render(request,'home.html',{
-        'tutors':tutors
-        })
-        
-    tutors = Tutor.objects.all()
+    
+    if request.user.is_authenticated:
+        tutors = tutors.exclude(user=request.user)
+
     return render(request,'home.html',{
     'tutors':tutors
     })
+    
+    
+    
+   
 
 def register(request):
     if request.method == 'POST':
