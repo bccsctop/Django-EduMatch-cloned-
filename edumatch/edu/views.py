@@ -1,6 +1,7 @@
 from django.shortcuts import render,redirect
 from django.http import HttpResponse
 from django.contrib.auth import login, authenticate
+from django.contrib.auth.models import User
 from django.contrib.auth.forms import UserCreationForm
 from edu.models import Tutor,Selected_Subject
 from edu.forms import SignUpForm
@@ -64,4 +65,10 @@ def tutor_list(request,tutor_id):
     tutors = Tutor.objects.all().exclude(id=tutor_id)
     return render(request,'list.html',{
         'tutors':tutors
+    })
+
+def profile(request):
+    tutors = Tutor.objects.all()
+    return render(request,'profile.html',{
+        'user':request.user,'tutors':tutors
     })

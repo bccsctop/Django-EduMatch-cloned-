@@ -24,6 +24,7 @@ urlpatterns = [
     path('register', views.register, name='register'),
     path('lists/<int:tutor_id>', views.tutor_list, name='tutor_list'),
     path('accounts/', include('django.contrib.auth.urls')),
+    path('profile', views.profile, name='profile'),
 ]
 
 

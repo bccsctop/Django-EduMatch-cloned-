@@ -1,0 +1,19 @@
+{% block content %}
+<title>PROFILE</title>
+  <h2>PROFILE</h2>
+    {% csrf_token %}
+    <p>
+            Username : {{user}}<br>
+            Firstname : {{user.first_name}}<br>
+            Lastname : {{user.last_name}}<br>
+            Gender : {{user.gender}}<br>
+            City : {{user.city}}<br>
+            {{user.subject}}
+
+
+            {{tutors.gender}}
+
+
+    </p>
+
+{% endblock %}
