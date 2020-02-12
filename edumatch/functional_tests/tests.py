@@ -118,6 +118,21 @@ class NewVisitorTest(LiveServerTestCase):
         lastname_box = self.browser.find_element_by_id('id_last_name')  
         lastname_box.send_keys('Parker')
 
+        #He see gender textbox. So he enter his gender
+        #He types 'Male' into a text box
+        gender_box = self.browser.find_element_by_id('id_gender')
+        gender_box.send_keys('Male')
+
+        #He see city textbox. So he enter his city
+        #He types 'Bangkok' into a text box
+        city_box = self.browser.find_element_by_id('id_city')
+        city_box.send_keys('Bangkok')
+
+        #He see subject textbox. So he enter his subject
+        #He types 'Statistic' into a text box
+        subject_box = self.browser.find_element_by_id('id_subject')
+        subject_box.send_keys('Statistic')
+
         #He see textbox with "Password confirmation".So he enter password confirmation
         #He types "m9724617" into a text box
         password2_box = self.browser.find_element_by_id('id_password2')  
@@ -253,3 +268,80 @@ class NewVisitorTest(LiveServerTestCase):
 
         self.fail('finist the test !!')
          
+
+    
+    def test_user_can_view_profile(self):
+
+        #Frankin is a student at KMUTNB(Bangkok). 
+        #His has member
+        #He wants to see his profile
+        # to check out its homepage.
+        self.browser.get(self.live_server_url)
+
+        #He notices the page title and header mention SPARK
+        self.assertIn('SPARK',self.browser.title)
+
+        #He found register and then he click it to register his ID
+
+        register = self.browser.find_element_by_id('login')
+        register.send_keys(Keys.ENTER)
+        time.sleep(1)
+
+        #He see form for Login
+        header_text = self.browser.find_element_by_tag_name('h2').text
+        self.assertIn('LOGIN',header_text)
+
+        #He see textbox with "Username".So he enter username
+        #He types "frankin" into a text box
+        username_box = self.browser.find_element_by_id('id_username') 
+        username_box.send_keys('frankin')
+        
+
+        #He see textbox with "Password".So he enter password
+        #He types "frankinpassword" into a text box
+        password1_box = self.browser.find_element_by_id('id_password')  
+        password1_box.send_keys('frankinpassword')
+
+        #He click on a Sign_in button.
+        sign_in_button = self.browser.find_element_by_id('sign_in')
+        sign_in_button.send_keys(Keys.ENTER)
+        time.sleep(1)
+
+        #He mention that he is already login 
+        page_text = self.browser.find_element_by_tag_name('body').text
+        self.assertIn('Hi frankin!',page_text)
+
+        #He wants to see his profile
+        self.browser.get(self.live_server_url+"/profile")
+
+        #He see form for Prrfile
+        header_text = self.browser.find_element_by_tag_name('h2').text
+        self.assertIn('PROFILE',header_text)
+
+        #He see his username
+        username = self.browser.find_element_by_tag_name('p1').text
+        self.assertIn('frankin',username)  
+
+        #He see his firstname
+        firstname = self.browser.find_element_by_tag_name('p2').text
+        self.assertIn('Firstname',firstname)  
+
+        #He see his lastname
+        lastname = self.browser.find_element_by_tag_name('p3').text
+        self.assertIn('Lastname',lastname)
+
+        #He see his gender
+        gender = self.browser.find_element_by_tag_name('p4').text
+        self.assertIn('Male',gender)
+
+        #He see his city
+        city = self.browser.find_element_by_tag_name('p5').text
+        self.assertIn('Bangkok',city)
+
+        #He see his expert
+        expert = self.browser.find_element_by_tag_name('p6').text
+        self.assertIn('Statistic',expert)
+
+
+        self.fail('finist the test !!')
+

@@ -3,13 +3,12 @@
   <h2>PROFILE</h2>
     {% csrf_token %}
     <p>
-            Username : {{user}}<br>
-            Firstname : {{user.first_name}}<br>
-            Lastname : {{user.last_name}}<br>
-            Gender : {{gender}}<br>
-            City : {{city}}<br>
-            Subject expert :{{expert}}
-
+        <p1 id='username'> Username : {{user}}</p1><br>
+        <p2 id='firstname'> Firstname : {{user.first_name}}</p2><br>
+        <p3 id='lastname'> Lastname : {{user.last_name}}</p3><br>
+        <p4 id='gender'> Gender : {{gender}}</p4><br>
+        <p5 id='city'> City : {{city}}</p5><br>
+        <p6 id='expert'> Subject expert :{{expert}}</p6><br>
 
 
     </p>
