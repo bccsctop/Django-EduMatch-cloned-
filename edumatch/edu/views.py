@@ -68,7 +68,11 @@ def tutor_list(request,tutor_id):
     })
 
 def profile(request):
-    tutors = Tutor.objects.all()
+    tutors = Tutor.objects.get(user=request.user)
+    tutors_city = tutors.city
+    tutors_gender = tutors.gender
+    tutors_expert = tutors.expert
+    #test = Tutor.objects.get(user = request.user)
     return render(request,'profile.html',{
-        'user':request.user,'tutors':tutors
+        'user':request.user,'tutors':tutors,'city':tutors_city,'gender':tutors.gender,'expert':tutors.expert
     })

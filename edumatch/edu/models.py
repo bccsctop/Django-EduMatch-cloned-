@@ -9,6 +9,9 @@ class Tutor(models.Model):
     gender = models.TextField(default='',blank=True)
     city = models.TextField(default='',blank=True)
     expert = models.TextField(default='',blank=True)
+
+    def __str__(self):
+        return self.name
     
 class Selected_Subject(models.Model):
     subject = models.TextField(default='')
