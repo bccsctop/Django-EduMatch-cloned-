@@ -1,9 +1,9 @@
-from django.shortcuts import render,redirect
-from django.http import HttpResponse
+from django.shortcuts import render,redirect,get_object_or_404
+from django.http import HttpResponseRedirect
 from django.contrib.auth import login, authenticate
 from django.contrib.auth.models import User
 from django.contrib.auth.forms import UserCreationForm
-from edu.models import Tutor,Selected_Subject
+from edu.models import Tutor,Matched_Request
 from edu.forms import SignUpForm
 # Create your views here.
 def home_page(request):
@@ -62,3 +62,60 @@ def profile(request):
     return render(request,'profile.html',{
         'user':request.user,'tutors':tutors,'city':tutors_city,'gender':tutors.gender,'expert':tutors.expert
     })
+
+def send_match_request(request, tutor_id):
+    if request.user.is_authenticated:
+        user = get_object_or_404(User, id=tutor_id)
+        matchUser = Tutor.objects.filter(name='Ronnie')
+        for i in matchUser:
+            i.isMatched = 'True'
+            i.save()
+        frequest, created = Matched_Request.objects.get_or_create(
+        from_user=request.user, to_user=user)
+        return HttpResponseRedirect('/')
+
+
+def cancel_match_request(request, tutor_id):
+    if request.user.is_authenticated:
+        user = get_object_or_404(User, id=tutor_id)
+        matchUser = Tutor.objects.filter(name='Ronnie')
+        for i in matchUser:
+            i.isMatched = 'False'
+            i.save()
+        frequest = Matched_Request.objects.filter(
+        from_user=request.user, to_user=user).first()
+        frequest.delete()
+        return HttpResponseRedirect('/')
+
+def accept_match_request(request, tutor_id):
+	from_user = get_object_or_404(User, id=tutor_id)
+	frequest = Matched_Request.objects.filter(from_user=from_user, to_user=request.user).first()
+	user1 = frequest.to_user
+	user2 = from_user
+	user1.tutor.groupMatch.add(user2.tutor)
+	user2.tutor.groupMatch.add(user1.tutor)
+	frequest.delete()
+	return HttpResponseRedirect('/match-result/1')
+
+def delete_match_request(request, tutor_id):
+	from_user = get_object_or_404(User, id=tutor_id)
+	frequest = Matched_Request.objects.filter(from_user=from_user, to_user=request.user).first()
+	frequest.delete()
+	return HttpResponseRedirect('/match-result/1')
+
+def match_result(request,tutor_id):
+	p = Tutor.objects.filter(id=tutor_id).first()
+	u = p.user
+	sent_match_requests = Matched_Request.objects.filter(from_user=p.user)
+	rec_match_requests = Matched_Request.objects.filter(to_user=p.user)
+
+	contact = p.groupMatch.all()
+
+	context = {
+		'u': u,
+		'contact_list': contact,
+		'sent_match_requests': sent_match_requests,
+		'rec_match_requests': rec_match_requests
+	}
+
+	return render(request, "manage_match.html", context)

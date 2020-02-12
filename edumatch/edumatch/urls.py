@@ -23,9 +23,12 @@ urlpatterns = [
     path('', views.home_page, name='homepage'),
     path('register', views.register, name='register'),
     path('lists/<int:tutor_id>', views.tutor_list, name='tutor_list'),
+    path('match-result/<int:tutor_id>', views.match_result, name='match_result'),
+    path('match-request/send/<int:tutor_id>', views.send_match_request, name='send_match_request'),
+    path('match-request/cancel/<int:tutor_id>', views.cancel_match_request, name='cancel_match_request'),
+    path('match-request/accept/<int:tutor_id>', views.accept_match_request, name='accept_match_request'),
+    path('match-request/delete/<int:tutor_id>', views.delete_match_request, name='delete_match_request'),
     path('accounts/', include('django.contrib.auth.urls')),
     path('profile', views.profile, name='profile'),
     path('chat/', include('chat.urls')),
 ]
-
-

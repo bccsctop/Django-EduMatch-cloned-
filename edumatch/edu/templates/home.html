@@ -120,22 +120,17 @@
             <td>{{tutor.name}}</td>
             <td>{{tutor.gender}}</td>
             <td>{{tutor.city}}</td>
-            <td><button name={{tutor.name}} onclick='match_tutor()'>match</button></td>
+            <td>
+                {% if tutor.isMatched == 'False' %}
+                <small><a class='btn btn-primary' href="/match-request/send/{{ tutor.id }}">Match</a></small>
+                {% elif tutor.isMatched == 'True' %}
+                <small><a class="btn btn-warning" href="/match-request/cancel/{{ tutor.id }}">Cancel</a></small>
+                {% endif %}
+                </td>
         </tr>
         {% endfor %}
     </table>
-    <h3 id='match_result'></h3>
 
-
-    <script>
-        function match_tutor() {
-            let result = document.getElementById('match_result');
-            result.innerText = 'match!!!'
-        }
-
-
-
-    </script>
 
     {% else %}
     <p>You are not logged in</p>
