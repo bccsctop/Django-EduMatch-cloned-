@@ -9,29 +9,15 @@ from edu.forms import SignUpForm
 def home_page(request):
 
     tutors = Tutor.objects.all()
-    if request.POST.get('subject_text', '') != '' and request.POST.get('gender_text', '') != '' and request.POST.get('city_text', '') != '':
-        tutors = Tutor.objects.filter(expert=request.POST['subject_text'],gender=request.POST['gender_text'],city=request.POST['city_text'])
-    
-    if request.POST.get('subject_text', '') != '' and request.POST.get('gender_text', '') != '':
-        tutors = Tutor.objects.filter(expert=request.POST['subject_text'],gender=request.POST['gender_text'])
 
-    if request.POST.get('subject_text', '') != '' and request.POST.get('city_text', '') != '':
-        tutors = Tutor.objects.filter(expert=request.POST['subject_text'],city=request.POST['city_text'])
+    subject = request.POST.get('subject_text','')
+    gender = request.POST.get('gender_text','')
+    city = request.POST.get('city_text','')
 
-    if request.POST.get('gender_text', '') != '' and request.POST.get('city_text', '') != '':
-        tutors = Tutor.objects.filter(gender=request.POST['gender_text'],city=request.POST['city_text'])
-
-    if request.POST.get('subject_text', '') != '':
-        tutors = Tutor.objects.filter(expert=request.POST['subject_text'])
-
-    
-    if request.POST.get('gender_text', '') != '':
-        tutors = Tutor.objects.filter(gender=request.POST['gender_text'])
-
-    if request.POST.get('city_text', '') != '':
-
-        tutors = Tutor.objects.filter(city=request.POST['city_text'])
-    
+    tutors = tutors.filter(expert=subject) if subject != '' else tutors
+    tutors = tutors.filter(gender=gender) if gender != '' else tutors
+    tutors = tutors.filter(city=city) if city != '' else tutors
+    tutors = tutors.exclude(user=request.user) if request.user.is_authenticated else tutors
     if request.user.is_authenticated:
         tutors = tutors.exclude(user=request.user)
 

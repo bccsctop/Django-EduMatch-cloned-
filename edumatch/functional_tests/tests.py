@@ -238,7 +238,7 @@ class NewVisitorTest(LiveServerTestCase):
         password1_box = self.browser.find_element_by_id('id_password')  
         password1_box.send_keys('frankinpassword')
 
-        sign_in_button = self.browser.find_element_by_name('sign_in')
+        sign_in_button = self.browser.find_element_by_id('sign_in')
         sign_in_button.send_keys(Keys.ENTER)
         time.sleep(1)
 
