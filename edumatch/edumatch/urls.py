@@ -29,6 +29,7 @@ urlpatterns = [
     path('match-request/accept/<int:tutor_id>', views.accept_match_request, name='accept_match_request'),
     path('match-request/delete/<int:tutor_id>', views.delete_match_request, name='delete_match_request'),
     path('accounts/', include('django.contrib.auth.urls')),
-    path('profile', views.profile, name='profile'),
+    path('profile', views.view_profile, name='view_profile'),
     path('chat/', include('chat.urls')),
+    path('profile/edit', views.edit_profile, name='edit_profile'),
 ]
