@@ -1,0 +1,13 @@
+{% block content %}
+<title>PROFILE</title>
+  <h2>PROFILE</h2>
+    {% csrf_token %}
+    <p>
+        <form action="POST">
+            {{form.as_p}}
+            <button type="submit">Submit</button>
+
+        </form>
+    </p>
+
+{% endblock %}
