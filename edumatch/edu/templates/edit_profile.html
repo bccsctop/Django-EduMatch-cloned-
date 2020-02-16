@@ -1,10 +1,11 @@
 {% block content %}
 <title>PROFILE</title>
   <h2>PROFILE</h2>
-    {% csrf_token %}
     <p>
-        <form action="POST">
+        <form action ='/profile/edit' method="POST">
+            {% csrf_token %}
             {{form.as_p}}
+            {{tutor_form.as_p}}
             <button type="submit">Submit</button>
 
         </form>

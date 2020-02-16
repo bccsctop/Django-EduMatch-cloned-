@@ -5,7 +5,7 @@ from django.contrib.auth.models import User
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.forms import UserChangeForm
 from edu.models import Tutor,Matched_Request
-from edu.forms import SignUpForm , EditProfileForm
+from edu.forms import SignUpForm , EditProfileForm , EditProfileForm2
 # Create your views here.
 def home_page(request):
 
@@ -65,15 +65,20 @@ def view_profile(request):
     })
 def edit_profile(request):
     tutors = Tutor.objects.get(user=request.user)
+
     if request.method == 'POST':
         form = EditProfileForm(request.POST,instance = request.user)
+        tutor_form= EditProfileForm2(request.POST,instance=tutors)
         if form.is_valid() :
             form.save()
+            tutor_form.save()
             view_profile(request)
-            return redirect('profile')
+            return redirect('/profile')
     else:    
         form = EditProfileForm(instance = request.user)
-        return render(request,'edit_profile.html',{'form':form})
+        tutor_form= EditProfileForm2(instance=tutors)
+        return render(request,'edit_profile.html',{'form':form ,'tutor_form':tutor_form})
+        
         
 
 def send_match_request(request, tutor_id):
