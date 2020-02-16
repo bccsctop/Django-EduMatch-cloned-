@@ -365,7 +365,7 @@ class NewVisitorTest(LiveServerTestCase):
          
 
     
-    def test_user_can_view_profile(self):
+    def test_user_can_view_profile_and_edit_profile(self):
 
         #Frankin is a student at KMUTNB(Bangkok). 
         #His has member
@@ -406,8 +406,10 @@ class NewVisitorTest(LiveServerTestCase):
         page_text = self.browser.find_element_by_tag_name('body').text
         self.assertIn('Hi frankin!',page_text)
 
-        #He wants to see his profile
-        self.browser.get(self.live_server_url+"/profile")
+        #He click on a Profile button.
+        profile_button = self.browser.find_element_by_id('profile')
+        profile_button.send_keys(Keys.ENTER)
+        time.sleep(1)
 
         #He see form for Prrfile
         header_text = self.browser.find_element_by_tag_name('h2').text
@@ -436,6 +438,39 @@ class NewVisitorTest(LiveServerTestCase):
         #He see his expert
         expert = self.browser.find_element_by_tag_name('p6').text
         self.assertIn('Statistic',expert)
+
+        #But he see that Profile was wrong, so he solved it.
+        profile_button = self.browser.find_element_by_id('edit')
+        profile_button.send_keys(Keys.ENTER)
+        time.sleep(1)
+
+        #He see city textbox. So he therefore resolved from Bangkok to Nonthaburi.
+        #He types 'Nonthaburi' into a text box
+        city_box = self.browser.find_element_by_id('id_city')
+        city_box.clear
+        city_box.send_keys('Nonthaburi')
+
+        #He click on a Confirm button.
+        edit_confirm_button = self.browser.find_element_by_id('edit_confirm')
+        edit_confirm_button.send_keys(Keys.ENTER)
+        time.sleep(1)
+
+        #He see form for Prrfile
+        header_text = self.browser.find_element_by_tag_name('h2').text
+        self.assertIn('PROFILE',header_text)
+
+        #He see his city
+        city = self.browser.find_element_by_tag_name('p5').text
+        self.assertIn('Nonthaburi',city)
+
+        #After he finished watching, he returned to the home page.
+        profile_button = self.browser.find_element_by_id('home')
+        profile_button.send_keys(Keys.ENTER)
+        time.sleep(1)
+
+        #He notices the page title and header mention SPARK
+        self.assertIn('SPARK',self.browser.title)
+
 
 
         self.fail('finist the test !!')

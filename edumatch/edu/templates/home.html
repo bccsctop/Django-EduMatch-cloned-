@@ -80,6 +80,7 @@
     </div>
     {% if user.is_authenticated %}
     Hi {{ user.username }}!
+    <p><a id="profile" href="/profile">Profile</a></p>
     <p><a id="logout" href="{% url 'logout' %}">Logout</a></p>
 
     <form method="POST">
