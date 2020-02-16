@@ -11,7 +11,7 @@ from edu.models import Tutor
 class NewVisitorTest(LiveServerTestCase):
 
     def setUp(self):
-        self.browser = webdriver.Firefox(executable_path="/mnt/c/django/geckodriver.exe")
+        self.browser = webdriver.Firefox()
         #executable_path="/mnt/c/django/geckodriver.exe"
         frankin_user = User.objects.create_user('frankin','frankin@test.com','frankinpassword')
         ronnie_user = User.objects.create_user('ronnie','ronnie@test.com','ronniepassword')
@@ -151,7 +151,6 @@ class NewVisitorTest(LiveServerTestCase):
         #He types "Mark" into a text box
         username_box = self.browser.find_element_by_id('id_username') 
         username_box.send_keys('Mark_kmutnb')
-        
 
         #He see textbox with "Password".So he enter password
         #He types "m9724617" into a text box
@@ -185,7 +184,7 @@ class NewVisitorTest(LiveServerTestCase):
         )
         inputbox.send_keys('Signal')
         inputbox.send_keys(Keys.ENTER)
-        time.sleep(5)
+        time.sleep(2)
 
         #After that he still see a ton of tutor user that agree 
         #to teach with that subject 
@@ -208,10 +207,10 @@ class NewVisitorTest(LiveServerTestCase):
         city_dropdown.select_by_visible_text('Bangkok')
         inputbox.send_keys('Signal')
         inputbox.send_keys(Keys.ENTER)
-        time.sleep(5)
+        time.sleep(2)
 
-        #After that he still see a ton of tutor user that agree 
-        #to teach with that subject 
+        #After that he could see a tutor user that agree 
+        #to teach with that subject with his condition
         table = self.browser.find_element_by_id('user_list_table')
         rows = table.find_elements_by_tag_name('td')
         self.assertNotIn('Frankin', [row.text for row in rows])
@@ -222,13 +221,36 @@ class NewVisitorTest(LiveServerTestCase):
 
         #He select Ronnie to be his tutor.
         #He click on a Ronnie's match button.
-        button = self.browser.find_element_by_name('Ronnie')
+        ronnie_id = Tutor.objects.get(name='Ronnie').id
+        button = self.browser.find_element_by_xpath(f"//a[contains(@href,'match-request/send/{ronnie_id}')]")
         button.send_keys(Keys.ENTER)
-        time.sleep(1)
+        time.sleep(2)
+        #The page will refresh and Ronnie's match button change to Ronnie's cancel-match button
+        #because his request has been sent and he can cancel his request by this cancel-match button.
+        table = self.browser.find_element_by_id('user_list_table')
+        rows = table.find_elements_by_tag_name('td')
+        cancelButton = self.browser.find_elements_by_tag_name('a')
+        self.assertIn('Frankin', [row.text for row in rows])
+        self.assertIn('Ronnie', [row.text for row in rows])
+        self.assertIn('Betty', [row.text for row in rows])
+        self.assertIn('Henderson', [row.text for row in rows])
+        self.assertIn('Cancel',[ i.text for i in cancelButton])
+        time.sleep(2)
 
-        #The page will show that tutor Ronnie is match for him.
-        result = self.browser.find_element_by_id('match_result')
-        self.assertEqual(result.text,'match!!!')
+        #He wants to see his request so he goes to match-result page
+        self.browser.get(self.live_server_url+"/match-result")
+        time.sleep(2)
+
+        #He see three topic in match-result page.
+        requestHeader_texts = self.browser.find_elements_by_tag_name('h1')
+        self.assertIn('Contact',[ i.text for i in requestHeader_texts])
+        self.assertIn('Sent Match Requests',[i.text for i in requestHeader_texts])
+        self.assertIn('Received Match Requests',[i.text for i in requestHeader_texts])
+
+        #He see that in Sent Match Requests topic has ronnie's name
+        #the person who has recieve match request that him sent
+        requestSent_text = self.browser.find_element_by_tag_name('li').text
+        self.assertIn('ronnie',requestSent_text)
         
         #Then He decide to log out from this web
         logout = self.browser.find_element_by_id('logout')
@@ -239,32 +261,105 @@ class NewVisitorTest(LiveServerTestCase):
         page_text = self.browser.find_element_by_tag_name('body').text
         self.assertIn('You are not logged in',page_text)
 
-
-        #Frankin come back from work then he loggin to spark 
-        
-        
+        #Ronnie come back from work then he loggin to spark 
         login = self.browser.find_element_by_id('login')
         login.send_keys(Keys.ENTER)
         time.sleep(1)
 
+        #He see textbox with "Username".So he enter username
+        #He types "ronnie" into a text box
         username_box = self.browser.find_element_by_id('id_username') 
-        username_box.send_keys('frankin')
+        username_box.send_keys('ronnie')
         
+        #He see textbox with "Password".So he enter password
+        #He types "ronniepassword" into a text box
         password1_box = self.browser.find_element_by_id('id_password')  
-        password1_box.send_keys('frankinpassword')
+        password1_box.send_keys('ronniepassword')
 
+        #He click on a sign_in button.
         sign_in_button = self.browser.find_element_by_id('sign_in')
         sign_in_button.send_keys(Keys.ENTER)
         time.sleep(1)
 
         #He mention that he is already login 
-
         page_text = self.browser.find_element_by_tag_name('body').text
-        self.assertIn('Hi frankin!',page_text)
+        self.assertIn('Hi ronnie!',page_text)
 
-        #He found that he can match with ronnie and new User named Mark
-        self.assertIn('Ronnie',page_text)
+        #He found that he can match with Frankin,Betty,Henderson and new User named Mark
+        self.assertIn('Frankin',page_text)
         self.assertIn('Mark',page_text)
+        self.assertIn('Betty',page_text)
+        self.assertIn('Henderson',page_text)
+
+        #He want to see if anyone has sent a match-request to him
+        #So he go to match-result page
+        self.browser.get(self.live_server_url+"/match-result")
+        time.sleep(1)
+
+        #He see three topic in match-result page.
+        requestHeader_texts = self.browser.find_elements_by_tag_name('h1')
+        self.assertIn('Contact',[ i.text for i in requestHeader_texts])
+        self.assertIn('Sent Match Requests',[i.text for i in requestHeader_texts])
+        self.assertIn('Received Match Requests',[i.text for i in requestHeader_texts])
+
+        #In Received Match Requests part,He see that Mark_kmutnb has sent match request
+        #to him and he notice two button is Accept and Ignore button
+        requestHeader_texts = self.browser.find_elements_by_tag_name('a')
+        self.assertIn('Mark_kmutnb',[ i.text for i in requestHeader_texts])
+        self.assertIn('Accept',[i.text for i in requestHeader_texts])
+        self.assertIn('Ignore',[i.text for i in requestHeader_texts])
+
+        #He agrees to be mark tutor so he click at Accept button 
+        mark_id = Tutor.objects.get(name='Mark').id
+        button = self.browser.find_element_by_xpath(f"//a[contains(@href,'/match-request/accept/{mark_id}')]")
+        button.send_keys(Keys.ENTER)
+        time.sleep(2)
+
+        #After that Mark has change position in to Contact part
+        requestHeader_texts = self.browser.find_elements_by_tag_name('a')
+        self.assertIn('Mark_kmutnb(Offline)',[ i.text for i in requestHeader_texts])
+
+        #Then He decide to log out from this web
+        logout = self.browser.find_element_by_id('logout')
+        logout.send_keys(Keys.ENTER)
+        time.sleep(1)
+
+        #The page will show that You are not logged in 
+        page_text = self.browser.find_element_by_tag_name('body').text
+        self.assertIn('You are not logged in',page_text)
+
+        #The next day Mark came back from his class then he loggin to spark 
+        login = self.browser.find_element_by_id('login')
+        login.send_keys(Keys.ENTER)
+        time.sleep(1)
+
+        #He see textbox with "Username".So he enter username
+        #He types "Mark_kmutnb" into a text box
+        username_box = self.browser.find_element_by_id('id_username') 
+        username_box.send_keys('Mark_kmutnb')
+        
+        #He see textbox with "Password".So he enter password
+        #He types "m9724617" into a text box
+        password1_box = self.browser.find_element_by_id('id_password')  
+        password1_box.send_keys('m9724617')
+
+        #He click on a sign_in button.
+        sign_in_button = self.browser.find_element_by_id('sign_in')
+        sign_in_button.send_keys(Keys.ENTER)
+        time.sleep(1)
+
+        #He mention that he is already login 
+        page_text = self.browser.find_element_by_tag_name('body').text
+        self.assertIn('Hi Mark_kmutnb!',page_text)
+
+        #He want to know that ronnie has accept his request yet or not
+        #So he want to match-result page to check it.
+        self.browser.get(self.live_server_url+"/match-result")
+        time.sleep(1)
+
+        #He see ronnie at Contact part so he decide to chat with hime later...
+        requestHeader_texts = self.browser.find_elements_by_tag_name('a')
+        self.assertIn('ronnie(Offline)',[ i.text for i in requestHeader_texts])
 
         self.fail('finist the test !!')
          

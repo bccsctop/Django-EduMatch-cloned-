@@ -79,15 +79,12 @@ def edit_profile(request):
         tutor_form= EditProfileForm2(instance=tutors)
         return render(request,'edit_profile.html',{'form':form ,'tutor_form':tutor_form})
         
-        
-
 def send_match_request(request, tutor_id):
     if request.user.is_authenticated:
         user = get_object_or_404(User, id=tutor_id)
-        matchUser = Tutor.objects.filter(name='Ronnie')
-        for i in matchUser:
-            i.isMatched = 'True'
-            i.save()
+        matchUser = Tutor.objects.get(user=user)
+        matchUser.isMatched = 'True'
+        matchUser.save()
         frequest, created = Matched_Request.objects.get_or_create(
         from_user=request.user, to_user=user)
         return HttpResponseRedirect('/')
@@ -96,10 +93,9 @@ def send_match_request(request, tutor_id):
 def cancel_match_request(request, tutor_id):
     if request.user.is_authenticated:
         user = get_object_or_404(User, id=tutor_id)
-        matchUser = Tutor.objects.filter(name='Ronnie')
-        for i in matchUser:
-            i.isMatched = 'False'
-            i.save()
+        matchUser = Tutor.objects.get(user=user)
+        matchUser.isMatched = 'False'
+        matchUser.save()
         frequest = Matched_Request.objects.filter(
         from_user=request.user, to_user=user).first()
         frequest.delete()
@@ -113,16 +109,16 @@ def accept_match_request(request, tutor_id):
 	user1.tutor.groupMatch.add(user2.tutor)
 	user2.tutor.groupMatch.add(user1.tutor)
 	frequest.delete()
-	return HttpResponseRedirect('/match-result/1')
+	return HttpResponseRedirect('/match-result/')
 
 def delete_match_request(request, tutor_id):
 	from_user = get_object_or_404(User, id=tutor_id)
 	frequest = Matched_Request.objects.filter(from_user=from_user, to_user=request.user).first()
 	frequest.delete()
-	return HttpResponseRedirect('/match-result/1')
+	return HttpResponseRedirect('/match-result/')
 
-def match_result(request,tutor_id):
-	p = Tutor.objects.filter(id=tutor_id).first()
+def match_result(request):
+	p = Tutor.objects.get(user=request.user)
 	u = p.user
 	sent_match_requests = Matched_Request.objects.filter(from_user=p.user)
 	rec_match_requests = Matched_Request.objects.filter(to_user=p.user)
