@@ -1,13 +1,94 @@
+{% load static %}
 <!DOCTYPE html>
 <html>
 <head>
     <meta charset="utf-8"/>
     <title>Chat Room</title>
+    <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css">
+    <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap-theme.min.css">
+    <link href="//fonts.googleapis.com/css?family=Lobster&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+    <link rel="stylesheet" href="{% static 'css/homepage.css' %}">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <style>
+        h1 {
+            color: #C25100;
+            font-family: 'Lobster';
+        }
+
+        body {
+            padding-left: 15px;
+            padding-right: 15px;
+        }
+
+        .page-header {
+            background-color: #C25100;
+            margin-top: 0;
+            padding: 20px 20px 20px 40px;
+        }
+
+        .page-header h1,
+        .page-header h1 a,
+        .page-header h1 a:visited,
+        .page-header h1 a:active {
+            color: #ffffff;
+            font-size: 36pt;
+            text-decoration: none;
+        }
+
+        * {
+            box-sizing: border-box;
+        }
+
+        #user_select_subject {
+            background-image: url('/css/searchicon.png');
+            background-position: 10px 10px;
+            background-repeat: no-repeat;
+            width: 100%;
+            font-size: 16px;
+            padding: 12px 20px 12px 40px;
+            border: 1px solid #ddd;
+            margin-bottom: 12px;
+        }
+
+        #user_list_table {
+            border-collapse: collapse;
+            width: 100%;
+            border: 1px solid #ddd;
+            font-size: 18px;
+        }
+
+        #user_list_table th,
+        #user_list_table td {
+            text-align: left;
+            padding: 12px;
+        }
+
+        #user_list_table tr {
+            border-bottom: 1px solid #ddd;
+        }
+
+        #user_list_table tr.header,
+        #user_list_table tr:hover {
+            background-color: #f1f1f1;
+        }
+    </style>
 </head>
+
 <body>
-    <textarea id="chat-log" cols="100" rows="20"></textarea><br/>
-    <input id="chat-message-input" type="text" size="100"/><br/>
+    <div class="page-header">
+        <h1><a href="/"></a>SPARK</h1>
+    </div>
+    {% if user.username == "" %}
+    <p>You are not loged in</p>
+    <p>Please log in </p>
+    <input id = "login" type="button" value="login" onclick="window.location.href='/accounts/login';" />
+    {%else%}
+    <p>Room : {{ room_name }}</p>
+    <p>Login as : {{user.username}} </p>
+    <textarea id="chat-log" cols="100" rows="20">{{ chat_log }}</textarea><br/>
+    <input id="chat-message-input" type="text" size="100" /><br/>
     <input id="chat-message-submit" type="button" value="Send"/>
+    {%endif%}
 </body>
 <script>
     var roomName = "{{ room_name|escapejs }}";
