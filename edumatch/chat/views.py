@@ -5,7 +5,6 @@ def index(request):
     return render(request, 'chat/index.html', {})
 
 def room(request, room_name):
-
     
     chat_log = ""
     if Chatroom_message.objects.filter(room_name=room_name).exists() :

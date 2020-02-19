@@ -109,7 +109,7 @@ def accept_match_request(request, tutor_id):
 	user1.tutor.groupMatch.add(user2.tutor)
 	user2.tutor.groupMatch.add(user1.tutor)
 	frequest.delete()
-	return HttpResponseRedirect('/match-result/')
+	return HttpResponseRedirect('/match-result/' )
 
 def delete_match_request(request, tutor_id):
 	from_user = get_object_or_404(User, id=tutor_id)
@@ -123,13 +123,23 @@ def match_result(request):
 	sent_match_requests = Matched_Request.objects.filter(from_user=p.user)
 	rec_match_requests = Matched_Request.objects.filter(to_user=p.user)
 
+    
 	contact = p.groupMatch.all()
+	urlroom={}
+	for i in contact:
+		listuser=[]
+		name = i.user
+		listuser.append(str(name))
+		listuser.append(str(u))
+		listuser.sort()
+
+		urlroom[name] = listuser[0]+'.'+listuser[1]
 
 	context = {
 		'u': u,
 		'contact_list': contact,
 		'sent_match_requests': sent_match_requests,
-		'rec_match_requests': rec_match_requests
+		'rec_match_requests': rec_match_requests,
+		'urlroom': urlroom
 	}
-
 	return render(request, "manage_match.html", context)

@@ -21,3 +21,4 @@ class Matched_Request(models.Model):
     
     def __str__(self):
         return "From {}, to {}".format(self.from_user.username, self.to_user.username)
+
