@@ -110,8 +110,9 @@
 			
 					<h1>My Tutor/Student</h1>
 			
-					{% for contact in contact_list %}
-					<a href="/}">{{ contact.user.username}}(Offline)</a>
+					{% for key,value in urlroom.items %}
+          <a href="/}">{{ key }}(Offline)</a>
+          <a href="/chat/{{ value }}">go to chat</a><br>
 					{% endfor %}
 					<hr>
 					<h1>Sent Tutor Requests</h1>

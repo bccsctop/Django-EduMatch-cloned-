@@ -132,7 +132,6 @@ def match_result(request):
 		listuser.append(str(name))
 		listuser.append(str(u))
 		listuser.sort()
-
 		urlroom[name] = listuser[0]+'.'+listuser[1]
 
 	context = {

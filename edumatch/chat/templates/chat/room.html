@@ -79,15 +79,21 @@
         <h1><a href="/"></a>SPARK</h1>
     </div>
     {% if user.username == "" %}
-    <p>You are not loged in</p>
-    <p>Please log in </p>
-    <input id = "login" type="button" value="login" onclick="window.location.href='/accounts/login';" />
+        <p>You are not loged in</p>
+        <p>Please log in </p>
+        <input id = "login" type="button" value="login" onclick="window.location.href='/accounts/login';" />
     {%else%}
-    <p>Room : {{ room_name }}</p>
-    <p>Login as : {{user.username}} </p>
-    <textarea id="chat-log" cols="100" rows="20">{{ chat_log }}</textarea><br/>
-    <input id="chat-message-input" type="text" size="100" /><br/>
-    <input id="chat-message-submit" type="button" value="Send"/>
+        {% if user.username  in room_name %}
+            <p>Room : {{ room_name }}</p>
+            <p>Login as : {{user.username}} </p>
+            <textarea id="chat-log" cols= "100" rows="20">{{ chat_log }}</textarea><br/>
+            <input id="chat-message-input" type="text" size="100" /><br/>
+            <input id="chat-message-submit" type="button" value="Send"/>
+        {%else%}
+            <meta http-equiv = "refresh" content = "2; url = http://127.0.0.1:8000/match-result/" />
+            <h1>Your access denied</h1>
+            <h4>Redirect.......</h4>
+        {%endif%}
     {%endif%}
 </body>
 <script>
