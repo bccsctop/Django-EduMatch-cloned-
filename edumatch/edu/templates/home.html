@@ -43,12 +43,12 @@
                     margin-bottom: 12px;
                 }
         
-                #user_list_table {
+                /*#user_list_table {
                     border-collapse: collapse;
                     width: 100%;
                     border: 1px solid #ddd;
                     font-size: 18px;
-                }
+                }*/
         
                 #user_list_table th,
                 #user_list_table td {
@@ -178,9 +178,9 @@
                     <td>{{tutor.city}}</td>
                     <td>
                         {% if tutor.isMatched == 'False' %}
-                        <small><a class='btn btn-primary' href="/match-request/send/{{ tutor.id }}">Match</a></small>
+                        <small><a class='btn btn-primary' href="/match-request/send/{{ tutor.user.id }}">Tutor request</a></small>
                         {% elif tutor.isMatched == 'True' %}
-                        <small><a class="btn btn-warning" href="/match-request/cancel/{{ tutor.id }}">Cancel</a></small>
+                        <small><a class="btn btn-warning" href="/match-request/cancel/{{ tutor.user.id }}">Cancel</a></small>
                         {% endif %}
                         </td>
                 </tr>

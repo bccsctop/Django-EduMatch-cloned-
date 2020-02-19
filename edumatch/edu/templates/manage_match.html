@@ -108,25 +108,25 @@
 			
 					{% if request.user == u %}
 			
-					<h1>Contact</h1>
+					<h1>My Tutor/Student</h1>
 			
 					{% for contact in contact_list %}
 					<a href="/}">{{ contact.user.username}}(Offline)</a>
 					{% endfor %}
 					<hr>
-					<h1>Sent Match Requests</h1>
+					<h1>Sent Tutor Requests</h1>
 					<ul>
 						{% for s_request in sent_match_requests %}
 						<li>{{ s_request.to_user.username }}</li>
 						{% endfor %}
 					</ul>
 					<hr>
-					<h1>Received Match Requests</h1>
+					<h1>Received Tutor Requests</h1>
 			
 					{% for r_request in rec_match_requests %}
 					<p><a href="/">{{ r_request.from_user.username }}</a></p>
 					<small><a class='btn btn-primary' href="/match-request/accept/{{ r_request.from_user.id }}">Accept</a></small>
-					<small><a class='btn btn-warning' href="/match-request/delete/{{ r_request.from_user.id }}">Ignore</a></small>
+					<small><a class='btn btn-warning' href="/match-request/delete/{{ r_request.from_user.id }}">Reject</a></small>
 					{% endfor %}
 			
 			
