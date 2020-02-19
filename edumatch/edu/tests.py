@@ -15,19 +15,23 @@ class HomepageTest(TestCase):
         self.assertEqual(found.func,home_page)
     
     def test_rendering_homepageTemplate(self):
+        frankin_user = User.objects.create_user('frankin','frankin@test.com','frankinpassword')
+        frankin = Tutor.objects.create(user=frankin_user,name='Frankin',gender = 'Male',city = 'Bangkok',expert ='Statistic')
+        self.client.login(username='frankin', password='frankinpassword') 
         response = self.client.get('/')
         self.assertTemplateUsed(response, 'home.html')
 
     def test_search_itemInTable_(self):
+        frankin_user = User.objects.create_user('frankin','frankin@test.com','frankinpassword')
         ronnie_user = User.objects.create_user('ronnie','ronnie@test.com','ronniepassword')
-        helen_user = User.objects.create_user('helen','helen@test.com','helenpassword')
-        mark_user = User.objects.create_user('mark','mark@test.com','markpassword')
-        Tutor.objects.create(user=helen_user,name='Helen',expert ='Statistic',gender = 'Female',city = 'Ayutthaya')
-        Tutor.objects.create(user=ronnie_user,name='Ronnie',expert ='Signal',gender = 'Male',city = 'Bangkok')
-        Tutor.objects.create(user=mark_user,name='Mark',expert ='Signal',gender = 'Male',city = 'Bangkok')
+        betty_user = User.objects.create_user('betty','betty@test.com','bettypassword')
+        Tutor.objects.create(user=frankin_user,name='Frankin',gender = 'Male',city = 'Bangkok',expert ='Statistic')
+        Tutor.objects.create(user=ronnie_user,name='Ronnie',gender = 'Male',city = 'Bangkok',expert ='Signal')
+        Tutor.objects.create(user=betty_user,name='Betty',gender = 'Female',city = 'Bangkok',expert ='Signal')
+        self.client.login(username='frankin', password='frankinpassword') 
         response = self.client.post('/', data={'subject_text': 'Signal','gender_text' : 'Male','city_text' : 'Bangkok'})
-        #self.assertNotContains(response,'Helen')
-        #self.assertContains(response,'Ronnie')
+        self.assertNotContains(response,'Betty')
+        self.assertContains(response,'Ronnie')
         
 
 class ListViewTest(TestCase):
