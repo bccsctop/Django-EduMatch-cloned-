@@ -4,8 +4,8 @@ from django.contrib.auth import login, authenticate
 from django.contrib.auth.models import User
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.forms import UserChangeForm
-from edu.models import Tutor, Matched_Request
-from edu.forms import SignUpForm, EditProfileForm, EditProfileForm2
+from edu.models import Tutor, Matched_Request, Review
+from edu.forms import SignUpForm, EditProfileForm, EditProfileForm2, ReviewForm
 # Create your views here.
 
 
@@ -128,8 +128,10 @@ def delete_match_request(request, tutor_id):
 
 
 def match_result(request):
+
     p = Tutor.objects.get(user=request.user)
     u = p.user
+
     sent_match_requests = Matched_Request.objects.filter(from_user=p.user)
     rec_match_requests = Matched_Request.objects.filter(to_user=p.user)
 
@@ -152,8 +154,15 @@ def match_result(request):
     }
     return render(request, "manage_match.html", context)
 
-def review(request,tutor_id):
-    tutor = Tutor.objects.get(pk=tutor_id)  
-    return render(request,"review.html",{"tutor":tutor})
+def review(request, tutor_id):
+    tutor = Tutor.objects.get(pk=tutor_id)
+    if request.method == "POST":
+        form = ReviewForm(request.POST)
+        if form.is_valid():
+            Review.objects.create(comment=form.cleaned_data['comment'],reviewer=request.user,reviewed_tutor=tutor)
+            redirect(f'/review/{tutor_id}')
+    else:
+        form = ReviewForm()
+    return render(request, "review.html", {"tutor":tutor,"form":form})
 
 

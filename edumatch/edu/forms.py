@@ -32,3 +32,7 @@ class EditProfileForm2(ModelForm):
     class Meta:
         model = Tutor
         fields = ('gender', 'city', 'expert')
+
+class ReviewForm(forms.Form):
+    comment = forms.CharField(widget=forms.Textarea)
+    

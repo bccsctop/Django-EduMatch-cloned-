@@ -86,17 +86,10 @@
     <br />
     <h2>Review</h2>
     {% ratings tutor %}
-    <form action="{{tutor.id}}" id="reviewform" method="POST">
-      {% csrf_token %} 
-      <textarea
-        form="review_form"
-        name="comment"
-        id="review_textarea"
-        cols="50"
-        rows="5"
-      ></textarea>
-      <br />
-      <input type="submit" />
+    <form action="{{tutor.id}}" id="reviewform" name="reviewform" method="POST">
+    {% csrf_token %}
+      {{form.as_p}}
+       <button name="submit" id="submit" type="submit">Submit</button>
     </form>
 
     {% endblock %}
