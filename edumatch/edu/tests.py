@@ -34,55 +34,6 @@ class HomepageTest(TestCase):
         self.assertContains(response,'Ronnie')
         
 
-class ListViewTest(TestCase):
-
-    def test_displays_itemInTable(self):
-        frankin_user = User.objects.create_user('frankin','frankin@test.com','frankinpassword')
-        ronnie_user = User.objects.create_user('ronnie','ronnie@test.com','ronniepassword')
-
-        frankin = Tutor.objects.create(user=frankin_user,name='Frankin',gender = 'Male',city = 'Bangkok',expert ='Statistic')
-        ronnie = Tutor.objects.create(user=ronnie_user,name='Ronnie',gender = 'Male',city = 'Bangkok',expert ='Signal')
-        response = self.client.get(f'/lists/{ronnie.id}')
-        self.assertContains(response,'Frankin')
-        self.assertNotContains(response,'Ronnie')
-
-    def test_uses_list_template(self):
-        frankin_user = User.objects.create_user('frankin','frankin@test.com','frankinpassword')
-        frankin = Tutor.objects.create(user=frankin_user,name='Frankin',gender = 'Male',city = 'Bangkok',expert ='Statistic')
-        response = self.client.get(f'/lists/{frankin.id}')
-        self.assertTemplateUsed(response, 'list.html')
-
-
-class RegisterTest(TestCase):
-
-    def test_rootURL_maping_to_homepageVIEW(self):
-        found = resolve('/register')
-        self.assertEqual(found.func,register)
-
-    
-    def test_rendering_registerTemplate(self):
-        response = self.client.get('/register')
-        self.assertTemplateUsed(response, 'register.html')
-
-    def test_saving_and_verifying_modelItems(self):
-        frankin_user = User.objects.create_user('frankin','frankin@test.com','frankinpassword')
-        ronnie_user = User.objects.create_user('ronnie','ronnie@test.com','ronniepassword')
-
-        frankin = Tutor.objects.create(user=frankin_user,name='Frankin',gender = 'Male',city = 'Bangkok',expert ='Statistic')
-        ronnie = Tutor.objects.create(user=ronnie_user,name='Ronnie',gender = 'Male',city = 'Bangkok',expert ='Signal')
-        
-
-        saved_tutors = Tutor.objects.all()
-        self.assertEqual(saved_tutors.count(),2)
-
-        first_saved_tutor = saved_tutors[0]
-        second_saved_tutor = saved_tutors[1]
-
-        self.assertEqual(first_saved_tutor.name,'Frankin')
-        self.assertEqual(second_saved_tutor.name,'Ronnie')
-        self.assertEqual(first_saved_tutor.gender,second_saved_tutor.gender)
-        self.assertEqual(first_saved_tutor.city,second_saved_tutor.city)
-        self.assertNotEqual(first_saved_tutor.expert,second_saved_tutor.expert)
 
 class TutorRequestTest(TestCase):
 

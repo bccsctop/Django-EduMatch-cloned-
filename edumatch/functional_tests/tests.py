@@ -40,40 +40,6 @@ class NewVisitorTest(LiveServerTestCase):
                     raise e
                 time.sleep(0.5)
 
-
-    def test_multiple_users_can_login_to_different_urls(self):
-
-        #Frankin logins to his spark web application 
-        #(wait for login function to be completed so assume frankin was logined)
-        #when he has logined , he notices that it has unique urls 
-        frankin_id = Tutor.objects.get(name='Frankin').id
-        self.browser.get(f'{self.live_server_url}/lists/{frankin_id}') 
-        frankin_url = self.browser.current_url
-        self.assertRegex(frankin_url,'/lists/.+')
-
-        #He found that he can match with ronnie
-        page_text = self.browser.find_element_by_tag_name('body').text
-        self.assertIn('Ronnie',page_text)
-        self.assertIn('Betty',page_text)
-        self.assertIn('Henderson',page_text)
-        self.assertNotIn('Frankin',page_text)
-        time.sleep(1)
-
-        #Ronnie also logined , he notices that it has unique urls #Assume she login
-        ronnie_id = Tutor.objects.get(name='Ronnie').id
-        self.browser.get(f'{self.live_server_url}/lists/{ronnie_id}') 
-        ronnie_url = self.browser.current_url
-        self.assertRegex(ronnie_url,'/lists/.+')
-        self.assertNotEqual(frankin_url,ronnie_url)
-
-        #She found that he can match with frankin
-        page_text = self.browser.find_element_by_tag_name('body').text
-        self.assertIn('Frankin',page_text)
-        self.assertIn('Betty',page_text)
-        self.assertIn('Henderson',page_text)
-        self.assertNotIn('Ronnie',page_text)
-        time.sleep(1)
-
     def test_user_can_register_then_login_to_each_user_URL(self):
 
         #Mark is a student at KMUTNB(Bangkok). 
@@ -243,13 +209,13 @@ class NewVisitorTest(LiveServerTestCase):
 
         #He see three topic in match-result page.
         requestHeader_texts = self.browser.find_elements_by_tag_name('h1')
-        self.assertIn('Contact',[ i.text for i in requestHeader_texts])
-        self.assertIn('Sent Match Requests',[i.text for i in requestHeader_texts])
-        self.assertIn('Received Match Requests',[i.text for i in requestHeader_texts])
+        self.assertIn('My Tutor/Student',[ i.text for i in requestHeader_texts])
+        self.assertIn('Sent Tutor Requests',[i.text for i in requestHeader_texts])
+        self.assertIn('Received Tutor Requests',[i.text for i in requestHeader_texts])
 
         #He see that in Sent Match Requests topic has ronnie's name
         #the person who has recieve match request that him sent
-        requestSent_text = self.browser.find_element_by_tag_name('li').text
+        requestSent_text = self.browser.find_element_by_id('sent_request_item').text
         self.assertIn('ronnie',requestSent_text)
         
         #Then He decide to log out from this web
@@ -298,16 +264,16 @@ class NewVisitorTest(LiveServerTestCase):
 
         #He see three topic in match-result page.
         requestHeader_texts = self.browser.find_elements_by_tag_name('h1')
-        self.assertIn('Contact',[ i.text for i in requestHeader_texts])
-        self.assertIn('Sent Match Requests',[i.text for i in requestHeader_texts])
-        self.assertIn('Received Match Requests',[i.text for i in requestHeader_texts])
+        self.assertIn('My Tutor/Student',[ i.text for i in requestHeader_texts])
+        self.assertIn('Sent Tutor Requests',[i.text for i in requestHeader_texts])
+        self.assertIn('Received Tutor Requests',[i.text for i in requestHeader_texts])
 
         #In Received Match Requests part,He see that Mark_kmutnb has sent match request
-        #to him and he notice two button is Accept and Ignore button
+        #to him and he notice two button is Accept and Reject button
         requestHeader_texts = self.browser.find_elements_by_tag_name('a')
         self.assertIn('Mark_kmutnb',[ i.text for i in requestHeader_texts])
         self.assertIn('Accept',[i.text for i in requestHeader_texts])
-        self.assertIn('Ignore',[i.text for i in requestHeader_texts])
+        self.assertIn('Reject',[i.text for i in requestHeader_texts])
 
         #He agrees to be mark tutor so he click at Accept button 
         mark_id = Tutor.objects.get(name='Mark').id
@@ -407,7 +373,7 @@ class NewVisitorTest(LiveServerTestCase):
         self.assertIn('Hi frankin!',page_text)
 
         #He click on a Profile button.
-        profile_button = self.browser.find_element_by_id('profile')
+        profile_button = self.browser.find_element_by_id('profile_btn')
         profile_button.send_keys(Keys.ENTER)
         time.sleep(1)
 
@@ -447,7 +413,7 @@ class NewVisitorTest(LiveServerTestCase):
         #He see city textbox. So he therefore resolved from Bangkok to Nonthaburi.
         #He types 'Nonthaburi' into a text box
         city_box = self.browser.find_element_by_id('id_city')
-        city_box.clear
+        city_box.clear()
         city_box.send_keys('Nonthaburi')
 
         #He click on a Confirm button.
@@ -461,11 +427,12 @@ class NewVisitorTest(LiveServerTestCase):
 
         #He see his city
         city = self.browser.find_element_by_tag_name('p5').text
+        self.assertNotIn('Bangkok',city)
         self.assertIn('Nonthaburi',city)
 
         #After he finished watching, he returned to the home page.
-        profile_button = self.browser.find_element_by_id('home')
-        profile_button.send_keys(Keys.ENTER)
+        home_button = self.browser.find_element_by_id('home')
+        home_button.send_keys(Keys.ENTER)
         time.sleep(1)
 
         #He notices the page title and header mention SPARK

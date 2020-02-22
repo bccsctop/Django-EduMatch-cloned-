@@ -22,7 +22,6 @@ urlpatterns = [
     path('admin/',admin.site.urls),
     path('', views.home_page, name='homepage'),
     path('register', views.register, name='register'),
-    path('lists/<int:tutor_id>', views.tutor_list, name='tutor_list'),
     path('match-result/', views.match_result, name='match_result'),
     path('match-request/send/<int:tutor_id>', views.send_match_request, name='send_match_request'),
     path('match-request/cancel/<int:tutor_id>', views.cancel_match_request, name='cancel_match_request'),
