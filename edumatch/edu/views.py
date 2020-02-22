@@ -12,7 +12,10 @@ from edu.forms import SignUpForm, EditProfileForm, EditProfileForm2
 def home_page(request):
 
     tutors = Tutor.objects.all()
-
+    
+    if request.method != 'POST':
+        return render(request, 'home.html')
+        
     subject = request.POST.get('subject_text', '')
     gender = request.POST.get('gender_text', '')
     city = request.POST.get('city_text', '')
@@ -148,3 +151,9 @@ def match_result(request):
         'urlroom': urlroom
     }
     return render(request, "manage_match.html", context)
+
+def review(request,tutor_id):
+    tutor = Tutor.objects.get(pk=tutor_id)  
+    return render(request,"review.html",{"tutor":tutor})
+
+

@@ -31,4 +31,6 @@ urlpatterns = [
     path('profile', views.view_profile, name='view_profile'),
     path('chat/', include('chat.urls')),
     path('profile/edit', views.edit_profile, name='edit_profile'),
+    path('review/<int:tutor_id>',views.review, name='review'),
+    path('star_ratings/ratings/', include(('star_ratings.urls','ratings'), namespace='ratings')),
 ]

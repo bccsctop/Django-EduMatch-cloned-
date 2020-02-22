@@ -12,6 +12,7 @@ class Tutor(models.Model):
     expert = models.TextField(default='',blank=True)
     isMatched = models.TextField(default='False',blank=True)
     groupMatch = models.ManyToManyField("Tutor", blank=True)
+    review = models.ManyToManyField("Review",blank=True)
     
     
 class Matched_Request(models.Model):
@@ -22,6 +23,9 @@ class Matched_Request(models.Model):
     def __str__(self):
         return "From {}, to {}".format(self.from_user.username, self.to_user.username)
 
-class test(models.Model):
-    pass
+class Review(models.Model):
+    comment = models.TextField(default='',blank=True)
+    rate = models.IntegerField(default=0,blank=True)
+
+
 

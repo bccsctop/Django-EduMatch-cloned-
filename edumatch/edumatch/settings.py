@@ -40,6 +40,7 @@ INSTALLED_APPS = [
     'edu',
     'chat',
     'channels',
+    'star_ratings',
 
     
 ]

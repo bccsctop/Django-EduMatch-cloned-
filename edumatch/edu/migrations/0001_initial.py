@@ -28,4 +28,11 @@ class Migration(migrations.Migration):
                 ('expert', models.TextField(default='')),
             ],
         ),
+
+        migrations.CreateModel(
+            name='Test',
+            fields=[
+    
+            ],
+        ),
     ]

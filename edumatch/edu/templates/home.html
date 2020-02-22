@@ -1,238 +1,246 @@
 {% load static %}
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
 
 <head>
-  <style>
-    h1 {
-      color: #C25100;
-      font-family: 'Lobster';
-    }
-
-    body {
-      padding-left: 15px;
-      padding-right: 15px;
-    }
-
-    .page-header {
-      background-color: #C25100;
-      margin-top: 0;
-      padding: 20px 20px 20px 40px;
-    }
-
-    .page-header h1,
-    .page-header h1 a,
-    .page-header h1 a:visited,
-    .page-header h1 a:active {
-      color: #ffffff;
-      font-size: 36pt;
-      text-decoration: none;
-    }
-
-    * {
-      box-sizing: border-box;
-    }
-
-    .notification {
-      background-color: #555;
-      color: white;
-      text-decoration: none;
-      padding: 15px 26px;
-      position: relative;
-      display: inline-block;
-      border-radius: 2px;
-    }
-
-    .notification:hover {
-      background: red;
-    }
-
-    .notification .badge {
-      position: absolute;
-      top: -10px;
-      right: -10px;
-      padding: 5px 10px;
-      border-radius: 50%;
-      background: red;
-      color: white;
-    }
-
-    #user_select_subject {
-      background-image: url('/css/searchicon.png');
-      background-position: 10px 10px;
-      background-repeat: no-repeat;
-      width: 100%;
-      font-size: 16px;
-      padding: 12px 20px 12px 40px;
-      border: 1px solid #ddd;
-      margin-bottom: 12px;
-    }
-
-    /*#user_list_table {
+    <style>
+        h1 {
+            color: #c25100;
+            font-family: "Lobster";
+        }
+        
+        body {
+            padding-left: 15px;
+            padding-right: 15px;
+        }
+        
+        .page-header {
+            background-color: #c25100;
+            margin-top: 0;
+            padding: 20px 20px 20px 40px;
+        }
+        
+        .page-header h1,
+        .page-header h1 a,
+        .page-header h1 a:visited,
+        .page-header h1 a:active {
+            color: #ffffff;
+            font-size: 36pt;
+            text-decoration: none;
+        }
+        
+        * {
+            box-sizing: border-box;
+        }
+        
+        .notification {
+            background-color: #555;
+            color: white;
+            text-decoration: none;
+            padding: 15px 26px;
+            position: relative;
+            display: inline-block;
+            border-radius: 2px;
+        }
+        
+        .notification:hover {
+            background: red;
+        }
+        
+        .notification .badge {
+            position: absolute;
+            top: -10px;
+            right: -10px;
+            padding: 5px 10px;
+            border-radius: 50%;
+            background: red;
+            color: white;
+        }
+        
+        #user_select_subject {
+            background-image: url("/css/searchicon.png");
+            background-position: 10px 10px;
+            background-repeat: no-repeat;
+            width: 100%;
+            font-size: 16px;
+            padding: 12px 20px 12px 40px;
+            border: 1px solid #ddd;
+            margin-bottom: 12px;
+        }
+        /*#user_list_table {
                     border-collapse: collapse;
                     width: 100%;
                     border: 1px solid #ddd;
                     font-size: 18px;
                 }*/
+        
+        #user_list_table th,
+        #user_list_table td {
+            text-align: left;
+            padding: 12px;
+        }
+        
+        #user_list_table tr {
+            border-bottom: 1px solid #ddd;
+        }
+        
+        #user_list_table tr.header,
+        #user_list_table tr:hover {
+            background-color: #f1f1f1;
+        }
+    </style>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
 
-    #user_list_table th,
-    #user_list_table td {
-      text-align: left;
-      padding: 12px;
-    }
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous" />
 
-    #user_list_table tr {
-      border-bottom: 1px solid #ddd;
-    }
-
-    #user_list_table tr.header,
-    #user_list_table tr:hover {
-      background-color: #f1f1f1;
-    }
-  </style>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-
-  <!-- Bootstrap CSS -->
-  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"
-    integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
-
-  <title>SPARK</title>
+    <title>SPARK</title>
 </head>
 
 <body>
-  {% if user.is_authenticated %}
-  <nav class="navbar navbar-expand-md navbar-dark fixed-top bg-dark">
-    <a class="navbar-brand" href="/">SPARK</a>
-    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarCollapse"
-      aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation">
-      <span class="navbar-toggler-icon"></span>
-    </button>
-    <div class="collapse navbar-collapse" id="navbarCollapse">
-      <ul class="navbar-nav mr-auto">
-        <li class="nav-item">
-          <a id="profile_btn"class="notification" href="/profile">Profile</a>
-        </li>
-        <li class="nav-item">
-          <a href="/match-result" class="notification">
-            <span>Request</span>
-            <span class="badge">{{amountRecieve}}</span>
-          </a>
-        </li>
-      </ul>
-      <form class="form-inline mt-2 mt-md-0">
-        <ul class="navbar-nav mr-auto">
-          <li class="nav-item">
-            <a class="nav-link" id="logout" href="{% url 'logout' %}">Logout</a>
-          </li>
-        </ul>
-      </form>
-    </div>
-  </nav>
-  <br>
-  <br>
-  <br>
-  {% else %}
-  <nav class="navbar navbar-expand-md navbar-dark fixed-top bg-dark">
-    <a class="navbar-brand" href="/">SPARK</a>
-    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarCollapse"
-      aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation">
-      <span class="navbar-toggler-icon"></span>
-    </button>
-    <div class="collapse navbar-collapse" id="navbarCollapse">
-      <ul class="navbar-nav mr-auto">
-        <li class="nav-item">
+    {% if user.is_authenticated %}
+    <nav class="navbar navbar-expand-md navbar-dark fixed-top bg-dark">
+        <a class="navbar-brand" href="/">SPARK</a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+        <div class="collapse navbar-collapse" id="navbarCollapse">
+            <ul class="navbar-nav mr-auto">
+                <li class="nav-item">
+                    <a id="profile_btn" class="notification" href="/profile">Profile</a>
+                </li>
+                <li class="nav-item">
+                    <a href="/match-result" class="notification">
+                        <span>Request</span>
+                        <span class="badge">{{amountRecieve}}</span>
+                    </a>
+                </li>
+            </ul>
+            <form class="form-inline mt-2 mt-md-0">
+                <ul class="navbar-nav mr-auto">
+                    <li class="nav-item">
+                        <a class="nav-link" id="logout" href="{% url 'logout' %}">Logout</a
+              >
+            </li>
+          </ul>
+        </form>
+      </div>
+    </nav>
+    <br />
+    <br />
+    <br />
+    {% else %}
+    <nav class="navbar navbar-expand-md navbar-dark fixed-top bg-dark">
+      <a class="navbar-brand" href="/">SPARK</a>
+                        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+                        <div class="collapse navbar-collapse" id="navbarCollapse">
+                            <ul class="navbar-nav mr-auto">
+                                <li class="nav-item"></li>
+                            </ul>
+                            <form class="form-inline mt-2 mt-md-0">
+                                <ul class="navbar-nav mr-auto">
+                                    <li class="nav-item">
+                                        <a class="nav-link" id="login" href="{% url 'login' %}">Login</a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a class="nav-link" id="register" href="{% url 'register' %}">Register</a
+              >
+            </li>
+          </ul>
+        </form>
+      </div>
+    </nav>
+    <br />
+    <br />
+    <br />
+    {% endif %}
 
-        </li>
-      </ul>
-      <form class="form-inline mt-2 mt-md-0">
-        <ul class="navbar-nav mr-auto">
-          <li class="nav-item">
-            <a class="nav-link" id="login" href="{% url 'login' %}">Login</a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link" id="register" href="{% url 'register' %}">Register</a>
-          </li>
-        </ul>
-      </form>
-    </div>
-  </nav>
-  <br>
-  <br>
-  <br>
-  {% endif %}
+    <div class="page-header">
+      <h1><a href="/"></a>SPARK</h1>
+                        </div>
+                        <br /> {% if user.is_authenticated %} Hi {{ user.username }}!
+                        <br />
 
-  <div class="page-header">
-    <h1><a href="/"></a>SPARK</h1>
-  </div>
-  <br>
-  {% if user.is_authenticated %}
-  Hi {{ user.username }}!
-  <br>
+                        <form method="POST">
+                            <label for="user_select_gender">Gender:</label>
 
-  <form method="POST">
-    <label for="user_select_gender">Gender:</label>
+                            <select name="gender_text" id="user_select_gender">
+        <option value="">-----</option>
+        <option value="Male">Male</option>
+        <option value="Female">Female</option>
+      </select>
 
-    <select name="gender_text" id="user_select_gender">
-      <option value="">-----</option>
-      <option value="Male">Male</option>
-      <option value="Female">Female</option>
-    </select>
+                            <label for="user_city_subject">City:</label>
 
-    <label for="user_city_subject">City:</label>
+                            <select name="city_text" id="user_city_subject">
+        <option value="">---------</option>
+        <option value="Ayutthaya">Ayutthaya</option>
+        <option value="Bangkok">Bangkok</option>
+        <option value="Chiangmai">Chiangmai</option>
+        <option value="Kanchanaburi">Kanchanaburi</option>
+        <option value="Krabi">Krabi</option>
+        <option value="Lampang">Lampang</option>
+      </select>
 
-    <select name="city_text" id="user_city_subject">
-      <option value="">---------</option>
-      <option value="Ayutthaya">Ayutthaya</option>
-      <option value="Bangkok">Bangkok</option>
-      <option value="Chiangmai">Chiangmai</option>
-      <option value="Kanchanaburi">Kanchanaburi</option>
-      <option value="Krabi">Krabi</option>
-      <option value="Lampang">Lampang</option>
-    </select>
+                            <input name="subject_text" id="user_select_subject" placeholder="Enter your Subject that you need help!!!" /> {% csrf_token %}
+                        </form>
 
-    <input name="subject_text" id="user_select_subject" placeholder="Enter your Subject that you need help!!!" />
-    {% csrf_token %}
-  </form>
+                        <table id="user_list_table">
+                            <tr class="header">
+                                <th style="width:30%;">Subject</th>
+                                <th style="width:30%;">Name</th>
+                                <th style="width:20%;">Gender</th>
+                                <th style="width:20%;">City</th>
+                            </tr>
+                            {% for tutor in tutors %}
+                            <tr>
+                                <td>{{tutor.expert}}</td>
+                                <td>{{tutor.name}}</td>
+                                <td>{{tutor.gender}}</td>
+                                <td>{{tutor.city}}</td>
+                                <td>
+                                    {% if tutor.isMatched == 'False' %}
+                                    <small><a
+              class="btn btn-primary"
+              href="/match-request/send/{{ tutor.user.id }}"
+              >Tutor request</a
+            ></small
+          >
+          {% elif tutor.isMatched == 'True' %}
+          <small
+            ><a
+              class="btn btn-warning"
+              href="/match-request/cancel/{{ tutor.user.id }}"
+              >Cancel</a
+            ></small
+          >
+          {% endif %}
+        </td>
+      </tr>
+      {% endfor %}
+    </table>
 
-  <table id='user_list_table'>
-    <tr class="header">
-      <th style="width:30%;">Subject</th>
-      <th style="width:30%;">Name</th>
-      <th style="width:20%;">Gender</th>
-      <th style="width:20%;">City</th>
-    </tr>
-    {% for tutor in tutors %}
-    <tr>
-      <td>{{tutor.expert}}</td>
-      <td>{{tutor.name}}</td>
-      <td>{{tutor.gender}}</td>
-      <td>{{tutor.city}}</td>
-      <td>
-        {% if tutor.isMatched == 'False' %}
-        <small><a class='btn btn-primary' href="/match-request/send/{{ tutor.user.id }}">Tutor request</a></small>
-        {% elif tutor.isMatched == 'True' %}
-        <small><a class="btn btn-warning" href="/match-request/cancel/{{ tutor.user.id }}">Cancel</a></small>
-        {% endif %}
-      </td>
-    </tr>
-    {% endfor %}
-  </table>
-
-
-  {% else %}
-  <p>You are not logged in</p>
-  {% endif %}
-  <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js"
-    integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n"
-    crossorigin="anonymous"></script>
-  <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"
-    integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo"
-    crossorigin="anonymous"></script>
-  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"
-    integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6"
-    crossorigin="anonymous"></script>
-</body>
-
+    {% else %}
+    <p>You are not logged in</p>
+    {% endif %}
+    <script
+      src="https://code.jquery.com/jquery-3.4.1.slim.min.js"
+      integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n"
+      crossorigin="anonymous"
+    ></script>
+    <script
+      src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"
+      integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo"
+      crossorigin="anonymous"
+    ></script>
+    <script
+      src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"
+      integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6"
+      crossorigin="anonymous"
+    ></script>
+  </body>
 </html>
-<html>
+<html></html>

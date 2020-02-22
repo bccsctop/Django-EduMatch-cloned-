@@ -1,149 +1,163 @@
 {% load static %}
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
-  <head>
-        <style>
-                h1 {
-                    color: #C25100;
-                    font-family: 'Lobster';
-                }
+
+<head>
+    <style>
+        h1 {
+            color: #c25100;
+            font-family: "Lobster";
+        }
         
-                body {
-                    padding-left: 15px;
-                    padding-right: 15px;
-                }
+        body {
+            padding-left: 15px;
+            padding-right: 15px;
+        }
         
-                .page-header {
-                    background-color: #C25100;
-                    margin-top: 0;
-                    padding: 20px 20px 20px 40px;
-                }
+        .page-header {
+            background-color: #c25100;
+            margin-top: 0;
+            padding: 20px 20px 20px 40px;
+        }
         
-                .page-header h1,
-                .page-header h1 a,
-                .page-header h1 a:visited,
-                .page-header h1 a:active {
-                    color: #ffffff;
-                    font-size: 36pt;
-                    text-decoration: none;
-                }
+        .page-header h1,
+        .page-header h1 a,
+        .page-header h1 a:visited,
+        .page-header h1 a:active {
+            color: #ffffff;
+            font-size: 36pt;
+            text-decoration: none;
+        }
         
-                * {
-                    box-sizing: border-box;
-                }
+        * {
+            box-sizing: border-box;
+        }
         
-                #user_select_subject {
-                    background-image: url('/css/searchicon.png');
-                    background-position: 10px 10px;
-                    background-repeat: no-repeat;
-                    width: 100%;
-                    font-size: 16px;
-                    padding: 12px 20px 12px 40px;
-                    border: 1px solid #ddd;
-                    margin-bottom: 12px;
-                }
+        #user_select_subject {
+            background-image: url("/css/searchicon.png");
+            background-position: 10px 10px;
+            background-repeat: no-repeat;
+            width: 100%;
+            font-size: 16px;
+            padding: 12px 20px 12px 40px;
+            border: 1px solid #ddd;
+            margin-bottom: 12px;
+        }
         
-                #user_list_table {
-                    border-collapse: collapse;
-                    width: 100%;
-                    border: 1px solid #ddd;
-                    font-size: 18px;
-                }
+        #user_list_table {
+            border-collapse: collapse;
+            width: 100%;
+            border: 1px solid #ddd;
+            font-size: 18px;
+        }
         
-                #user_list_table th,
-                #user_list_table td {
-                    text-align: left;
-                    padding: 12px;
-                }
+        #user_list_table th,
+        #user_list_table td {
+            text-align: left;
+            padding: 12px;
+        }
         
-                #user_list_table tr {
-                    border-bottom: 1px solid #ddd;
-                }
+        #user_list_table tr {
+            border-bottom: 1px solid #ddd;
+        }
         
-                #user_list_table tr.header,
-                #user_list_table tr:hover {
-                    background-color: #f1f1f1;
-                }
-            </style>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+        #user_list_table tr.header,
+        #user_list_table tr:hover {
+            background-color: #f1f1f1;
+        }
+    </style>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
 
     <!-- Bootstrap CSS -->
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous" />
 
     <title>SPARK</title>
-  </head>
-  <body> 
-        <nav class="navbar navbar-expand-md navbar-dark fixed-top bg-dark">
-                <a class="navbar-brand" href="/">SPARK</a>
-                <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation">
-                  <span class="navbar-toggler-icon"></span>
-                </button>
-                <div class="collapse navbar-collapse" id="navbarCollapse">
-                  <ul class="navbar-nav mr-auto">
+</head>
+
+<body>
+    <nav class="navbar navbar-expand-md navbar-dark fixed-top bg-dark">
+        <a class="navbar-brand" href="/">SPARK</a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+        <div class="collapse navbar-collapse" id="navbarCollapse">
+            <ul class="navbar-nav mr-auto">
+                <li class="nav-item">
+                    <a class="nav-link" id="home" href="/">Home</a>
+                </li>
+            </ul>
+
+            <form class="form-inline mt-2 mt-md-0">
+                <ul class="navbar-nav mr-auto">
                     <li class="nav-item">
-                            <a class="nav-link" id="home" href="/">Home</a>
-                  </ul>
-                  <form class="form-inline mt-2 mt-md-0">
-                      <ul class="navbar-nav mr-auto">
-                      <li class="nav-item">
-                          <a class="nav-link" id="logout" href="{% url 'logout' %}">Logout</a>
-                        </li>
-                      </ul>
-                  </form>
-                </div>
-              </nav>
-              <br>
-              <br>
-              <br>
+                        <a class="nav-link" id="logout" href="{% url 'logout' %}">Logout</a
+              >
+            </li>
+          </ul>
+        </form>
+      </div>
+    </nav>
+    <br />
+    <br />
+    <br />
 
-			  <div class="page-header">
-					<h1><a href="/"></a>SPARK</h1>
-				</div>
-				{% if user.is_authenticated %}
+    <div class="page-header">
+      <h1><a href="/"></a>SPARK</h1>
+        </div>
+        {% if user.is_authenticated %}
 
-			
-				<div class="container text-left">
-		
-			
-					{% if request.user == u %}
-			
-					<h1>My Tutor/Student</h1>
-			
-					{% for key,value in urlroom.items %}
-          <a href="/}">{{ key }}(Offline)</a>
-          <a href="/chat/{{ value }}">go to chat</a><br>
-					{% endfor %}
-					<hr>
-					<h1>Sent Tutor Requests</h1>
-					<ul>
-						{% for s_request in sent_match_requests %}
-						<li id="sent_request_item">{{ s_request.to_user.username }}</li>
-						{% endfor %}
-					</ul>
-					<hr>
-					<h1>Received Tutor Requests</h1>
-			
-					{% for r_request in rec_match_requests %}
-					<p><a id="recieve_request_item" href="/">{{ r_request.from_user.username }}</a></p>
-					<small><a class='btn btn-primary' href="/match-request/accept/{{ r_request.from_user.id }}">Accept</a></small>
-					<small><a class='btn btn-warning' href="/match-request/delete/{{ r_request.from_user.id }}">Reject</a></small>
-					{% endfor %}
-			
-			
-					{% endif %}
-			
-				</div>
-			
-				{% else %}
-				<p>You are not logged in</p>
-				<a id="login" href="{% url 'login' %}">login</a>
-				<br>
-				<a id="register" href="{% url 'register' %}">Register</a>
-				{% endif %}
-    <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js" integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n" crossorigin="anonymous"></script>
-    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
-    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js" integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>
-  </body>
+        <div class="container text-left">
+            {% if request.user == u %}
+
+            <h1>My Tutor/Student</h1>
+
+            {% for key,value in urlroom.items %}
+            <a href="/}">{{ key }}(Offline)</a>
+            <a href="/chat/{{ value }}">go to chat</a><br /> {% endfor %}
+            <hr />
+            <h1>Sent Tutor Requests</h1>
+            <ul>
+                {% for s_request in sent_match_requests %}
+                <li id="sent_request_item">{{ s_request.to_user.username }}</li>
+                {% endfor %}
+            </ul>
+            <hr />
+            <h1>Received Tutor Requests</h1>
+
+            {% for r_request in rec_match_requests %}
+            <p>
+                <a id="recieve_request_item" href="/">{{ r_request.from_user.username }}</a
+        >
+      </p>
+      <small
+        ><a
+          class="btn btn-primary"
+          href="/match-request/accept/{{ r_request.from_user.id }}"
+          >Accept</a
+        ></small
+      >
+      <small
+        ><a
+          class="btn btn-warning"
+          href="/match-request/delete/{{ r_request.from_user.id }}"
+          >Reject</a
+        ></small
+      >
+      {% endfor %} {% endif %}
+    </div>
+
+    {% else %}
+    <p>You are not logged in</p>
+    <a id="login" href="{% url 'login' %}">login</a>
+                <br />
+                <a id="register" href="{% url 'register' %}">Register</a> {% endif %}
+                <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js" integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n" crossorigin="anonymous"></script>
+                <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
+                <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js" integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>
+</body>
+
 </html>
 <html>
+
+</html>
