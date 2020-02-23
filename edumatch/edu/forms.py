@@ -34,5 +34,5 @@ class EditProfileForm2(ModelForm):
         fields = ('gender', 'city', 'expert')
 
 class ReviewForm(forms.Form):
-    comment = forms.CharField(widget=forms.Textarea)
+    comment = forms.CharField(widget=forms.Textarea,label='')
     

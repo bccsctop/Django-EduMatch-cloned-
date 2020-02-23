@@ -23,10 +23,8 @@ class Matched_Request(models.Model):
         return "From {}, to {}".format(self.from_user.username, self.to_user.username)
 
 class Review(models.Model):
-    reviewer = models.ForeignKey(Tutor,on_delete=models.CASCADE,related_name='reviewer')
-    reviewed_tutor = models.ForeignKey(Tutor,on_delete=models.CASCADE,related_name='reviewed_tutor')
+    reviewer = models.ForeignKey(Tutor, on_delete=models.CASCADE,related_name='reviewer')
+    reviewed_tutor = models.ForeignKey(Tutor, on_delete=models.CASCADE,related_name='reviewed_tutor')
     comment = models.TextField(default='',blank=True)
-    rate = models.IntegerField(default=0,blank=True)
-
 
 

@@ -156,13 +156,15 @@ def match_result(request):
 
 def review(request, tutor_id):
     tutor = Tutor.objects.get(pk=tutor_id)
+    reviews = tutor.reviewed_tutor.all()
     if request.method == "POST":
         form = ReviewForm(request.POST)
         if form.is_valid():
-            Review.objects.create(comment=form.cleaned_data['comment'],reviewer=request.user,reviewed_tutor=tutor)
+            reviewer = Tutor.objects.get(user=request.user)
+            Review.objects.create(comment=form.cleaned_data['comment'],reviewer=reviewer, reviewed_tutor=tutor)
             redirect(f'/review/{tutor_id}')
     else:
         form = ReviewForm()
-    return render(request, "review.html", {"tutor":tutor,"form":form})
+    return render(request, "review.html", {"tutor":tutor,"form":form,"reviews":reviews})
 
 

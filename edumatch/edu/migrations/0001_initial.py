@@ -14,25 +14,11 @@ class Migration(migrations.Migration):
 
     operations = [
         migrations.CreateModel(
-            name='Selected_Subject',
-            fields=[
-                ('id', models.AutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('subject', models.TextField(default='')),
-            ],
-        ),
-        migrations.CreateModel(
             name='Tutor',
             fields=[
                 ('id', models.AutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
                 ('name', models.TextField(default='')),
                 ('expert', models.TextField(default='')),
-            ],
-        ),
-
-        migrations.CreateModel(
-            name='Test',
-            fields=[
-    
             ],
         ),
     ]
