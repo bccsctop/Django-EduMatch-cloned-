@@ -85,15 +85,16 @@
     <br />
     <br />
     <br />
-    <h2>Review</h2>
+    <h2 id='review-header'>Review</h2>
     
+    <div id='review'>
     {% for review in reviews %}
     <div class='card'>
         <p style="padding-left:5px;"><strong>{{review.reviewer.name}}</strong></p>
         <p style="padding-left:5px;">{{review.comment}}</p>
     </div>
     {% endfor %}
-
+    </div>
     <form style="padding-left:10px;" action="{{tutor.id}}" id="reviewform" name="reviewform" method="POST">
     {% csrf_token %}
     <div>
