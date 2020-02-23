@@ -134,12 +134,6 @@ class NewVisitorTest(LiveServerTestCase):
         page_text = self.browser.find_element_by_tag_name('body').text
         self.assertIn('Hi Mark_kmutnb!',page_text)
 
-        #He found  a ton of user he can match with.
-        self.assertIn('Ronnie',page_text)
-        self.assertIn('Frankin',page_text)
-        self.assertIn('Betty',page_text)
-        self.assertIn('Henderson',page_text)
-
         #He want to study more about Signal Subject
         #Then he see textbox with "Enter your Subject that you need help!!!".
         #So he enter subject that he want to learn straight away.
@@ -194,6 +188,10 @@ class NewVisitorTest(LiveServerTestCase):
         time.sleep(2)
         #The page will refresh and Ronnie's match button change to Ronnie's cancel-match button
         #because his request has been sent and he can cancel his request by this cancel-match button.
+        inputbox = self.browser.find_element_by_id('user_select_subject')
+        inputbox.send_keys('')
+        inputbox.send_keys(Keys.ENTER)
+        time.sleep(2)
         table = self.browser.find_element_by_id('user_list_table')
         rows = table.find_elements_by_tag_name('td')
         cancelButton = self.browser.find_elements_by_tag_name('a')
@@ -251,12 +249,6 @@ class NewVisitorTest(LiveServerTestCase):
         #He mention that he is already login 
         page_text = self.browser.find_element_by_tag_name('body').text
         self.assertIn('Hi ronnie!',page_text)
-
-        #He found that he can match with Frankin,Betty,Henderson and new User named Mark
-        self.assertIn('Frankin',page_text)
-        self.assertIn('Mark',page_text)
-        self.assertIn('Betty',page_text)
-        self.assertIn('Henderson',page_text)
 
         #He want to see if anyone has sent a match-request to him
         #So he go to match-result page

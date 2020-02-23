@@ -29,10 +29,11 @@ def home_page(request):
         tutors = tutors.exclude(user=request.user)
         p = Tutor.objects.get(user=request.user)
         rec_match_requests = Matched_Request.objects.filter(to_user=p.user)
-        return render(request, 'home.html', {
-            'tutors': tutors,
-            'amountRecieve': len(rec_match_requests)
-        })
+        if len(rec_match_requests) > 0 :
+            return render(request, 'home.html', {
+                'tutors': tutors,
+                'amountRecieve': len(rec_match_requests)
+            })
 
     return render(request, 'home.html', {
         'tutors': tutors

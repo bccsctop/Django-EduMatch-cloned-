@@ -171,7 +171,7 @@ class TutorRequestTest(TestCase):
         self.client.login(username='frankin', password='frankinpassword') 
         
         #Reject a request from Ronnie
-        self.client.get(f'/match-request/accept/{ronnie.id}')
+        self.client.get(f'/match-request/delete/{ronnie.id}')
 
         #Check size of request that remain
         saved_requests = Matched_Request.objects.all()
