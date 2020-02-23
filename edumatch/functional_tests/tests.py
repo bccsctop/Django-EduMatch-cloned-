@@ -86,13 +86,14 @@ class NewVisitorTest(LiveServerTestCase):
 
         #He see gender textbox. So he enter his gender
         #He types 'Male' into a text box
-        gender_box = self.browser.find_element_by_id('id_gender')
-        gender_box.send_keys('Male')
+        gender_box = Select(self.browser.find_element_by_id('id_gender'))
+        gender_box.select_by_visible_text('Male')
+
 
         #He see city textbox. So he enter his city
         #He types 'Bangkok' into a text box
-        city_box = self.browser.find_element_by_id('id_city')
-        city_box.send_keys('Bangkok')
+        city_box = Select(self.browser.find_element_by_id('id_city'))
+        city_box.select_by_visible_text('Bangkok')
 
         #He see subject textbox. So he enter his subject
         #He types 'Statistic' into a text box
@@ -412,9 +413,8 @@ class NewVisitorTest(LiveServerTestCase):
 
         #He see city textbox. So he therefore resolved from Bangkok to Nonthaburi.
         #He types 'Nonthaburi' into a text box
-        city_box = self.browser.find_element_by_id('id_city')
-        city_box.clear()
-        city_box.send_keys('Nonthaburi')
+        city_box = Select(self.browser.find_element_by_id('id_city'))
+        city_box.select_by_visible_text('Nonthaburi')
 
         #He click on a Confirm button.
         edit_confirm_button = self.browser.find_element_by_id('edit_confirm')
