@@ -50,28 +50,38 @@ class TutorRequestTest(TestCase):
         self.assertTemplateUsed(response, 'manage_match.html')
 
     def test_sent_and_recieve_request(self):
+        
+        #Create three user that have thier own characteristic. 
         frankin_user = User.objects.create_user('frankin','frankin@test.com','frankinpassword')
         ronnie_user = User.objects.create_user('ronnie','ronnie@test.com','ronniepassword')
         betty_user = User.objects.create_user('betty','betty@test.com','bettypassword')
         frankin = Tutor.objects.create(user=frankin_user,name='Frankin',gender = 'Male',city = 'Bangkok',expert ='Statistic')
         ronnie = Tutor.objects.create(user=ronnie_user,name='Ronnie',gender = 'Male',city = 'Bangkok',expert ='Signal')
         betty = Tutor.objects.create(user=betty_user,name='Betty',gender = 'Female',city = 'Bangkok',expert ='Signal')
+        
+        #Login as Frankin (Require User Authentication)
         self.client.login(username='frankin', password='frankinpassword') 
+        
+        #Send request to Ronnie and Betty
         self.client.get(f'/match-request/send/{ronnie.id}')
         self.client.get(f'/match-request/send/{betty.id}')
 
+        #Check size of request that have been send
         saved_requests = Matched_Request.objects.all()
         self.assertEqual(saved_requests.count(),2)
 
+        #Seperate each request
         first_saved_request = saved_requests[0]
         second_saved_request = saved_requests[1]
 
+        #Check that sender and reciever are right person
         self.assertEqual(first_saved_request.to_user.username,'ronnie')
         self.assertEqual(first_saved_request.from_user.username,'frankin')
         self.assertEqual(second_saved_request.to_user.username,'betty')
         self.assertEqual(second_saved_request.from_user.username,'frankin')
 
-    def test_recieve_and_cancel_request(self):
+    def test_send_and_cancel_request(self):
+        #Create three user that have thier own characteristic. 
         frankin_user = User.objects.create_user('frankin','frankin@test.com','frankinpassword')
         ronnie_user = User.objects.create_user('ronnie','ronnie@test.com','ronniepassword')
         betty_user = User.objects.create_user('betty','betty@test.com','bettypassword')
@@ -79,20 +89,121 @@ class TutorRequestTest(TestCase):
         ronnie = Tutor.objects.create(user=ronnie_user,name='Ronnie',gender = 'Male',city = 'Bangkok',expert ='Signal')
         betty = Tutor.objects.create(user=betty_user,name='Betty',gender = 'Female',city = 'Bangkok',expert ='Signal')
 
+        #Create a request to Ronnie and Betty
         Matched_Request.objects.create(to_user=ronnie_user,from_user=frankin_user)
         Matched_Request.objects.create(to_user=betty_user,from_user=frankin_user)
+        
+        #Check size of request that have send
         saved_requests = Matched_Request.objects.all()
         self.assertEqual(saved_requests.count(),2)
 
+        #Login as Frankin (Require User Authentication)
         self.client.login(username='frankin', password='frankinpassword') 
+        
+        #Cancel a request of Ronnie
         self.client.get(f'/match-request/cancel/{ronnie.id}')
 
+        #Check size of request that have been cancel
         saved_requests = Matched_Request.objects.all()
         self.assertEqual(saved_requests.count(),1)
 
+        #Seperate each request
         first_saved_request = saved_requests[0]
 
+        #Check that remain sender and reciever are right person
         self.assertEqual(first_saved_request.to_user.username,'betty')
         self.assertEqual(first_saved_request.from_user.username,'frankin')
         
 
+    def test_recieve_and_accept_request(self):
+        #Create three user that have thier own characteristic. 
+        frankin_user = User.objects.create_user('frankin','frankin@test.com','frankinpassword')
+        ronnie_user = User.objects.create_user('ronnie','ronnie@test.com','ronniepassword')
+        betty_user = User.objects.create_user('betty','betty@test.com','bettypassword')
+        frankin = Tutor.objects.create(user=frankin_user,name='Frankin',gender = 'Male',city = 'Bangkok',expert ='Statistic')
+        ronnie = Tutor.objects.create(user=ronnie_user,name='Ronnie',gender = 'Male',city = 'Bangkok',expert ='Signal')
+        betty = Tutor.objects.create(user=betty_user,name='Betty',gender = 'Female',city = 'Bangkok',expert ='Signal')
+
+        #Create a request from Ronnie and Betty
+        Matched_Request.objects.create(to_user=frankin_user,from_user=ronnie_user)
+        Matched_Request.objects.create(to_user=frankin_user,from_user=betty_user)
+        
+        #Check size of request that have been send
+        saved_requests = Matched_Request.objects.all()
+        self.assertEqual(saved_requests.count(),2)
+
+        #Login as Frankin (Require User Authentication)
+        self.client.login(username='frankin', password='frankinpassword') 
+        
+        #Accept a request from Ronnie
+        self.client.get(f'/match-request/accept/{ronnie.id}')
+
+        #Check size of request that remain
+        saved_requests = Matched_Request.objects.all()
+        self.assertEqual(saved_requests.count(),1)
+
+        #Check that remain sender and reciever are right person
+        frankin_tutors = frankin.groupMatch.all()
+        self.assertEqual(frankin_tutors.count(),1)
+
+        #Check that remain sender and reciever are right person
+        first_frankin_tutor = frankin_tutors[0]
+        self.assertEqual(first_frankin_tutor.name,'Ronnie')
+
+    def test_recieve_and_reject_request(self):
+        #Create three user that have thier own characteristic. 
+        frankin_user = User.objects.create_user('frankin','frankin@test.com','frankinpassword')
+        ronnie_user = User.objects.create_user('ronnie','ronnie@test.com','ronniepassword')
+        betty_user = User.objects.create_user('betty','betty@test.com','bettypassword')
+        frankin = Tutor.objects.create(user=frankin_user,name='Frankin',gender = 'Male',city = 'Bangkok',expert ='Statistic')
+        ronnie = Tutor.objects.create(user=ronnie_user,name='Ronnie',gender = 'Male',city = 'Bangkok',expert ='Signal')
+        betty = Tutor.objects.create(user=betty_user,name='Betty',gender = 'Female',city = 'Bangkok',expert ='Signal')
+
+        #Create a request from Ronnie and Betty
+        Matched_Request.objects.create(to_user=frankin_user,from_user=ronnie_user)
+        Matched_Request.objects.create(to_user=frankin_user,from_user=betty_user)
+        
+        #Check size of request that have been send
+        saved_requests = Matched_Request.objects.all()
+        self.assertEqual(saved_requests.count(),2)
+
+        #Login as Frankin (Require User Authentication)
+        self.client.login(username='frankin', password='frankinpassword') 
+        
+        #Reject a request from Ronnie
+        self.client.get(f'/match-request/accept/{ronnie.id}')
+
+        #Check size of request that remain
+        saved_requests = Matched_Request.objects.all()
+        self.assertEqual(saved_requests.count(),1)
+
+        #Check that remain sender and reciever are right person
+        frankin_tutors = frankin.groupMatch.all()
+        self.assertEqual(frankin_tutors.count(),0)
+
+    def test_recieve_and_accept_request(self):
+        #Create three user that have thier own characteristic. 
+        frankin_user = User.objects.create_user('frankin','frankin@test.com','frankinpassword')
+        ronnie_user = User.objects.create_user('ronnie','ronnie@test.com','ronniepassword')
+        betty_user = User.objects.create_user('betty','betty@test.com','bettypassword')
+        frankin = Tutor.objects.create(user=frankin_user,name='Frankin',gender = 'Male',city = 'Bangkok',expert ='Statistic')
+        ronnie = Tutor.objects.create(user=ronnie_user,name='Ronnie',gender = 'Male',city = 'Bangkok',expert ='Signal')
+        betty = Tutor.objects.create(user=betty_user,name='Betty',gender = 'Female',city = 'Bangkok',expert ='Signal')
+
+        #Create a request from Ronnie and Betty
+        Matched_Request.objects.create(to_user=frankin_user,from_user=ronnie_user)
+        Matched_Request.objects.create(to_user=frankin_user,from_user=betty_user)
+        
+        #Check size of request that have been send
+        saved_requests = Matched_Request.objects.all()
+        self.assertEqual(saved_requests.count(),2)
+
+        #Login as Frankin (Require User Authentication)
+        self.client.login(username='frankin', password='frankinpassword') 
+        
+        #Accept a request from Ronnie
+        response = self.client.get('/match-result/')
+
+        #Check that remain sender and reciever are right person
+        self.assertContains(response,'ronnie')
+        self.assertContains(response,'betty')
