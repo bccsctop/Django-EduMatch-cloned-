@@ -13,9 +13,6 @@ def home_page(request):
 
     tutors = Tutor.objects.all()
     
-    if request.method != 'POST':
-        return render(request, 'home.html')
-        
     subject = request.POST.get('subject_text', '')
     gender = request.POST.get('gender_text', '')
     city = request.POST.get('city_text', '')
@@ -25,6 +22,7 @@ def home_page(request):
     tutors = tutors.filter(city=city) if city != '' else tutors
     tutors = tutors.exclude(
         user=request.user) if request.user.is_authenticated else tutors
+        
     if request.user.is_authenticated:
         tutors = tutors.exclude(user=request.user)
         p = Tutor.objects.get(user=request.user)
@@ -156,15 +154,15 @@ def match_result(request):
     return render(request, "manage_match.html", context)
 
 def review(request, tutor_id):
-    tutor = Tutor.objects.get(pk=tutor_id)
-    reviews = tutor.reviewed_tutor.all()
-    if request.method == "POST":
+    tutor = Tutor.objects.get(pk=tutor_id) # Get reviewed_tutor
+    reviews = tutor.reviewed_tutor.all() # Get all reviews of tutor
+    if request.method == "POST": # After submit review
         form = ReviewForm(request.POST)
         if form.is_valid():
-            reviewer = Tutor.objects.get(user=request.user)
+            reviewer = Tutor.objects.get(user=request.user) # Get Reviewer
             Review.objects.create(comment=form.cleaned_data['comment'],reviewer=reviewer, reviewed_tutor=tutor)
             redirect(f'/review/{tutor_id}')
-    else:
+    else: 
         form = ReviewForm()
     return render(request, "review.html", {"tutor":tutor,"form":form,"reviews":reviews})
 
