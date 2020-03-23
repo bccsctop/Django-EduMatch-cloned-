@@ -11,24 +11,25 @@ https://docs.djangoproject.com/en/3.0/ref/settings/
 """
 
 import os
+import dj_database_url
+import dotenv
 import django_heroku
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-
+# load environment variables from .env
+dotenv_file = os.path.join(BASE_DIR, ".env")
+if os.path.isfile(dotenv_file):
+    dotenv.load_dotenv(dotenv_file)
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/3.0/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-#SECRET_KEY = 'zv18$fx)*@&&vhh2u(qnu9bg_kl=0+^#v@$g-v(gjwgd0+zr*h'
-# Read SECRET_KEY from an environment variable
-import os
-SECRET_KEY = os.environ.get('DJANGO_SECRET_KEY','zv18$fx)*@&&vhh2u(qnu9bg_kl=0+^#v@$g-v(gjwgd0+zr*h')
+SECRET_KEY = os.environ['SECRET_KEY']
 
 # SECURITY WARNING: don't run with debug turned on in production!
-#DEBUG = False
-DEBUG = os.environ.get('DJANGO_DEBUG', '') != 'False'
+DEBUG = True
 
 ALLOWED_HOSTS = ['djangospark.herokuapp.com','127.0.0.1']
 
@@ -80,14 +81,31 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'edumatch.wsgi.application'
 ASGI_APPLICATION = 'edumatch.routing.application'
+
+CELERY_BROKER_URL = os.environ['REDIS_URL']
+CELERY_RESULT_BACKEND = os.environ['REDIS_URL']
+
 CHANNEL_LAYERS = {
     'default': {
         'BACKEND': 'channels_redis.core.RedisChannelLayer',
         'CONFIG': {
-            "hosts": [('127.0.0.1', 6379)],
+            "hosts": [os.environ['REDIS_URL']],
         },
     },
 }
+
+CACHES = {
+    "default": {
+        "BACKEND": "django_redis.cache.RedisCache",
+        "LOCATION": [os.environ['REDIS_URL']],
+        "OPTIONS": {
+            "CLIENT_CLASS": "django_redis.client.DefaultClient"
+        }
+    }
+}
+
+SESSION_ENGINE = "django.contrib.sessions.backends.cache"
+
 
 # Database
 # https://docs.djangoproject.com/en/3.0/ref/settings/#databases
