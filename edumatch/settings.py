@@ -11,8 +11,6 @@ https://docs.djangoproject.com/en/3.0/ref/settings/
 """
 
 import os
-import dj_database_url
-import dotenv
 import django_heroku
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
@@ -25,7 +23,7 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 # SECURITY WARNING: keep the secret key used in production secret!
 #SECRET_KEY = 'zv18$fx)*@&&vhh2u(qnu9bg_kl=0+^#v@$g-v(gjwgd0+zr*h'
 # Read SECRET_KEY from an environment variable
-
+import os
 SECRET_KEY = os.environ.get('DJANGO_SECRET_KEY','zv18$fx)*@&&vhh2u(qnu9bg_kl=0+^#v@$g-v(gjwgd0+zr*h')
 
 # SECURITY WARNING: don't run with debug turned on in production!
@@ -86,10 +84,7 @@ CHANNEL_LAYERS = {
     'default': {
         'BACKEND': 'channels_redis.core.RedisChannelLayer',
         'CONFIG': {
-            "hosts": [os.environ['REDIS_URL']],import os
-import dj_database_url
-import dotenv
-import django_heroku
+            "hosts": [('127.0.0.1', 6379)],
         },
     },
 }
@@ -155,12 +150,10 @@ import dj_database_url
 db_from_env = dj_database_url.config(conn_max_age=500)
 DATABASES['default'].update(db_from_env)
 
-# Activate Django-Heroku.
-django_heroku.settings(locals())
-del DATABASES['default']['OPTIONS']['sslmode']
-
-
 # Simplified static file serving.
 # https://warehouse.python.org/project/whitenoise/
 STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
 
+# Activate Django-Heroku.
+django_heroku.settings(locals())
+del DATABASES['default']['OPTIONS']['sslmode']
