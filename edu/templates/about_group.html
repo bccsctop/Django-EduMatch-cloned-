@@ -1,8 +1,121 @@
-<html>
-    <head>
+{% block content %}
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous" />
+
+    <title>About group</title>
+</head>
+
+<body>
+    {% if user.is_authenticated %}
+    <nav class="navbar navbar-expand-md navbar-dark fixed-top bg-dark">
+      <a class="navbar-brand" href="/">SPARK</a>
+      <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarCollapse"
+        aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="navbarCollapse">
+        <ul class="navbar-nav mr-auto">
+        </ul>
+        <form class="form-inline mt-2 mt-md-0">
+          <ul class="navbar-nav mr-auto">
+            <li class="nav-item">
+              <a class="nav-link" id="logout" href="{% url 'logout' %}">Logout</a>
+            </li>
+          </ul>
+        </form>
+      </div>
+    </nav>
+    <br />
+    <br />
+    <br />
+    {% else %}
+    <nav class="navbar navbar-expand-md navbar-dark fixed-top bg-dark">
+      <a class="navbar-brand" href="/">SPARK</a>
+      <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarCollapse"
+        aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="navbarCollapse">
+        <ul class="navbar-nav mr-auto">
+          <li class="nav-item"></li>
+        </ul>
+        <form class="form-inline mt-2 mt-md-0">
+          <ul class="navbar-nav mr-auto">
+            <li class="nav-item">
+              <a class="nav-link" id="login" href="{% url 'login' %}">Login</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" id="register" href="{% url 'register' %}">Register</a>
+            </li>
+          </ul>
+        </form>
+      </div>
+    </nav>
+    {% endif %}
+    <br />
+    <br />
+    <br />
+    <div class="center">
+    <h2>About group</h2>
+    </div>
+    {% csrf_token %}
+    <div class="container marketing">
+    <div class="row">
+        <div class="col-lg-4">
+                
+                <img src="https://scontent.fbkk12-1.fna.fbcdn.net/v/t1.0-9/p960x960/38678762_1875212542534125_3806420688839901184_o.jpg?_nc_cat=101&_nc_sid=85a577&_nc_ohc=qgK8ipUyoOcAX9yuGc6&_nc_ht=scontent.fbkk12-1.fna&_nc_tp=6&oh=8f24fe29e46831066a4e968435db24e3&oe=5EA10A48" class="rounded" width="140" height="140">
+
+          <h2>1.จารุพงค์ โรจนวิภาค 6101012620083</h2>
+        </div><!-- /.col-lg-4 -->
+        <div class="col-lg-4">
+        </div><!-- /.col-lg-4 -->
+        <div class="col-lg-4">
+                <img src="https://scontent.fbkk12-1.fna.fbcdn.net/v/t1.0-9/s960x960/64545347_2186704874717506_8745922396826894336_o.jpg?_nc_cat=101&_nc_sid=7aed08&_nc_ohc=7BqEGC7jSu8AX-zUk6Z&_nc_ht=scontent.fbkk12-1.fna&_nc_tp=7&oh=ff5b5f498e8ef078ac2bf638e67824b1&oe=5E9ECC70" class="rounded" width="140" height="140">
+                <h2>2. ภัทรนันท์ ศรีสาระ 6101012620121</h2>
+        </div><!-- /.col-lg-4 -->
+    </div>
+    </div>
+    <br>
+    <div class="container marketing">
+    <div class="row">
+        <div class="col-lg-4">
+                        <img src="https://scontent.fbkk12-4.fna.fbcdn.net/v/t1.0-9/s960x960/72702146_712783075798883_6838438789728174080_o.jpg?_nc_cat=103&_nc_sid=7aed08&_nc_ohc=IhSUGyctGNoAX8uaxYv&_nc_ht=scontent.fbkk12-4.fna&_nc_tp=7&oh=958552878ab3afc39bf6e33240cd66af&oe=5E9FB231" class="rounded" width="140" height="140">
+          <h2>3. สิริ กิจจาบิบูรณ์ 6101012630011</h2>
+        </div><!-- /.col-lg-4 -->
+        <div class="col-lg-4">
+            </div><!-- /.col-lg-4 -->
+        <div class="col-lg-4">
+                <img src="https://scontent.fbkk12-1.fna.fbcdn.net/v/t1.0-1/74291423_2628491963874174_1141495474260279296_n.jpg?_nc_cat=101&_nc_sid=dbb9e7&_nc_ohc=4oif6Vrueq8AX-5-r_S&_nc_ht=scontent.fbkk12-1.fna&oh=1274396b03552e671617e3aa4911cbec&oe=5E9D9AB9" class="rounded" width="140" height="140">
+                <h2>4. ณัฏฐ์ วัชรเสถียรพันธุ์ 6101012630071</h2>
+          </div><!-- /.col-lg-4 -->
+      </div>
+    </div>
     
-    </head>
-    <body>
-        <h1>About group</h1>
-    </body>
+
+
+    {% endblock %}
+    <script
+      src="https://code.jquery.com/jquery-3.4.1.slim.min.js"
+      integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n"
+      crossorigin="anonymous"
+    ></script>
+    <script
+      src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"
+      integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo"
+      crossorigin="anonymous"
+    ></script>
+    <script
+      src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"
+      integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6"
+      crossorigin="anonymous"
+    ></script>
+  </body>
 </html>
