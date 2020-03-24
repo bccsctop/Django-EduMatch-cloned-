@@ -179,7 +179,8 @@ def friend_profile(request,username):
         'user': tutors , 'city' : data.city , 'gender': data.gender, 'expert': data.expert
     })
     
-
+def help_user(request):
+    return render(request, 'help.html')
         
 
 

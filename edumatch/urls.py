@@ -35,5 +35,5 @@ urlpatterns = [
     path('about/group',views.about_group, name='about_group'),
     path('about/app',views.about_app, name='about_app'),
     path('friendprofile/<str:username>',views.friend_profile, name='friend_profile'),
-
+    path('help', views.help_user, name='help_user'),
 ]
