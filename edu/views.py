@@ -182,5 +182,6 @@ def friend_profile(request,username):
 def help_user(request):
     return render(request, 'help.html')
         
-
+def answer_user(request, answer_page):
+    return render(request, 'answers/answer%s.html' % answer_page)
 
