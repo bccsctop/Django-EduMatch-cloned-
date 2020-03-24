@@ -4,6 +4,10 @@ from django.http import HttpRequest
 from django.template.loader import render_to_string
 from edu.views import home_page
 from edu.views import register
+from edu.views import view_profile
+from edu.views import edit_profile
+from edu.forms import EditProfileForm
+from edu.forms import EditProfileForm2
 from edu.views import match_result
 from edu.models import Tutor,Matched_Request
 from django.contrib.auth.models import User
@@ -207,3 +211,50 @@ class TutorRequestTest(TestCase):
         #Check that remain sender and reciever are right person
         self.assertContains(response,'ronnie')
         self.assertContains(response,'betty')
+
+class ProfileTest(TestCase):
+    def test_URL_maping_to_PorfileVIEW(self):
+        found = resolve('/profile')
+        self.assertEqual(found.func,view_profile)
+
+    def test_rendering_ProfileTemplate(self):
+        frankin_user = User.objects.create_user('frankin','frankin@test.com','frankinpassword')
+        frankin = Tutor.objects.create(user=frankin_user,name='Frankin',gender = 'Male',city = 'Bangkok',expert ='Statistic')
+        self.client.login(username='frankin', password='frankinpassword') 
+        response = self.client.get('/profile')
+        self.assertTemplateUsed(response, 'profile.html')
+
+    def test_show_Profile(self):
+        frankin_user = User.objects.create_user('frankin','frankin@test.com','frankinpassword')
+        ronnie_user = User.objects.create_user('ronnie','ronnie@test.com','ronniepassword')
+        betty_user = User.objects.create_user('betty','betty@test.com','bettypassword')
+        Tutor.objects.create(user=frankin_user,name='Frankin',gender = 'Male',city = 'Bangkok',expert ='Statistic')
+        Tutor.objects.create(user=ronnie_user,name='Ronnie',gender = 'Male',city = 'Bangkok',expert ='Signal')
+        Tutor.objects.create(user=betty_user,name='Betty',gender = 'Female',city = 'Bangkok',expert ='Signal')
+        self.client.login(username='frankin', password='frankinpassword') 
+        response = self.client.post('/profile')
+        self.assertContains(response,'frankin')
+        self.assertContains(response,'Male')
+        self.assertContains(response,'Bangkok')
+        self.assertContains(response,'Statistic')
+        self.assertNotContains(response,'Betty')
+        self.assertNotContains(response,'Ronnie')
+
+    def test_URL_maping_to_PorfileEditVIEW(self):
+        found = resolve('/profile/edit')
+        self.assertEqual(found.func,edit_profile)
+
+    def test_rendering_ProfileTemplate(self):
+        frankin_user = User.objects.create_user('frankin','frankin@test.com','frankinpassword')
+        frankin = Tutor.objects.create(user=frankin_user,name='Frankin',gender = 'Male',city = 'Bangkok',expert ='Statistic')
+        self.client.login(username='frankin', password='frankinpassword') 
+        response = self.client.get('/profile/edit')
+        self.assertTemplateUsed(response, 'edit_profile.html')
+
+    def test_edit_forms(self):
+        form1_data = {'username': 'Betty','first_name' : 'Betty', 'last_name':'King'}
+        form1 = EditProfileForm(data=form1_data)
+        self.assertTrue(form1.is_valid())
+        form2_data = {'gender':'Female', 'city':'Bangkok', 'expert':'Signal'}
+        form2 = EditProfileForm2(data=form2_data)
+        self.assertTrue(form2.is_valid())
