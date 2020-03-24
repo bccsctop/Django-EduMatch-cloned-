@@ -127,7 +127,7 @@ def delete_match_request(request, tutor_id):
 
 
 def match_result(request):
-
+    
     p = Tutor.objects.get(user=request.user)
     u = p.user
 
@@ -171,5 +171,13 @@ def about_group(request):
 
 def about_app(request):
     return render(request, "about_app.html")
+
+def friend_profile(request, tutor_id):
+    if request.user.is_authenticated:
+        user = get_object_or_404(User, id=tutor_id)
+        p = Tutor.objects.get(user=request.user)
+        u = p.user
+        contact = p.groupMatch.all()
+        urlroom = {}
 
 
