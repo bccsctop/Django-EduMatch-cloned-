@@ -172,12 +172,14 @@ def about_group(request):
 def about_app(request):
     return render(request, "about_app.html")
 
-def friend_profile(request, tutor_id):
-    if request.user.is_authenticated:
-        user = get_object_or_404(User, id=tutor_id)
-        p = Tutor.objects.get(user=request.user)
-        u = p.user
-        contact = p.groupMatch.all()
-        urlroom = {}
+def friend_profile(request,username):
+    tutors = User.objects.get_by_natural_key(username)
+    data = Tutor.objects.get(user=tutors)
+    return render(request, 'friend_profile.html', {
+        'user': tutors , 'city' : data.city , 'gender': data.gender, 'expert': data.expert
+    })
+    
+
+        
 
 

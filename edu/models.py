@@ -12,6 +12,9 @@ class Tutor(models.Model):
     expert = models.TextField(default='',blank=True)
     isMatched = models.TextField(default='False',blank=True)
     groupMatch = models.ManyToManyField("Tutor", blank=True)
+
+    def __str__(self):
+        return self.name
     
     
 class Matched_Request(models.Model):
