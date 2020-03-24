@@ -164,7 +164,7 @@ def review(request, tutor_id):
             Review.objects.create(comment=form.cleaned_data['comment'],reviewer=reviewer, reviewed_tutor=tutor, rate=rating_point)
             redirect(f'/review/{tutor_id}')
     else: 
-        form = ReviewForm()
+        form = ReviewForm() 
     return render(request, "review.html", {"tutor":tutor,"form":form,"reviews":reviews,"range":range(1,6)})
 
 def about_group(request):
