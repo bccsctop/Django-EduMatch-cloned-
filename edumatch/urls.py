@@ -32,4 +32,6 @@ urlpatterns = [
     path('chat/', include('chat.urls')),
     path('profile/edit', views.edit_profile, name='edit_profile'),
     path('review/<int:tutor_id>',views.review, name='review'),
+    path('about/group',views.about_group, name='about_group'),
+    path('about/app',views.about_app, name='about_app'),
 ]

@@ -166,4 +166,10 @@ def review(request, tutor_id):
         form = ReviewForm()
     return render(request, "review.html", {"tutor":tutor,"form":form,"reviews":reviews})
 
+def about_group(request):
+    return render(request, "about_group.html")
+
+def about_app(request):
+    return render(request, "about_app.html")
+
 
