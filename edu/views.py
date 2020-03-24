@@ -160,11 +160,12 @@ def review(request, tutor_id):
         form = ReviewForm(request.POST)
         if form.is_valid():
             reviewer = Tutor.objects.get(user=request.user) # Get Reviewer
-            Review.objects.create(comment=form.cleaned_data['comment'],reviewer=reviewer, reviewed_tutor=tutor)
+            rating_point = request.POST.get('rating','')
+            Review.objects.create(comment=form.cleaned_data['comment'],reviewer=reviewer, reviewed_tutor=tutor, rate=rating_point)
             redirect(f'/review/{tutor_id}')
     else: 
         form = ReviewForm()
-    return render(request, "review.html", {"tutor":tutor,"form":form,"reviews":reviews})
+    return render(request, "review.html", {"tutor":tutor,"form":form,"reviews":reviews,"range":range(1,6)})
 
 def about_group(request):
     return render(request, "about_group.html")
