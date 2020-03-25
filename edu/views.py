@@ -113,8 +113,9 @@ def cancel_match_request(request, tutor_id):
 
 def accept_match_request(request, tutor_id):
     from_user = get_object_or_404(User, id=tutor_id)
-    matchUser = Tutor.objects.get(user=from_user)
+    matchUser = Tutor.objects.get(user=request.user)
     matchUser.isMatched = 'False'
+    matchUser.save()
     frequest = Matched_Request.objects.filter(
         from_user=from_user, to_user=request.user).first()
     user1 = frequest.to_user
@@ -127,8 +128,9 @@ def accept_match_request(request, tutor_id):
 
 def delete_match_request(request, tutor_id):
     from_user = get_object_or_404(User, id=tutor_id)
-    matchUser = Tutor.objects.get(user=from_user)
+    matchUser = Tutor.objects.get(user=request.user)
     matchUser.isMatched = 'False'
+    matchUser.save()
     frequest = Matched_Request.objects.filter(
         from_user=from_user, to_user=request.user).first()
     frequest.delete()
