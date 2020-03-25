@@ -127,6 +127,7 @@
         <div class="col-1 btn-group btn-group-toggle">
             <a class="btn btn-primary" href="/chat/{{ value }}">Chat</a>
             <a class="btn btn-secondary" href="/review/{{ key.id }}">Review</a>
+            <a class="btn btn-danger" href="/match-request/unfriend/{{ key.id }}">Unfriend</a>
         </div>
         </div>
         {% endfor %}
@@ -136,7 +137,7 @@
 
         <ul>
             {% for s_request in sent_match_requests %}
-            <li id="sent_request_item">{{ s_request.to_user.first_name }}  {{s_request.to_user.last_name}}</li>
+            <li id="sent_request_item">{{ s_request.to_user.first_name }} {{s_request.to_user.last_name}}</li>
             {% endfor %}
         </ul>
         <hr />

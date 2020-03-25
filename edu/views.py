@@ -134,6 +134,11 @@ def delete_match_request(request, tutor_id):
     frequest.delete()
     return HttpResponseRedirect('/match-result/')
 
+def unfriend(request,tutor_id):
+    current_user = Tutor.objects.get(user=request.user)
+    to_unfriend = Tutor.objects.get(pk=tutor_id)
+    current_user.groupMatch.remove(to_unfriend)
+    return HttpResponseRedirect('/match-result/')
 
 def match_result(request):
     current_user = Tutor.objects.get(user=request.user)
