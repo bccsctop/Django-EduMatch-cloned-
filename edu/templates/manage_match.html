@@ -108,19 +108,30 @@
     <div class="page-header">
       <h1><a href="/"></a>SPARK</h1>
         </div>
+
         {% if user.is_authenticated %}
 
         <div class="container text-left">
             {% if request.user == u %}
 
-            <h1>My Tutor/Student</h1>
+            <div class='container'>
+                <h1 class='row'>My Tutor/Student</h1>
 
-            {% for key,value in urlroom.items %}
-            <a href="/friendprofile/{{ key.id }}">{{ key.name }}</a>
-            <a class="btn btn-outline-success" href="/chat/{{ value }}">Chat</a>
-            <a class="btn btn-outline-primary" href="/review/{{ key.id }}">Review</a><br/> {% endfor %}
-            <hr />
+
+                {% for key,value in urlroom.items %}
+                <div class='row' style="margin: 5px;">
+                    <div class='col-2'><a href="/friendprofile/{{ key.id }}">{{ key.name }}</a></div>
+                    <div class="col-1 btn-group btn-group-toggle">
+                        <a class="btn btn-primary" href="/chat/{{ value }}">Chat</a>
+                        <a class="btn btn-secondary" href="/review/{{ key.id }}">Review</a>
+                    </div>
+                </div>
+                {% endfor %}
+
+            </div>
+            <hr/>
             <h1>Sent Tutor Requests</h1>
+
             <ul>
                 {% for s_request in sent_match_requests %}
                 <li id="sent_request_item">{{ s_request.to_user.username }}</li>
@@ -131,34 +142,24 @@
 
             {% for r_request in rec_match_requests %}
             <p>
-                <a id="recieve_request_item" href="/">{{ r_request.from_user.username }}</a
-        >
-      </p>
-      <small
-        ><a
-          class="btn btn-primary"
-          href="/match-request/accept/{{ r_request.from_user.id }}"
-          >Accept</a
-        ></small
-      >
-      <small
-        ><a
-          class="btn btn-warning"
-          href="/match-request/delete/{{ r_request.from_user.id }}"
-          >Reject</a
-        ></small
-      >
-      {% endfor %} {% endif %}
-    </div>
+                <a id="recieve_request_item" href="/">{{ r_request.from_user.username }}</a>
+            </p>
+            <small>
+              <a class="btn btn-primary" href="/match-request/accept/{{ r_request.from_user.id }}">Accept</a>
+              </small>
+            <small>
+              <a class="btn btn-warning" href="/match-request/delete/{{ r_request.from_user.id }}">Reject</a>
+            </small> {% endfor %} {% endif %}
+        </div>
 
-    {% else %}
-    <p>You are not logged in</p>
-    <a id="login" href="{% url 'login' %}">login</a>
-                <br />
-                <a id="register" href="{% url 'register' %}">Register</a> {% endif %}
-                <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js" integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n" crossorigin="anonymous"></script>
-                <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
-                <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js" integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>
+        {% else %}
+        <p>You are not logged in</p>
+        <a id="login" href="{% url 'login' %}">login</a>
+        <br />
+        <a id="register" href="{% url 'register' %}">Register</a> {% endif %}
+        <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js" integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n" crossorigin="anonymous"></script>
+        <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
+        <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js" integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>
 </body>
 
 </html>

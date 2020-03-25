@@ -23,15 +23,16 @@ def home_page(request):
     tutors = tutors.exclude(
         user=request.user) if request.user.is_authenticated else tutors
     
-        
+    current_user = Tutor.objects.get(user=request.user) if request.user.is_authenticated else ''
     if request.user.is_authenticated:
         tutors = tutors.exclude(user=request.user) 
-        current_user = Tutor.objects.get(user=request.user)
         rec_match_requests = Matched_Request.objects.filter(to_user=current_user.user)
         if len(rec_match_requests) > 0 :
             return render(request, 'home.html', {
                 'tutors': tutors,
-                'amountRecieve': len(rec_match_requests)
+                'amountRecieve': len(rec_match_requests),
+                'current_user': current_user
+                
             })
 
     return render(request, 'home.html', {
