@@ -6,6 +6,8 @@ from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.forms import UserChangeForm
 from edu.models import Tutor, Matched_Request, Review
 from edu.forms import SignUpForm, EditProfileForm, EditProfileForm2, ReviewForm
+import time
+import datetime
 # Create your views here.
 
 
@@ -174,6 +176,13 @@ def match_result(request):
 def review(request, tutor_id):
     tutor = Tutor.objects.get(pk=tutor_id) # Get reviewed_tutor
     reviews = tutor.reviewed_tutor.all() # Get all reviews of tutor
+
+    total_point = 0
+    if len(reviews) != 0:
+        for review in reviews:
+            total_point += review.rate
+        total_point = float(f'{(total_point / len(reviews)):.2f}')
+
     if request.method == "POST": # After submit review
         form = ReviewForm(request.POST)
         if form.is_valid():
@@ -183,7 +192,7 @@ def review(request, tutor_id):
             redirect(f'/review/{tutor_id}')
     else: 
         form = ReviewForm() 
-    return render(request, "review.html", {"tutor":tutor,"form":form,"reviews":reviews,"range":range(1,6)})
+    return render(request, "review.html", {"tutor":tutor,"form":form,"reviews":reviews,"range":range(1,6),'total_point':total_point})
 
 def about_group(request):
     if request.user.is_authenticated:

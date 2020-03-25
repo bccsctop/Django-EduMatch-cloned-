@@ -35,11 +35,12 @@
     </script>
     <style>
         .card {
-            box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
-            max-width: 300px;
+            box-shadow: 0 1px 1px 0 rgba(0, 0, 0, 0.2);
+            min-height: 75px;
             margin: auto + 10px;
             text-align: left;
             margin-bottom: 10px;
+            padding: 10px;
         }
         
         .notification {
@@ -95,7 +96,7 @@
                     </a>
                 </li>
                 <li class="nav-item active">
-                    <a id="review_btn" class="nav-link" href="/review/{{current_user.id}}">Review</a
+                    <a id="review_btn" class="nav-link" href="/review/{{tutor.id}}">Review</a
         >
       </li>
       <li lass="nav-item dropdown">
@@ -137,57 +138,100 @@
     </form>
   </div>
 </nav>
-    <br />
-    <br />
-    <br />
-    <h2 id="review-header">{{tutor.name}} 's Review</h2>
-
-    <div id="review">
-      {% for review in reviews %}
-      <div class="card">
-        <div>
-          <span style="padding-left:5px;"
-            ><strong>{{review.reviewer.name}}</strong></span
-          >
-          {% for i in range %} {% if i <= review.rate %}
-          <span class="fa fa-star checked"></span>
-          {% else %}
-          <span class="fa fa-star"></span> {% endif %} {% endfor %}
+    <br/>
+    <br/>
+    <br/>
+    <div class='container'>
+      <div class='row'><h2 id="review-header">Review of {{tutor.name}}</h2></div>
+      <hr>
+      <br>
+    <div class='row'>
+      <div class='col-6' id="review">
+        {% for review in reviews %}
+        <div class="card">
+          <div>
+              <span><strong>{{review.reviewer.name}}</strong></span>
+              <span style="float:right; color: gray;">{{review.date|date:'N j Y'}}</span>
+          </div>
+           <div>
+            {% for i in range %} {% if i <= review.rate %}
+            <span class="fa fa-star checked"></span>
+            {% else %}
+            <span class="fa fa-star"></span> {% endif %} {% endfor %}
+           </div>
+           <br>
+          
+          <span style="padding-left:5px;">{{review.comment}}</span>
         </div>
-        <span style="padding-left:5px;">{{review.comment}}</span>
+        {% endfor %}
       </div>
-      {% endfor %}
-    </div>
-    <form
-      style="padding-left:10px;"
-      action="{{tutor.id}}"
-      id="reviewform"
-      name="reviewform"
-      method="POST"
-    >
-      {% csrf_token %}
-      <div>
-        <div style="margin-left: 10px;">
-          <select id="rating" name="rating">
-            <option value="1">1</option>
-            <option value="2">2</option>
-            <option value="3">3</option>
-            <option value="4">4</option>
-            <option value="5">5</option>
-          </select>
-          <span class="title current-rating">
-            Your rating: <span id="rating-value" class="value">1</span>
+      <div class='col-6'>
+    
+        <div>
+          <div class="container card">
+            <div class="row" style="justify-content: center;">
+              <h2><strong>Overall</strong></h2>
+            </div>
+            <div class='row' style="align-items: center; justify-content: center;">
+              <h2 style="margin-right: 5px;"><strong>{{total_point}}</strong></h2>out of 5
+              <div style="padding-left: 5px;">
+                {% for i in range %} 
+                {% if total_point >= i %}
+                <span class="fa fa-star checked"></span>
+                {% else %}
+                <span class="fa fa-star"></span> {% endif %} {% endfor %}
+            
+               </div>
+             
+              </div>
+              <div class="row" style="justify-content: center;">
+                <div style="color: gray;">
+                  {{reviews|length}} Ratings
+              </div>
+              </div>
+            </div>  
+            <br>
+            {% if user != tutor.user %}
+            <div class='row'>
+              <h4>Review and Rating</h4>
+            </div>
+            <hr>
+            <form
+            style="padding-left:10px;"
+            action="{{tutor.id}}"
+            id="reviewform"
+            name="reviewform"
+            method="POST"
+          >
+            {% csrf_token %}
+           <div class='row'>
+            <div class='col-2.5'>
+              Your Rating :
+            </div>
+            <div class='col-1' style="margin-left: 10px;">
+                <select id="rating" name="rating">
+                  <option value="1">1</option>
+                  <option value="2">2</option>
+                  <option value="3">3</option>
+                  <option value="4">4</option>
+                  <option value="5">5</option>
+                </select>
+            </div>
+           </div>
+          </div>
+          <span>
+            {{form.as_p}}
+          </span>
+          <span>
+            <button class='btn btn-primary btn-block'name="submit" id="submit" type="submit">Submit</button>
           </span>
         </div>
-        <span>
-          {{form.as_p}}
-        </span>
-        <span> </span>
-        <span>
-          <button name="submit" id="submit" type="submit">Submit</button>
-        </span>
+        
+      </form>
+      {% endif %}
       </div>
-    </form>
+    </div>
+    </div>
 
     {% endblock %}
   </body>
