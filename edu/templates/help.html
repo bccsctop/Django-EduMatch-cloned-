@@ -119,66 +119,41 @@
     <nav class="navbar navbar-expand-md navbar-dark fixed-top bg-dark">
         <a class="navbar-brand" href="/">SPARK</a>
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation">
-      <span class="navbar-toggler-icon"></span>
-    </button>
+        <span class="navbar-toggler-icon"></span>
+      </button>
         <div class="collapse navbar-collapse" id="navbarCollapse">
             <ul class="navbar-nav mr-auto">
-                <li class="nav-item">
-                    <a class="nav-link" id="home" href="/">Home <span class="sr-only">(current)</span></a
-          >
-        </li>
-        <li class="nav-item">
-          <a id="profile_btn" class="nav-link" href="/profile">Profile</a>
-                </li>
-                <li class="nav-item">
-                    <a href="/match-result" class="nav-link notification">
-                        <span>Request</span>
-                        <span class="badge">{{amountRecieve}}</span>
-                    </a>
-                </li>
-                <li class="nav-item">
-                    <a id="review_btn" class="nav-link" href="/review/{{current_user.id}}">Review</a
-          >
-        </li>
-        <li lass="nav-item dropdown">
-          <a
-            class="nav-link dropdown-toggle"
-            href="#"
-            id="navbarDropdownMenuLink"
-            role="button"
-            data-toggle="dropdown"
-            aria-haspopup="true"
-            aria-expanded="false"
-          >
-            About</a
-          >
-          <div
-            class="dropdown-menu"
-            style="right:auto; left: auto;"
-            aria-labelledby="navbarDropdownMenuLink"
-          >
-            <a class="dropdown-item" id="app" href="/about/app"
-              >About application</a
+                <li lass="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+              About</a
             >
-            <a class="dropdown-item" id="app" href="/about/group"
-              >About group</a
+            <div
+              class="dropdown-menu"
+              style="right:auto; left: auto;"
+              aria-labelledby="navbarDropdownMenuLink"
             >
-          </div>
-        </li>
-      </ul>
-      <form class="form-inline mt-2 mt-md-0">
-        <ul class="navbar-nav mr-auto">
-          <li class="nav-item">
-            <a class="nav-link" id="help" href="/help">Help</a>
+              <a class="dropdown-item" id="app" href="/about/app"
+                >About application</a
+              >
+              <a class="dropdown-item" id="app" href="/about/group"
+                >About group</a
+              >
+            </div>
+          </li>
+        </ul>
+        <form class="form-inline mt-2 mt-md-0">
+          <ul class="navbar-nav mr-auto">
+            <li class="nav-item">
+              <a class="nav-link" id="help" href="/help">Help</a>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link" id="logout" href="{% url 'logout' %}">Logout</a
-            >
-          </li>
-        </ul>
-      </form>
-    </div>
-  </nav>
+              >
+            </li>
+          </ul>
+        </form>
+      </div>
+    </nav>
     <br />
     <br />
     <br />
@@ -225,7 +200,9 @@
       </div>
     </nav>
     {% endif %}
-
+    <br />
+    <br />
+    <br />
 
     <div class="container text-left">
       <br />
@@ -292,7 +269,11 @@
         <a class="w3-button w3-block w3-left-align" href="help/answer/13"
           >รีวิวผู้สอน</a
         >
+        <a class="w3-button w3-block w3-left-align" href="help/answer/14"
+          >ตรวจสอบรีวิวที่ได้รับ</a
+        >
       </div>
+      
       <br />
       <h2>ยังไม่พบวิธีการแก้ปัญหาของคุณ(Contact Us)</h2>
       <p>

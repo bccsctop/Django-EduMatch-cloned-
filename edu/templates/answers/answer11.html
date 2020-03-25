@@ -136,35 +136,36 @@
                 </ul>
             </form>
         </div>
-        {% else %}
-        <nav class="navbar navbar-expand-md navbar-dark fixed-top bg-dark">
-            <a class="navbar-brand" href="/">SPARK</a>
-            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation">
+    </nav>
+    {% else %}
+    <nav class="navbar navbar-expand-md navbar-dark fixed-top bg-dark">
+        <a class="navbar-brand" href="/">SPARK</a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation">
       <span class="navbar-toggler-icon"></span>
     </button>
-            <div class="collapse navbar-collapse" id="navbarCollapse">
+        <div class="collapse navbar-collapse" id="navbarCollapse">
+            <ul class="navbar-nav mr-auto">
+                <li class="nav-item"></li>
+            </ul>
+            <form class="form-inline mt-2 mt-md-0">
                 <ul class="navbar-nav mr-auto">
-                    <li class="nav-item"></li>
+                    <li class="nav-item">
+                        <a class="nav-link" id="help" href="/help">Help</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" id="login" href="{% url 'login' %}">Login</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" id="register" href="{% url 'register' %}">Sign Up</a>
+                    </li>
                 </ul>
-                <form class="form-inline mt-2 mt-md-0">
-                    <ul class="navbar-nav mr-auto">
-                        <li class="nav-item">
-                            <a class="nav-link" id="help" href="/help">Help</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" id="login" href="{% url 'login' %}">Login</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" id="register" href="{% url 'register' %}">Sign Up</a>
-                        </li>
-                    </ul>
-                </form>
-            </div>
-        </nav>
-        {% endif %}
-        <br />
-        <br />
-        <br />
+            </form>
+        </div>
+    </nav>
+    {% endif %}
+    <br />
+    <br />
+    <br />
 
 
         <div class="container text-left">
