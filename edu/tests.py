@@ -4,6 +4,7 @@ from django.http import HttpRequest
 from django.template.loader import render_to_string
 from edu.views import home_page
 from edu.views import register
+from edu.views import friend_profile
 from edu.views import view_profile
 from edu.views import edit_profile
 from edu.forms import EditProfileForm
@@ -258,3 +259,30 @@ class ProfileTest(TestCase):
         form2_data = {'gender':'Female', 'city':'Bangkok', 'expert':'Signal'}
         form2 = EditProfileForm2(data=form2_data)
         self.assertTrue(form2.is_valid())
+        
+    def test_URL_maping_to_FriendPorfileVIEW(self):
+        found = resolve('/friendprofile/0')
+        self.assertEqual(found.func,friend_profile)
+
+    def test_rendering_FriendProfileTemplate(self):
+        frankin_user = User.objects.create_user('frankin','frankin@test.com','frankinpassword')
+        frankin = Tutor.objects.create(user=frankin_user,name='Frankin',gender = 'Male',city = 'Bangkok',expert ='Statistic')
+        ronnie_user = User.objects.create_user('ronnie','ronnie@test.com','ronniepassword')
+        ronnie = Tutor.objects.create(user=ronnie_user,name='Ronnie',gender = 'Male',city = 'Bangkok',expert ='Signal')
+        self.client.login(username='frankin', password='frankinpassword') 
+        response = self.client.get(f'/friendprofile/{ronnie.id}')
+        self.assertTemplateUsed(response, 'friend_profile.html')
+
+    def test_view_friend_profile(self):
+        frankin_user = User.objects.create_user('frankin','frankin@test.com','frankinpassword')
+        ronnie_user = User.objects.create_user('ronnie','ronnie@test.com','ronniepassword')
+        frankin = Tutor.objects.create(user=frankin_user,name='Frankin',gender = 'Male',city = 'Bangkok',expert ='Statistic')
+        ronnie = Tutor.objects.create(user=ronnie_user,name='Ronnie',gender = 'Male',city = 'Bangkok',expert ='Signal')
+        self.client.login(username='frankin', password='frankinpassword') 
+        response = self.client.get(f'/friendprofile/{ronnie.id}')
+        self.assertContains(response,'ronnie')
+        self.assertContains(response,'Male')
+        self.assertContains(response,'Bangkok')
+        self.assertContains(response,'Signal')
+        self.assertNotContains(response,'Betty')
+        self.assertNotContains(response,'frankin')
