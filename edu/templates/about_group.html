@@ -1,5 +1,4 @@
-{% block content %}
-{%load static%}
+{% block content %} {%load static%}
 <!DOCTYPE html>
 <html lang="en">
 
@@ -17,129 +16,167 @@
 <body>
     {% if user.is_authenticated %}
     <nav class="navbar navbar-expand-md navbar-dark fixed-top bg-dark">
-      <a class="navbar-brand" href="/">SPARK</a>
-      <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarCollapse"
-        aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation">
-        <span class="navbar-toggler-icon"></span>
-      </button>
-      <div class="collapse navbar-collapse" id="navbarCollapse">
+        <a class="navbar-brand" href="/">SPARK</a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+        <div class="collapse navbar-collapse" id="navbarCollapse">
+            <ul class="navbar-nav mr-auto">
+                <li class="nav-item">
+                    <a class="nav-link" id="home" href="/">Home <span class="sr-only">(current)</span></a
+          >
+        </li>
+        <li class="nav-item">
+          <a id="profile_btn" class="nav-link" href="/profile">Profile</a>
+                </li>
+                <li class="nav-item">
+                    <a href="/match-result" class="nav-link notification">
+                        <span>Request</span>
+                        <span class="badge">{{amountRecieve}}</span>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a id="review_btn" class="nav-link" href="/review/{{current_user.id}}">Review</a
+          >
+        </li>
+        <li class="nav-item active dropdown">
+          <a
+            class="nav-link dropdown-toggle"
+            href="#"
+            id="navbarDropdownMenuLink"
+            role="button"
+            data-toggle="dropdown"
+            aria-haspopup="true"
+            aria-expanded="false"
+          >
+            About</a
+          >
+          <div
+            class="dropdown-menu"
+            style="right:auto; left: auto;"
+            aria-labelledby="navbarDropdownMenuLink"
+          >
+            <a class="dropdown-item" id="app" href="/about/app"
+              >About application</a
+            >
+            <a class="dropdown-item" id="app" href="/about/group"
+              >About group</a
+            >
+          </div>
+        </li>
+      </ul>
+      <form class="form-inline mt-2 mt-md-0">
         <ul class="navbar-nav mr-auto">
+          <li class="nav-item">
+            <a class="nav-link" id="help" href="/help">Help</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" id="logout" href="{% url 'logout' %}">Logout</a
+            >
+          </li>
         </ul>
-        <form class="form-inline mt-2 mt-md-0">
-          <ul class="navbar-nav mr-auto">
-            <li class="nav-item">
-              <a class="nav-link" id="help" href="/help">Help</a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link" id="logout" href="{% url 'logout' %}">Logout</a>
-            </li>
-          </ul>
-        </form>
-      </div>
-    </nav>
+      </form>
+    </div>
+  </nav>
     <br />
     <br />
     <br />
     {% else %}
     <nav class="navbar navbar-expand-md navbar-dark fixed-top bg-dark">
       <a class="navbar-brand" href="/">SPARK</a>
-      <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarCollapse"
-        aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation">
+                    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
       </button>
-      <div class="collapse navbar-collapse" id="navbarCollapse">
-        <ul class="navbar-nav mr-auto">
-          <li class="nav-item"></li>
-        </ul>
-        <form class="form-inline mt-2 mt-md-0">
-          <ul class="navbar-nav mr-auto">
-            <li class="nav-item">
-              <a class="nav-link" id="help" href="/help">Help</a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link" id="login" href="{% url 'login' %}">Login</a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link" id="register" href="{% url 'register' %}">Sign Up</a>
-            </li>
-          </ul>
-        </form>
-      </div>
+                    <div class="collapse navbar-collapse" id="navbarCollapse">
+                        <ul class="navbar-nav mr-auto">
+                            <li class="nav-item"></li>
+                        </ul>
+                        <form class="form-inline mt-2 mt-md-0">
+                            <ul class="navbar-nav mr-auto">
+                                <li class="nav-item">
+                                    <a class="nav-link" id="help" href="/help">Help</a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link" id="login" href="{% url 'login' %}">Login</a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link" id="register" href="{% url 'register' %}">Sign Up</a>
+                                </li>
+                            </ul>
+                        </form>
+                    </div>
     </nav>
     {% endif %}
     <br />
     <br />
     <br />
     <div class="container marketing">
-      <div class="row">
-          <div class="col-lg-4">
-          </div><!-- /.col-lg-4 -->
-          <div class="col-lg-4">
-            <h2 class="center">About group</h2>
-          </div><!-- /.col-lg-4 -->
-          <div class="col-lg-4">
-          </div><!-- /.col-lg-4 -->
-      </div>
+        <div class="row">
+            <div class="col-lg-4">
+            </div>
+            <!-- /.col-lg-4 -->
+            <div class="col-lg-4">
+                <h2 class="center">About group</h2>
+            </div>
+            <!-- /.col-lg-4 -->
+            <div class="col-lg-4">
+            </div>
+            <!-- /.col-lg-4 -->
+        </div>
     </div>
-    <br>
-    {% csrf_token %}
+    <br> {% csrf_token %}
     <div class="container marketing">
-    <div class="row">
-        <div class="col-lg-4">
-                
-                <img src="{% static "jpg/1.jpg" %}" class="rounded-circle" width="140" height="140">
+        <div class="row">
+            <div class="col-lg-4">
 
-          <h2>จารุพงค์ โรจนวิภาค 6101012620083</h2>
-          <p>นักศึกษาชั้นปีที่ 2 ของมหาวิทยาลัยเทคโนโลยีพระจอมเกล้าพระนครเหนือ</p>
-          <p>Email : s6101012620083@email.kmutnb.ac.th</p>
-        </div><!-- /.col-lg-4 -->
-        <div class="col-lg-4">
-        </div><!-- /.col-lg-4 -->
-        <div class="col-lg-4">
-                <img src="{% static "jpg/2.jpg" %}" class="rounded-circle"  width="140" height="140">
+                <img src="{% static 'jpg/1.jpg' %} " class="rounded-circle " width="140 " height="140 ">
+
+                <h2>จารุพงค์ โรจนวิภาค 6101012620083</h2>
+                <p>นักศึกษาชั้นปีที่ 2 ของมหาวิทยาลัยเทคโนโลยีพระจอมเกล้าพระนครเหนือ</p>
+                <p>Email : s6101012620083@email.kmutnb.ac.th</p>
+            </div>
+            <!-- /.col-lg-4 -->
+            <div class="col-lg-4 ">
+            </div>
+            <!-- /.col-lg-4 -->
+            <div class="col-lg-4 ">
+                <img src="{% static 'jpg/2.jpg' %} " class="rounded-circle " width="140 " height="140 ">
                 <h2>ภัทรนันท์ ศรีสาระ 6101012620121</h2>
                 <p>นักศึกษาชั้นปีที่ 2 ของมหาวิทยาลัยเทคโนโลยีพระจอมเกล้าพระนครเหนือ</p>
-          <p>Email : s6101012620121@email.kmutnb.ac.th</p>
-        </div><!-- /.col-lg-4 -->
-    </div>
+                <p>Email : s6101012620121@email.kmutnb.ac.th</p>
+            </div>
+            <!-- /.col-lg-4 -->
+        </div>
     </div>
     <br>
-    <div class="container marketing">
-    <div class="row">
-        <div class="col-lg-4">
-                        <img src="{% static "jpg/top.jpg" %}" class="rounded-circle" width="140" height="140">
-          <h2>สิริ กิจจาบิบูรณ์ 6101012630011</h2>
-          <p>นักศึกษาชั้นปีที่ 2 ของมหาวิทยาลัยเทคโนโลยีพระจอมเกล้าพระนครเหนือ</p>
-          <p>Email : s6101012630011@email.kmutnb.ac.th</p>
-        </div><!-- /.col-lg-4 -->
-        <div class="col-lg-4">
-            </div><!-- /.col-lg-4 -->
-        <div class="col-lg-4">
-                <img src="{% static "jpg/nut.jpg" %}" class="rounded-circle" width="140" height="140">
+    <div class="container marketing ">
+        <div class="row ">
+            <div class="col-lg-4 ">
+                <img src="{% static 'jpg/top.jpg' %} " class="rounded-circle " width="140 " height="140 ">
+                <h2>สิริ กิจจาบิบูรณ์ 6101012630011</h2>
+                <p>นักศึกษาชั้นปีที่ 2 ของมหาวิทยาลัยเทคโนโลยีพระจอมเกล้าพระนครเหนือ</p>
+                <p>Email : s6101012630011@email.kmutnb.ac.th</p>
+            </div>
+            <!-- /.col-lg-4 -->
+            <div class="col-lg-4 ">
+            </div>
+            <!-- /.col-lg-4 -->
+            <div class="col-lg-4 ">
+                <img src="{% static 'jpg/nut.jpg' %} " class="rounded-circle " width="140 " height="140 ">
                 <h2>ณัฏฐ์ วัชรเสถียรพันธุ์ 6101012630071</h2>
                 <p>นักศึกษาชั้นปีที่ 2 ของมหาวิทยาลัยเทคโนโลยีพระจอมเกล้าพระนครเหนือ</p>
-          <p>Email : s6101012630071@email.kmutnb.ac.th</p>
-          </div><!-- /.col-lg-4 -->
-      </div>
+                <p>Email : s6101012630071@email.kmutnb.ac.th</p>
+            </div>
+            <!-- /.col-lg-4 -->
+        </div>
     </div>
-    
+
 
 
     {% endblock %}
-    <script
-      src="https://code.jquery.com/jquery-3.4.1.slim.min.js"
-      integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n"
-      crossorigin="anonymous"
-    ></script>
-    <script
-      src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"
-      integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo"
-      crossorigin="anonymous"
-    ></script>
-    <script
-      src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"
-      integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6"
-      crossorigin="anonymous"
-    ></script>
-  </body>
+    <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js " integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n " crossorigin="anonymous "></script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js " integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo " crossorigin="anonymous "></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js " integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6 " crossorigin="anonymous "></script>
+</body>
+
 </html>

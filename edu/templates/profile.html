@@ -17,31 +17,66 @@
     <nav class="navbar navbar-expand-md navbar-dark fixed-top bg-dark">
         <a class="navbar-brand" href="/">SPARK</a>
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation">
-        <span class="navbar-toggler-icon"></span>
-      </button>
+    <span class="navbar-toggler-icon"></span>
+  </button>
         <div class="collapse navbar-collapse" id="navbarCollapse">
             <ul class="navbar-nav mr-auto">
-                <li class="nav-item active">
+                <li class="nav-item">
                     <a class="nav-link" id="home" href="/">Home <span class="sr-only">(current)</span></a
-            >
-          </li>
-          <li class="nav-item">
-            <a class="nav-link" id="edit" href="/profile/edit">Edit</a>
+        >
+      </li>
+      <li class="nav-item active">
+        <a id="profile_btn" class="nav-link" href="/profile">Profile</a>
                 </li>
-            </ul>
-            <form class="form-inline mt-2 mt-md-0">
-                <ul class="navbar-nav mr-auto">
-                    <li class="nav-item">
-                        <a class="nav-link" id="help" href="/help">Help</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" id="logout" href="{% url 'logout' %}">Logout</a
-              >
-            </li>
-          </ul>
-        </form>
-      </div>
-    </nav>
+                <li class="nav-item">
+                    <a href="/match-result" class="nav-link notification">
+                        <span>Request</span>
+                        <span class="badge">{{amountRecieve}}</span>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a id="review_btn" class="nav-link" href="/review/{{tutors.id}}">Review</a
+        >
+      </li>
+      <li lass="nav-item dropdown">
+        <a
+          class="nav-link dropdown-toggle"
+          href="#"
+          id="navbarDropdownMenuLink"
+          role="button"
+          data-toggle="dropdown"
+          aria-haspopup="true"
+          aria-expanded="false"
+        >
+          About</a
+        >
+        <div
+          class="dropdown-menu"
+          style="right:auto; left: auto;"
+          aria-labelledby="navbarDropdownMenuLink"
+        >
+          <a class="dropdown-item" id="app" href="/about/app"
+            >About application</a
+          >
+          <a class="dropdown-item" id="app" href="/about/group"
+            >About group</a
+          >
+        </div>
+      </li>
+    </ul>
+    <form class="form-inline mt-2 mt-md-0">
+      <ul class="navbar-nav mr-auto">
+        <li class="nav-item">
+          <a class="nav-link" id="help" href="/help">Help</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" id="logout" href="{% url 'logout' %}">Logout</a
+          >
+        </li>
+      </ul>
+    </form>
+  </div>
+</nav>
     <br />
     <br />
     <br />
@@ -58,7 +93,10 @@
             <p5 id="city"> City : {{city}}</p5><br />
             <p6 id="expert"> Subject expert : {{expert}}</p6><br/>
           </p>
-          <a class='btn btn-primary' href="/review/{{tutors.id}}">Go to your review</a>
+          <div class='btn-group btn-group-toggle' data-toggle="buttons"><a class='btn btn-primary' href="/review/{{tutors.id}}">Go to your review</a>
+                    <a class="btn btn-secondary" id="edit" href="/profile/edit">Edit profile</a>
+        </div>
+
         </div>
         </div>
         </div>

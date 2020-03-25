@@ -85,7 +85,7 @@ def edit_profile(request):
     else:
         form = EditProfileForm(instance=request.user)
         tutor_form = EditProfileForm2(instance=tutors)
-        return render(request, 'edit_profile.html', {'form': form, 'tutor_form': tutor_form})
+        return render(request, 'edit_profile.html', {'current_user':tutors,'form': form, 'tutor_form': tutor_form})
 
 
 def send_match_request(request, tutor_id):
@@ -132,7 +132,7 @@ def delete_match_request(request, tutor_id):
 
 
 def match_result(request):
-    
+    current_user = Tutor.objects.get(user=request.user)
     p = Tutor.objects.get(user=request.user)
     u = p.user
 
@@ -150,6 +150,7 @@ def match_result(request):
         urlroom[name] = listuser[0]+'.'+listuser[1]
 
     context = {
+        'current_user':current_user,
         'u': u,
         'contact_list': contact,
         'sent_match_requests': sent_match_requests,
@@ -173,9 +174,16 @@ def review(request, tutor_id):
     return render(request, "review.html", {"tutor":tutor,"form":form,"reviews":reviews,"range":range(1,6)})
 
 def about_group(request):
+    if request.user.is_authenticated:
+        current_user = Tutor.objects.get(user=request.user)
+        return render(request, "about_group.html",{'current_user':current_user})
+    
     return render(request, "about_group.html")
 
 def about_app(request):
+    if request.user.is_authenticated:
+        current_user = Tutor.objects.get(user=request.user)
+        return render(request, "about_app.html",{'current_user':current_user})
     return render(request, "about_app.html")
 
 def friend_profile(request,tutor_id):
@@ -186,6 +194,9 @@ def friend_profile(request,tutor_id):
     })
     
 def help_user(request):
+    if request.user.is_authenticated:
+        current_user = Tutor.objects.get(user=request.user)
+        return render(request, "help.html",{'current_user':current_user})
     return render(request, 'help.html')
         
 def answer_user(request, answer_page):
