@@ -24,9 +24,9 @@
             </ul>
             <form class="form-inline mt-2 mt-md-0">
                 <ul class="navbar-nav mr-auto">
-                  <li class="nav-item">
-                    <a class="nav-link" id="help" href="/help">Help</a>
-                  </li>
+                    <li class="nav-item">
+                        <a class="nav-link" id="help" href="/help">Help</a>
+                    </li>
                     <li class="nav-item">
                         <a class="nav-link" id="register" href="{% url 'register' %}">Register</a
               >
@@ -88,7 +88,9 @@
       </div>
 
       {# Assumes you setup the password_reset view in your URLconf #}
-      <p><a href="{% url 'password_reset' %}">Lost password?</a></p>
+      <p>Don’t have an account? <a href="{% url 'register' %}">Signup</a></p>
+                        <p><a href="{% url 'password_reset' %}">Lost password?</a></p>
+                        <p><a href="{% url 'help_user' %}">Any Help?</a></p>
 </body>
 
 <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js" integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n" crossorigin="anonymous"></script>

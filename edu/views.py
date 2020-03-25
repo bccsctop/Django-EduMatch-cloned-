@@ -11,6 +11,9 @@ from edu.forms import SignUpForm, EditProfileForm, EditProfileForm2, ReviewForm
 
 def home_page(request):
 
+    if not request.user.is_authenticated:
+        return redirect('login')
+
     tutors = Tutor.objects.all()
     
     subject = request.POST.get('subject_text', '')
@@ -20,19 +23,18 @@ def home_page(request):
     tutors = tutors.filter(expert=subject) if subject != '' else tutors
     tutors = tutors.filter(gender=gender) if gender != '' else tutors
     tutors = tutors.filter(city=city) if city != '' else tutors
-    tutors = tutors.exclude(
-        user=request.user) if request.user.is_authenticated else tutors
-    
-    current_user = Tutor.objects.get(user=request.user) if request.user.is_authenticated else ''
-    if request.user.is_authenticated:
-        tutors = tutors.exclude(user=request.user) 
-        rec_match_requests = Matched_Request.objects.filter(to_user=current_user.user)
-        if len(rec_match_requests) > 0 :
-            return render(request, 'home.html', {
+    tutors = tutors.exclude(user=request.user) 
+    current_user = Tutor.objects.get(user=request.user) 
+
+    for match_user in current_user.groupMatch.all():
+        tutors = tutors.exclude(pk=match_user.id)
+    rec_match_requests = Matched_Request.objects.filter(to_user=current_user.user)
+
+    if len(rec_match_requests) > 0 :            
+        return render(request, 'home.html', {
                 'tutors': tutors,
                 'amountRecieve': len(rec_match_requests),
-                'current_user': current_user
-                
+                'current_user': current_user 
             })
 
     return render(request, 'home.html', {
@@ -105,8 +107,6 @@ def cancel_match_request(request, tutor_id):
         matchUser.save()
         frequest = Matched_Request.objects.filter(
             from_user=request.user, to_user=user).first()
-        frequest.delete()
-        return HttpResponseRedirect('/')
 
 
 def accept_match_request(request, tutor_id):
