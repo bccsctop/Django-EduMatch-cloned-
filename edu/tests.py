@@ -287,68 +287,65 @@ class ProfileTest(TestCase):
         self.assertNotContains(response,'Betty')
         self.assertNotContains(response,'frankin')
 
-    class ReviewTest(TestCase):
-        def test_URL_maping_to_review(self):
-            frankin_user = User.objects.create_user('frankin','frankin@test.com','frankinpassword')
-            frankin = Tutor.objects.create(user=frankin_user,name='Frankin',gender = 'Male',city = 'Bangkok',expert ='Statistic')
-            found = resolve(f'/review/{frankin.id}')
-            self.assertEqual(found.func,review)
+class ReviewTest(TestCase):
+    def test_URL_maping_to_review(self):
+        frankin_user = User.objects.create_user('frankin','frankin@test.com','frankinpassword')
+        frankin = Tutor.objects.create(user=frankin_user,name='Frankin',gender = 'Male',city = 'Bangkok',expert ='Statistic')
+        found = resolve(f'/review/{frankin.id}')
+        self.assertEqual(found.func,review)
 
     
-        def test_rendering_ReviewTemplate(self):
-            frankin_user = User.objects.create_user('frankin','frankin@test.com','frankinpassword')
-            frankin = Tutor.objects.create(user=frankin_user,name='Frankin',gender = 'Male',city = 'Bangkok',expert ='Statistic')
-            ronnie_user = User.objects.create_user('ronnie','ronnie@test.com','ronniepassword')
-            ronnie = Tutor.objects.create(user=ronnie_user,name='Ronnie',gender = 'Male',city = 'Bangkok',expert ='Signal')
-            self.client.login(username='frankin', password='frankinpassword') 
-            response = self.client.get(f'/review/{ronnie.id}')
-            self.assertTemplateUsed(response, 'review.html')
+    def test_rendering_ReviewTemplate(self):
+        frankin_user = User.objects.create_user('frankin','frankin@test.com','frankinpassword')
+        frankin = Tutor.objects.create(user=frankin_user,name='Frankin',gender = 'Male',city = 'Bangkok',expert ='Statistic')
+        ronnie_user = User.objects.create_user('ronnie','ronnie@test.com','ronniepassword')
+        ronnie = Tutor.objects.create(user=ronnie_user,name='Ronnie',gender = 'Male',city = 'Bangkok',expert ='Signal')
+        self.client.login(username='frankin', password='frankinpassword') 
+        response = self.client.get(f'/review/{ronnie.id}')
+        self.assertTemplateUsed(response, 'review.html')
+    
+    def test_after_POST_pass_correct_review_to_template(self):
+        frankin_user = User.objects.create_user('frankin','frankin@test.com','frankinpassword')
+        frankin = Tutor.objects.create(user=frankin_user,name='Frankin',gender = 'Male',city = 'Bangkok',expert ='Statistic')            
+        ronnie_user = User.objects.create_user('ronnie','ronnie@test.com','ronniepassword')
+        ronnie = Tutor.objects.create(user=ronnie_user,name='Ronnie',gender = 'Male',city = 'Bangkok',expert ='Signal')           
+        betty_user = User.objects.create_user('betty','betty@test.com','bettypassword')
+        betty = Tutor.objects.create(user=betty_user,name='Betty',gender = 'Female',city = 'Bangkok',expert ='Signal')
 
-        def test_after_POST_pass_correct_review_to_template(self):
+        self.client.login(username='frankin', password='frankinpassword') 
+        response = self.client.post(f'/review/{ronnie.id}',data={'comment':'ronnie is very good','rating':5})
 
-            frankin_user = User.objects.create_user('frankin','frankin@test.com','frankinpassword')
-            frankin = Tutor.objects.create(user=frankin_user,name='Frankin',gender = 'Male',city = 'Bangkok',expert ='Statistic')
-            ronnie_user = User.objects.create_user('ronnie','ronnie@test.com','ronniepassword')
-            ronnie = Tutor.objects.create(user=ronnie_user,name='Ronnie',gender = 'Male',city = 'Bangkok',expert ='Signal')
-            betty_user = User.objects.create_user('betty','betty@test.com','bettypassword')
-            betty = Tutor.objects.create(user=betty_user,name='Betty',gender = 'Female',city = 'Bangkok',expert ='Signal')
+        self.assertEqual(response.context['reviews'][0].comment,'ronnie is very good')
+        self.assertEqual(response.context['reviews'][0].rate,5)
+        self.assertEqual(response.context['reviews'][0].reviewer,frankin)
+        self.assertEqual(response.context['reviews'][0].reviewed_tutor,ronnie)
 
-            self.client.login(username='frankin', password='frankinpassword') 
-            response = self.client.post(f'/review/{ronnie.id}',data={'comment':'ronnie is very good','rate':5})
+        self.client.login(username='betty', password='bettypassword') 
+        response = self.client.post(f'/review/{ronnie.id}',data={'comment':'ronnie is the best','rating':4})
 
-            self.assertEqual(self.response.context['reviews'][0].comment,'ronnie is very good')
-            self.assertEqual(self.response.context['reviews'][0].rate,5)
-            self.assertEqual(self.response.context['reviews'][0].reviewer,'frankin')
-            self.assertEqual(self.response.context['reviews'][0].reviewed_tutor,'ronnie')
+        self.assertEqual(response.context['reviews'][1].comment,'ronnie is the best')
+        self.assertEqual(response.context['reviews'][1].rate,4)
+        self.assertEqual(response.context['reviews'][1].reviewer,betty)
+        self.assertEqual(response.context['reviews'][1].reviewed_tutor,ronnie)
 
-            self.client.login(username='betty', password='bettypassword') 
-            response = self.client.post(f'/review/{ronnie.id}',data={'comment':'ronnie is the best','rate':4})
+    def test_after_POST__review_template_show_review(self):
+        frankin_user = User.objects.create_user('frankin','frankin@test.com','frankinpassword')
+        frankin = Tutor.objects.create(user=frankin_user,name='Frankin',gender = 'Male',city = 'Bangkok',expert ='Statistic')
+        ronnie_user = User.objects.create_user('ronnie','ronnie@test.com','ronniepassword')
+        ronnie = Tutor.objects.create(user=ronnie_user,name='Ronnie',gender = 'Male',city = 'Bangkok',expert ='Signal')
+        betty_user = User.objects.create_user('betty','betty@test.com','bettypassword')
+        betty = Tutor.objects.create(user=betty_user,name='Betty',gender = 'Female',city = 'Bangkok',expert ='Signal')
 
-            self.assertEqual(self.response.context['reviews'][1].comment,'ronnie is the best')
-            self.assertEqual(self.response.context['reviews'][1].rate,4)
-            self.assertEqual(self.response.context['reviews'][1].reviewer,'betty')
-            self.assertEqual(self.response.context['reviews'][1].reviewed_tutor,'ronnie')
-            
-        
-        def test_after_POST__review_template_show_review(self):
+        self.client.login(username='frankin', password='frankinpassword') 
+        response = self.client.post(f'/review/{ronnie.id}',data={'comment':'ronnie is very good','rating':5})
 
-            frankin_user = User.objects.create_user('frankin','frankin@test.com','frankinpassword')
-            frankin = Tutor.objects.create(user=frankin_user,name='Frankin',gender = 'Male',city = 'Bangkok',expert ='Statistic')
-            ronnie_user = User.objects.create_user('ronnie','ronnie@test.com','ronniepassword')
-            ronnie = Tutor.objects.create(user=ronnie_user,name='Ronnie',gender = 'Male',city = 'Bangkok',expert ='Signal')
-            betty_user = User.objects.create_user('betty','betty@test.com','bettypassword')
-            betty = Tutor.objects.create(user=betty_user,name='Betty',gender = 'Female',city = 'Bangkok',expert ='Signal')
+        self.assertContains(response,'Frankin')
+        self.assertContains(response,'ronnie is very good')
 
-            self.client.login(username='frankin', password='frankinpassword') 
-            response = self.client.post(f'/review/{ronnie.id}',data={'comment':'ronnie is very good','rate':5})
+        self.client.login(username='betty', password='bettypassword') 
+        response = self.client.post(f'/review/{ronnie.id}',data={'comment':'ronnie is the best','rating':4})
 
-            self.assertContains(response,'frankin')
-            self.assertContains(response,'ronnie is very good')
-
-            self.client.login(username='betty', password='bettypassword') 
-            response = self.client.post(f'/review/{ronnie.id}',data={'comment':'ronnie is the best','rate':4})
-
-            self.assertContains(response,'frankin')
-            self.assertContains(response,'ronnie is very good')
-            self.assertContains(response,'ronnie')
-            self.assertContains(response,'ronnie is the best')
+        self.assertContains(response,'Frankin')
+        self.assertContains(response,'ronnie is very good')
+        self.assertContains(response,'Betty')
+        self.assertContains(response,'ronnie is the best')
