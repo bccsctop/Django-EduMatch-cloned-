@@ -228,22 +228,13 @@
         <th style="width:20%;">Gender</th>
         <th style="width:20%;">City</th>
       </tr>
-      {% for tutor in tutors %}
+      {% for tutor in requestedTutor %}
       <tr>
         <td>{{tutor.expert}}</td>
         <td>{{tutor.name}}</td>
         <td>{{tutor.gender}}</td>
         <td>{{tutor.city}}</td>
         <td>
-          {% if tutor.isMatched == 'False' %}
-          <small
-            ><a
-              class="btn btn-primary"
-              href="/match-request/send/{{ tutor.user.id }}"
-              >Tutor request</a
-            ></small
-          >
-          {% elif tutor.isMatched == 'True' %}
           <small
             ><a
               class="btn btn-warning"
@@ -251,7 +242,24 @@
               >Cancel</a
             ></small
           >
-          {% endif %}
+        </td>
+      </tr>
+      {% endfor %}
+
+      {% for tutor in unrequestedTutor %}
+      <tr>
+        <td>{{tutor.expert}}</td>
+        <td>{{tutor.name}}</td>
+        <td>{{tutor.gender}}</td>
+        <td>{{tutor.city}}</td>
+        <td>
+          <small
+            ><a
+              class="btn btn-primary"
+              href="/match-request/send/{{ tutor.user.id }}"
+              >Tutor request</a
+            ></small
+          >
         </td>
       </tr>
       {% endfor %}

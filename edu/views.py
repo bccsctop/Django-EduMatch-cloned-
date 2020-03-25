@@ -29,16 +29,32 @@ def home_page(request):
     for match_user in current_user.groupMatch.all():
         tutors = tutors.exclude(pk=match_user.id)
     rec_match_requests = Matched_Request.objects.filter(to_user=current_user.user)
+    get_match_requests = Matched_Request.objects.filter(from_user=current_user.user)
+    
+    requestedTutor = []
+    unrequestedTutor = []
+
+    for i in tutors:
+        numCount = 0
+        for j in get_match_requests:
+            if i.name == j.to_user.first_name:
+                requestedTutor.append(i)
+                numCount+=1
+
+        if numCount == 0:
+            unrequestedTutor.append(i)
 
     if len(rec_match_requests) > 0 :            
         return render(request, 'home.html', {
-                'tutors': tutors,
+                'requestedTutor': requestedTutor,
+                'unrequestedTutor': unrequestedTutor,
                 'amountRecieve': len(rec_match_requests),
                 'current_user': current_user 
             })
 
     return render(request, 'home.html', {
-        'tutors': tutors,
+        'requestedTutor': requestedTutor,
+        'unrequestedTutor': unrequestedTutor,
         'current_user': current_user
     })
 
@@ -91,9 +107,6 @@ def edit_profile(request):
 def send_match_request(request, tutor_id):
     if request.user.is_authenticated:
         user = get_object_or_404(User, id=tutor_id)
-        matchUser = Tutor.objects.get(user=user)
-        matchUser.isMatched = 'True'
-        matchUser.save()
         frequest, created = Matched_Request.objects.get_or_create(
             from_user=request.user, to_user=user)
         return HttpResponseRedirect('/')
@@ -102,9 +115,6 @@ def send_match_request(request, tutor_id):
 def cancel_match_request(request, tutor_id):
     if request.user.is_authenticated:
         user = get_object_or_404(User, id=tutor_id)
-        matchUser = Tutor.objects.get(user=user)
-        matchUser.isMatched = 'False'
-        matchUser.save()
         frequest = Matched_Request.objects.filter(
             from_user=request.user, to_user=user).first()
         frequest.delete()
@@ -113,9 +123,6 @@ def cancel_match_request(request, tutor_id):
 
 def accept_match_request(request, tutor_id):
     from_user = get_object_or_404(User, id=tutor_id)
-    matchUser = Tutor.objects.get(user=request.user)
-    matchUser.isMatched = 'False'
-    matchUser.save()
     frequest = Matched_Request.objects.filter(
         from_user=from_user, to_user=request.user).first()
     user1 = frequest.to_user
@@ -128,9 +135,6 @@ def accept_match_request(request, tutor_id):
 
 def delete_match_request(request, tutor_id):
     from_user = get_object_or_404(User, id=tutor_id)
-    matchUser = Tutor.objects.get(user=request.user)
-    matchUser.isMatched = 'False'
-    matchUser.save()
     frequest = Matched_Request.objects.filter(
         from_user=from_user, to_user=request.user).first()
     frequest.delete()

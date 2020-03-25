@@ -10,7 +10,6 @@ class Tutor(models.Model):
     gender = models.TextField(default='',blank=True)
     city = models.TextField(default='',blank=True)
     expert = models.TextField(default='',blank=True)
-    isMatched = models.TextField(default='False',blank=True)
     groupMatch = models.ManyToManyField("Tutor", blank=True)
 
     def __str__(self):
