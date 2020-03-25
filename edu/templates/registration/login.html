@@ -28,7 +28,7 @@
                         <a class="nav-link" id="help" href="/help">Help</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" id="register" href="{% url 'register' %}">Register</a
+                        <a class="nav-link" id="register" href="{% url 'register' %}">Signup</a
               >
             </li>
           </ul>
@@ -88,7 +88,7 @@
       </div>
 
       {# Assumes you setup the password_reset view in your URLconf #}
-      <p>Don’t have an account? <a href="{% url 'register' %}">Signup</a></p>
+      <p>Don’t have an account? <a href="{% url 'register' %}">Sign Up</a></p>
                         <p><a href="{% url 'password_reset' %}">Lost password?</a></p>
                         <p><a href="{% url 'help_user' %}">Any Help?</a></p>
 </body>
