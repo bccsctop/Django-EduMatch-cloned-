@@ -148,7 +148,8 @@ def match_result(request):
     for tutor in contact:
         listuser = []
         name = tutor
-        listuser.append(str(name))
+        user = tutor.user
+        listuser.append(str(user))
         listuser.append(str(u))
         listuser.sort()
         urlroom[name] = listuser[0]+'.'+listuser[1]
