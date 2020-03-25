@@ -1,4 +1,5 @@
 {% block content %}
+{%load static%}
 <!DOCTYPE html>
 <html lang="en">
 
@@ -69,7 +70,22 @@
     <br />
     <br />
     <br />
-    <h2>About application</h2>
+    <div class="container">
+      <div class="container-sm"><img src="{% static "jpg/spark.jpg" %}" alt="My image" class="rounded" width="1100" height="400"></div>
+    <div class="container marketing">
+      <div class="row">
+          <div class="col-lg-4">
+              <h2 class="display-5 font-italic">About application</h1>
+          </div><!-- /.col-lg-4 -->
+          <div class="col-lg-4">
+          </div><!-- /.col-lg-4 -->
+          <div class="col-lg-4">
+          </div><!-- /.col-lg-4 -->
+          <div class="col-lg-2">
+            </div><!-- /.col-lg-4 -->
+            <div class="col-lg-2">
+              </div><!-- /.col-lg-4 -->
+      </div>
     {% csrf_token %}
     <h3>
       SPARK เป็น application ที่ใช้หา Tutor สำหรับนักเรียน/นักศึกษาที่ไม่เข้าใจในเนื้อหาวิชาที่เรียนอีกทั้งเป็นที่ๆ Tutor หานักเรียน/นักศึกษาที่ไม่เข้าใจในวิชาที่ตัวเองถนัดเพื่อมาพัฒนา
@@ -78,7 +94,7 @@
     <br>
     <br>
     <h4>
-      สามารถดู Sourcecode ได้ที่ : https://github.com/Kotlin-Android-KtDev/Django-EduMatch
+      สามารถดู Sourcecode ได้ที่ : <a href="https://github.com/Kotlin-Android-KtDev/Django-EduMatch" >https://github.com/Kotlin-Android-KtDev/Django-EduMatch</a>
     </h4>
 
     {% endblock %}

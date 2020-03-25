@@ -1,4 +1,5 @@
 {% block content %}
+{%load static%}
 <!DOCTYPE html>
 <html lang="en">
 
@@ -69,15 +70,24 @@
     <br />
     <br />
     <br />
-    <div class="center">
-    <h2>About group</h2>
+    <div class="container marketing">
+      <div class="row">
+          <div class="col-lg-4">
+          </div><!-- /.col-lg-4 -->
+          <div class="col-lg-4">
+            <h2 class="center">About group</h2>
+          </div><!-- /.col-lg-4 -->
+          <div class="col-lg-4">
+          </div><!-- /.col-lg-4 -->
+      </div>
     </div>
+    <br>
     {% csrf_token %}
     <div class="container marketing">
     <div class="row">
         <div class="col-lg-4">
                 
-                <img src="https://scontent.fbkk12-1.fna.fbcdn.net/v/t1.0-9/p960x960/38678762_1875212542534125_3806420688839901184_o.jpg?_nc_cat=101&_nc_sid=85a577&_nc_ohc=qgK8ipUyoOcAX9yuGc6&_nc_ht=scontent.fbkk12-1.fna&_nc_tp=6&oh=8f24fe29e46831066a4e968435db24e3&oe=5EA10A48" class="rounded" width="140" height="140">
+                <img src="{% static "jpg/1.jpg" %}" class="rounded-circle" width="140" height="140">
 
           <h2>จารุพงค์ โรจนวิภาค 6101012620083</h2>
           <p>นักศึกษาชั้นปีที่ 2 ของมหาวิทยาลัยเทคโนโลยีพระจอมเกล้าพระนครเหนือ</p>
@@ -86,7 +96,7 @@
         <div class="col-lg-4">
         </div><!-- /.col-lg-4 -->
         <div class="col-lg-4">
-                <img src="https://scontent.fbkk12-1.fna.fbcdn.net/v/t1.0-9/s960x960/64545347_2186704874717506_8745922396826894336_o.jpg?_nc_cat=101&_nc_sid=7aed08&_nc_ohc=7BqEGC7jSu8AX-zUk6Z&_nc_ht=scontent.fbkk12-1.fna&_nc_tp=7&oh=ff5b5f498e8ef078ac2bf638e67824b1&oe=5E9ECC70" class="rounded" width="140" height="140">
+                <img src="{% static "jpg/2.jpg" %}" class="rounded-circle"  width="140" height="140">
                 <h2>ภัทรนันท์ ศรีสาระ 6101012620121</h2>
                 <p>นักศึกษาชั้นปีที่ 2 ของมหาวิทยาลัยเทคโนโลยีพระจอมเกล้าพระนครเหนือ</p>
           <p>Email : s6101012620121@email.kmutnb.ac.th</p>
@@ -97,7 +107,7 @@
     <div class="container marketing">
     <div class="row">
         <div class="col-lg-4">
-                        <img src="https://scontent.fbkk12-4.fna.fbcdn.net/v/t1.0-9/s960x960/72702146_712783075798883_6838438789728174080_o.jpg?_nc_cat=103&_nc_sid=7aed08&_nc_ohc=IhSUGyctGNoAX8uaxYv&_nc_ht=scontent.fbkk12-4.fna&_nc_tp=7&oh=958552878ab3afc39bf6e33240cd66af&oe=5E9FB231" class="rounded" width="140" height="140">
+                        <img src="{% static "jpg/top.jpg" %}" class="rounded-circle" width="140" height="140">
           <h2>สิริ กิจจาบิบูรณ์ 6101012630011</h2>
           <p>นักศึกษาชั้นปีที่ 2 ของมหาวิทยาลัยเทคโนโลยีพระจอมเกล้าพระนครเหนือ</p>
           <p>Email : s6101012630011@email.kmutnb.ac.th</p>
@@ -105,7 +115,7 @@
         <div class="col-lg-4">
             </div><!-- /.col-lg-4 -->
         <div class="col-lg-4">
-                <img src="https://scontent.fbkk12-1.fna.fbcdn.net/v/t1.0-1/74291423_2628491963874174_1141495474260279296_n.jpg?_nc_cat=101&_nc_sid=dbb9e7&_nc_ohc=4oif6Vrueq8AX-5-r_S&_nc_ht=scontent.fbkk12-1.fna&oh=1274396b03552e671617e3aa4911cbec&oe=5E9D9AB9" class="rounded" width="140" height="140">
+                <img src="{% static "jpg/nut.jpg" %}" class="rounded-circle" width="140" height="140">
                 <h2>ณัฏฐ์ วัชรเสถียรพันธุ์ 6101012630071</h2>
                 <p>นักศึกษาชั้นปีที่ 2 ของมหาวิทยาลัยเทคโนโลยีพระจอมเกล้าพระนครเหนือ</p>
           <p>Email : s6101012630071@email.kmutnb.ac.th</p>
