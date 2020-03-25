@@ -107,6 +107,8 @@ def cancel_match_request(request, tutor_id):
         matchUser.save()
         frequest = Matched_Request.objects.filter(
             from_user=request.user, to_user=user).first()
+        frequest.delete()
+        return HttpResponseRedirect('/')
 
 
 def accept_match_request(request, tutor_id):
@@ -180,7 +182,7 @@ def friend_profile(request,tutor_id):
     tutor = Tutor.objects.get(pk=tutor_id)
     user = tutor.user
     return render(request, 'friend_profile.html', {
-        'user': user , 'city' : tutor.city , 'gender': tutor.gender, 'expert': tutor.expert
+        'tutors':tutor, 'user': user , 'city' : tutor.city , 'gender': tutor.gender, 'expert': tutor.expert
     })
     
 def help_user(request):

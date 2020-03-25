@@ -31,9 +31,9 @@
             </ul>
             <form class="form-inline mt-2 mt-md-0">
                 <ul class="navbar-nav mr-auto">
-                  <li class="nav-item">
-                    <a class="nav-link" id="help" href="/help">Help</a>
-                  </li>
+                    <li class="nav-item">
+                        <a class="nav-link" id="help" href="/help">Help</a>
+                    </li>
                     <li class="nav-item">
                         <a class="nav-link" id="logout" href="{% url 'logout' %}">Logout</a
               >
@@ -45,32 +45,28 @@
     <br />
     <br />
     <br />
-    <h2>PROFILE</h2>
     {% csrf_token %}
-    <p>
-      <p1 id="username"> Username : {{user}}</p1><br />
-      <p2 id="firstname"> Firstname : {{user.first_name}}</p2><br />
-      <p3 id="lastname"> Lastname : {{user.last_name}}</p3><br />
-      <p4 id="gender"> Gender : {{gender}}</p4><br />
-      <p5 id="city"> City : {{city}}</p5><br />
-      <p6 id="expert"> Subject expert : {{expert}}</p6><br />
-    </p>
+    <div class='container'>
+      <div class='card' style="width: 18rem;">
+        <div class='card-body'>
+          <h3 class='card-title'>PROFILE</h3>
+          <p class='card-text'>
+            <h6 class='card-subtitle mb-2 text-muted' id="username"> Username : {{user}}</h6><br />
+            <p2 id="firstname"> Firstname : {{user.first_name}}</p2><br />
+            <p3 id="lastname"> Lastname : {{user.last_name}}</p3><br />
+            <p4 id="gender"> Gender : {{gender}}</p4><br />
+            <p5 id="city"> City : {{city}}</p5><br />
+            <p6 id="expert"> Subject expert : {{expert}}</p6><br/>
+          </p>
+          <a class='btn btn-primary' href="/review/{{tutors.id}}">Go to your review</a>
+        </div>
+        </div>
+        </div>
 
-    {% endblock %}
-    <script
-      src="https://code.jquery.com/jquery-3.4.1.slim.min.js"
-      integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n"
-      crossorigin="anonymous"
-    ></script>
-    <script
-      src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"
-      integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo"
-      crossorigin="anonymous"
-    ></script>
-    <script
-      src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"
-      integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6"
-      crossorigin="anonymous"
-    ></script>
-  </body>
+        {% endblock %}
+        <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js" integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n" crossorigin="anonymous"></script>
+        <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
+        <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js" integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>
+</body>
+
 </html>
