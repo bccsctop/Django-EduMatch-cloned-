@@ -32,39 +32,6 @@
         * {
             box-sizing: border-box;
         }
-        
-        #user_select_subject {
-            background-image: url("/css/searchicon.png");
-            background-position: 10px 10px;
-            background-repeat: no-repeat;
-            width: 100%;
-            font-size: 16px;
-            padding: 12px 20px 12px 40px;
-            border: 1px solid #ddd;
-            margin-bottom: 12px;
-        }
-        
-        #user_list_table {
-            border-collapse: collapse;
-            width: 100%;
-            border: 1px solid #ddd;
-            font-size: 18px;
-        }
-        
-        #user_list_table th,
-        #user_list_table td {
-            text-align: left;
-            padding: 12px;
-        }
-        
-        #user_list_table tr {
-            border-bottom: 1px solid #ddd;
-        }
-        
-        #user_list_table tr.header,
-        #user_list_table tr:hover {
-            background-color: #f1f1f1;
-        }
     </style>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
@@ -86,15 +53,32 @@
                 <li class="nav-item">
                     <a class="nav-link" id="home" href="/">Home</a>
                 </li>
-            </ul>
+                <li lass="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+              About</a
+            >
+            <div
+              class="dropdown-menu"
+              style="right:auto; left: auto;"
+              aria-labelledby="navbarDropdownMenuLink"
+            >
+              <a class="dropdown-item" id="app" href="/about/app"
+                >About application</a
+              >
+              <a class="dropdown-item" id="app" href="/about/group"
+                >About group</a
+              >
+            </div>
+          </li>
+        </ul>
 
-            <form class="form-inline mt-2 mt-md-0">
-                <ul class="navbar-nav mr-auto">
-                    <li class="nav-item">
-                        <a class="nav-link" id="help" href="/help">Help</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" id="logout" href="{% url 'logout' %}">Logout</a
+        <form class="form-inline mt-2 mt-md-0">
+          <ul class="navbar-nav mr-auto">
+            <li class="nav-item">
+              <a class="nav-link" id="help" href="/help">Help</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" id="logout" href="{% url 'logout' %}">Logout</a
               >
             </li>
           </ul>
@@ -104,62 +88,69 @@
     <br />
     <br />
     <br />
+    <br />
 
-    <div class="page-header">
-      <h1><a href="/"></a>SPARK</h1>
+    {% if user.is_authenticated %}
+
+    <div class="container text-left">
+      {% if request.user == u %}
+
+      <div class="container">
+        <h1 class="row">My Tutor/Student</h1>
+
+        {% for key,value in urlroom.items %}
+        <div class="row" style="margin: 5px;">
+          <div class="col-2">
+            <a href="/friendprofile/{{ key.id }}">{{ key.name }}</a>
         </div>
-
-        {% if user.is_authenticated %}
-
-        <div class="container text-left">
-            {% if request.user == u %}
-
-            <div class='container'>
-                <h1 class='row'>My Tutor/Student</h1>
-
-
-                {% for key,value in urlroom.items %}
-                <div class='row' style="margin: 5px;">
-                    <div class='col-2'><a href="/friendprofile/{{ key.id }}">{{ key.name }}</a></div>
-                    <div class="col-1 btn-group btn-group-toggle">
-                        <a class="btn btn-primary" href="/chat/{{ value }}">Chat</a>
-                        <a class="btn btn-secondary" href="/review/{{ key.id }}">Review</a>
-                    </div>
-                </div>
-                {% endfor %}
-
-            </div>
-            <hr/>
-            <h1>Sent Tutor Requests</h1>
-
-            <ul>
-                {% for s_request in sent_match_requests %}
-                <li id="sent_request_item">{{ s_request.to_user.username }}</li>
-                {% endfor %}
-            </ul>
-            <hr />
-            <h1>Received Tutor Requests</h1>
-
-            {% for r_request in rec_match_requests %}
-            <p>
-                <a id="recieve_request_item" href="/">{{ r_request.from_user.username }}</a>
-            </p>
-            <small>
-              <a class="btn btn-primary" href="/match-request/accept/{{ r_request.from_user.id }}">Accept</a>
-              </small>
-            <small>
-              <a class="btn btn-warning" href="/match-request/delete/{{ r_request.from_user.id }}">Reject</a>
-            </small> {% endfor %} {% endif %}
+        <div class="col-1 btn-group btn-group-toggle">
+            <a class="btn btn-primary" href="/chat/{{ value }}">Chat</a>
+            <a class="btn btn-secondary" href="/review/{{ key.id }}">Review</a>
         </div>
+        </div>
+        {% endfor %}
+        </div>
+        <hr />
+        <h1>Sent Tutor Requests</h1>
 
-        {% else %}
-        <p>You are not logged in</p>
-        <a id="login" href="{% url 'login' %}">login</a>
-        <br />
-        <a id="register" href="{% url 'register' %}">Register</a> {% endif %}
-        <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js" integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n" crossorigin="anonymous"></script>
-        <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
-        <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js" integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>
+        <ul>
+            {% for s_request in sent_match_requests %}
+            <li id="sent_request_item">{{ s_request.to_user.username }}</li>
+            {% endfor %}
+        </ul>
+        <hr />
+        <h1>Received Tutor Requests</h1>
+
+        {% for r_request in rec_match_requests %}
+        <p>
+            <a id="recieve_request_item" href="/">{{ r_request.from_user.username }}</a
+        >
+      </p>
+      <small>
+        <a
+          class="btn btn-primary"
+          href="/match-request/accept/{{ r_request.from_user.id }}"
+          >Accept</a
+        >
+      </small>
+      <small>
+        <a
+          class="btn btn-warning"
+          href="/match-request/delete/{{ r_request.from_user.id }}"
+          >Reject</a
+        >
+      </small>
+      {% endfor %} {% endif %}
+    </div>
+
+    {% else %}
+    <p>You are not logged in</p>
+    <a id="login" href="{% url 'login' %}">login</a>
+            <br />
+            <a id="register" href="{% url 'register' %}">Register</a> {% endif %}
+            <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js" integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n" crossorigin="anonymous"></script>
+            <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
+            <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js" integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>
 </body>
 
 </html>

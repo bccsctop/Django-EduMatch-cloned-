@@ -11,18 +11,18 @@
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js" integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>
     <!-- Bootstrap CSS -->
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous" />
-    <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/font-awesome/latest/css/font-awesome.min.css">
-    <link rel="stylesheet" href='{% static "css/fontawesome-stars.css" %}'>
+    <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/font-awesome/latest/css/font-awesome.min.css" />
+    <link rel="stylesheet" href='{% static "css/fontawesome-stars.css" %}' />
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.0/jquery.min.js"></script>
     <script src='{% static "js/jquery.barrating.min.js" %}'></script>
     <script type="text/javascript">
         $(function() {
-            $('#rating').barrating({
-                theme: 'fontawesome-stars',
+            $("#rating").barrating({
+                theme: "fontawesome-stars",
                 onSelect: function(value, text, event) {
-                    if (typeof(event) !== 'undefined') {
+                    if (typeof event !== "undefined") {
                         // rating was selected by a user
-                        $('#rating-value').text(value)
+                        $("#rating-value").text(value);
                     } else {
                         // rating was selected programmatically
                         // by calling `set` method
@@ -35,7 +35,7 @@
         .card {
             box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
             max-width: 300px;
-            margin: auto+10px;
+            margin: auto + 10px;
             text-align: left;
             margin-bottom: 10px;
         }
@@ -80,26 +80,43 @@
         <div class="collapse navbar-collapse" id="navbarCollapse">
             <ul class="navbar-nav mr-auto">
                 <li class="nav-item active">
-                    <a class="notification" id="home" href="/">Home <span class="sr-only">(current)</span></a
+                    <a class="nav-link" id="home" href="/">Home <span class="sr-only">(current)</span></a
             >
           </li>
           <li class="nav-item">
-            <a id="profile_btn" class="notification" href="/profile">Profile</a>
+            <a id="profile_btn" class="nav-link" href="/profile">Profile</a>
                 </li>
                 <li class="nav-item">
-                    <a href="/match-result" class="notification">
+                    <a href="/match-result" class="nav-link">
                         <span>Request</span>
                         <span class="badge">{{amountRecieve}}</span>
                     </a>
                 </li>
+                <li lass="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                      About</a
+                    >
+                    <div
+                      class="dropdown-menu"
+                      style="right:auto; left: auto;"
+                      aria-labelledby="navbarDropdownMenuLink"
+                    >
+                      <a class="dropdown-item" id="app" href="/about/app"
+                        >About application</a
+                      >
+                      <a class="dropdown-item" id="app" href="/about/group"
+                        >About group</a
+                      >
+                    </div>
+                  </li>
             </ul>
             <form class="form-inline mt-2 mt-md-0">
                 <ul class="navbar-nav mr-auto">
                     <li class="nav-item">
                         <a class="nav-link" id="help" href="/help">Help</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" id="logout" href="{% url 'logout' %}">Logout</a
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" id="logout" href="{% url 'logout' %}">Logout</a
               >
             </li>
           </ul>
@@ -109,49 +126,53 @@
     <br />
     <br />
     <br />
-    <h2 id='review-header'>{{tutor.name}} 's Review</h2>
-    
-    <div id='review'>
-    {% for review in reviews %}
-    <div class='card'>
+    <h2 id="review-header">{{tutor.name}} 's Review</h2>
+
+    <div id="review">
+      {% for review in reviews %}
+      <div class="card">
         <div>
-            <span style="padding-left:5px;"><strong>{{review.reviewer.name}}</strong></span>
-            {% for i in range %}
-            {% if i <= review.rate %}
-                <span class="fa fa-star checked"></span>
-            {% else %}
-                <span class="fa fa-star"></span>
-            {% endif %}
-            {% endfor %}
+          <span style="padding-left:5px;"
+            ><strong>{{review.reviewer.name}}</strong></span
+          >
+          {% for i in range %} {% if i <= review.rate %}
+          <span class="fa fa-star checked"></span>
+          {% else %}
+          <span class="fa fa-star"></span> {% endif %} {% endfor %}
         </div>
         <span style="padding-left:5px;">{{review.comment}}</span>
+      </div>
+      {% endfor %}
     </div>
-    {% endfor %}
-    </div>
-    <form style="padding-left:10px;" action="{{tutor.id}}" id="reviewform" name="reviewform" method="POST">
-    {% csrf_token %}
-    <div>
+    <form
+      style="padding-left:10px;"
+      action="{{tutor.id}}"
+      id="reviewform"
+      name="reviewform"
+      method="POST"
+    >
+      {% csrf_token %}
+      <div>
         <div style="margin-left: 10px;">
-            <select id="rating" name="rating">
-                <option value="1">1</option>
-                <option value="2">2</option>
-                <option value="3">3</option>
-                <option value="4">4</option>
-                <option value="5">5</option>
-              </select>
-              <span class="title current-rating">
-                  Your rating: <span id='rating-value' class="value">1</span>
-                </span>
+          <select id="rating" name="rating">
+            <option value="1">1</option>
+            <option value="2">2</option>
+            <option value="3">3</option>
+            <option value="4">4</option>
+            <option value="5">5</option>
+          </select>
+          <span class="title current-rating">
+            Your rating: <span id="rating-value" class="value">1</span>
+          </span>
         </div>
         <span>
-            {{form.as_p}}
+          {{form.as_p}}
         </span>
+        <span> </span>
         <span>
+          <button name="submit" id="submit" type="submit">Submit</button>
         </span>
-        <span>
-            <button name="submit" id="submit" type="submit">Submit</button>
-        </span>
-    </div>
+      </div>
     </form>
 
     {% endblock %}

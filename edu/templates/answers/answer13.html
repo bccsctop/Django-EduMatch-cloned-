@@ -3,217 +3,205 @@
 <html lang="en">
 
 <head>
-  <style>
-    h1 {
-      color: #c25100;
-      font-family: "Lobster";
-    }
-
-    body {
-      padding-left: 15px;
-      padding-right: 15px;
-    }
-
-    .page-header {
-      background-color: #c25100;
-      margin-top: 0;
-      padding: 20px 20px 20px 40px;
-    }
-
-    .page-header h1,
-    .page-header h1 a,
-    .page-header h1 a:visited,
-    .page-header h1 a:active {
-      color: #ffffff;
-      font-size: 36pt;
-      text-decoration: none;
-    }
-
-    * {
-      box-sizing: border-box;
-    }
-
-    #user_select_subject {
-      background-image: url("/css/searchicon.png");
-      background-position: 10px 10px;
-      background-repeat: no-repeat;
-      width: 100%;
-      font-size: 16px;
-      padding: 12px 20px 12px 40px;
-      border: 1px solid #ddd;
-      margin-bottom: 12px;
-    }
-
-    #user_list_table {
-      border-collapse: collapse;
-      width: 100%;
-      border: 1px solid #ddd;
-      font-size: 18px;
-    }
-
-    #user_list_table th,
-    #user_list_table td {
-      text-align: left;
-      padding: 12px;
-    }
-
-    #user_list_table tr {
-      border-bottom: 1px solid #ddd;
-    }
-
-    #user_list_table tr.header,
-    #user_list_table tr:hover {
-      background-color: #f1f1f1;
-
-
-    }
-
-    .accordion {
-      background-color: #eee;
-      color: #444;
-      cursor: pointer;
-      padding: 18px;
-      width: 100%;
-      border: none;
-      text-align: left;
-      outline: none;
-      font-size: 15px;
-      transition: 0.4s;
-    }
-
-    .active,
-    .accordion:hover {
-      background-color: #ccc;
-    }
-
-    .accordion:after {
-      content: '\002B';
-      color: #777;
-      font-weight: bold;
-      float: right;
-      margin-left: 5px;
-    }
-
-    .active:after {
-      content: "\2212";
-    }
-
-    .panel {
-      padding: 0 18px;
-      background-color: white;
-      max-height: 0;
-      overflow: hidden;
-      transition: max-height 0.2s ease-out;
-    }
-  </style>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
-  <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+    <style>
+        h1 {
+            color: #c25100;
+            font-family: "Lobster";
+        }
+        
+        body {
+            padding-left: 15px;
+            padding-right: 15px;
+        }
+        
+        .page-header {
+            background-color: #c25100;
+            margin-top: 0;
+            padding: 20px 20px 20px 40px;
+        }
+        
+        .page-header h1,
+        .page-header h1 a,
+        .page-header h1 a:visited,
+        .page-header h1 a:active {
+            color: #ffffff;
+            font-size: 36pt;
+            text-decoration: none;
+        }
+        
+        * {
+            box-sizing: border-box;
+        }
+        
+        #user_select_subject {
+            background-image: url("/css/searchicon.png");
+            background-position: 10px 10px;
+            background-repeat: no-repeat;
+            width: 100%;
+            font-size: 16px;
+            padding: 12px 20px 12px 40px;
+            border: 1px solid #ddd;
+            margin-bottom: 12px;
+        }
+        
+        #user_list_table {
+            border-collapse: collapse;
+            width: 100%;
+            border: 1px solid #ddd;
+            font-size: 18px;
+        }
+        
+        #user_list_table th,
+        #user_list_table td {
+            text-align: left;
+            padding: 12px;
+        }
+        
+        #user_list_table tr {
+            border-bottom: 1px solid #ddd;
+        }
+        
+        #user_list_table tr.header,
+        #user_list_table tr:hover {
+            background-color: #f1f1f1;
+        }
+        
+        .accordion {
+            background-color: #eee;
+            color: #444;
+            cursor: pointer;
+            padding: 18px;
+            width: 100%;
+            border: none;
+            text-align: left;
+            outline: none;
+            font-size: 15px;
+            transition: 0.4s;
+        }
+        
+        .active,
+        .accordion:hover {
+            background-color: #ccc;
+        }
+        
+        .accordion:after {
+            content: '\002B';
+            color: #777;
+            font-weight: bold;
+            float: right;
+            margin-left: 5px;
+        }
+        
+        .active:after {
+            content: "\2212";
+        }
+        
+        .panel {
+            padding: 0 18px;
+            background-color: white;
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.2s ease-out;
+        }
+    </style>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+    <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
 
 
-  <!-- Bootstrap CSS -->
-  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"
-    integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous" />
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous" />
 
-  <title>การรีวิวผู้สอน</title>
+    <title>การรีวิวผู้สอน</title>
 </head>
 
 <body>
-  {% if user.is_authenticated %}
-  <nav class="navbar navbar-expand-md navbar-dark fixed-top bg-dark">
-    <a class="navbar-brand" href="/">SPARK</a>
-    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarCollapse"
-      aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation">
+    {% if user.is_authenticated %}
+    <nav class="navbar navbar-expand-md navbar-dark fixed-top bg-dark">
+        <a class="navbar-brand" href="/">SPARK</a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation">
       <span class="navbar-toggler-icon"></span>
     </button>
-    <div class="collapse navbar-collapse" id="navbarCollapse">
-      <ul class="navbar-nav mr-auto">
-      </ul>
-      <form class="form-inline mt-2 mt-md-0">
-        <ul class="navbar-nav mr-auto">
-          <li class="nav-item">
-            <a class="nav-link" id="help" href="/help">Help</a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link" id="logout" href="{% url 'logout' %}">Logout</a>
-          </li>
-        </ul>
-      </form>
-    </div>
-  </nav>
-  {% else %}
-  <nav class="navbar navbar-expand-md navbar-dark fixed-top bg-dark">
-    <a class="navbar-brand" href="/">SPARK</a>
-    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarCollapse"
-      aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation">
+        <div class="collapse navbar-collapse" id="navbarCollapse">
+            <ul class="navbar-nav mr-auto">
+            </ul>
+            <form class="form-inline mt-2 mt-md-0">
+                <ul class="navbar-nav mr-auto">
+                    <li class="nav-item">
+                        <a class="nav-link" id="help" href="/help">Help</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" id="logout" href="{% url 'logout' %}">Logout</a>
+                    </li>
+                </ul>
+            </form>
+        </div>
+    </nav>
+    {% else %}
+    <nav class="navbar navbar-expand-md navbar-dark fixed-top bg-dark">
+        <a class="navbar-brand" href="/">SPARK</a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation">
       <span class="navbar-toggler-icon"></span>
     </button>
-    <div class="collapse navbar-collapse" id="navbarCollapse">
-      <ul class="navbar-nav mr-auto">
-        <li class="nav-item"></li>
-      </ul>
-      <form class="form-inline mt-2 mt-md-0">
-        <ul class="navbar-nav mr-auto">
-          <li class="nav-item">
-            <a class="nav-link" id="help" href="/help">Help</a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link" id="login" href="{% url 'login' %}">Login</a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link" id="register" href="{% url 'register' %}">Register</a>
-          </li>
-        </ul>
-      </form>
-    </div>
-  </nav>
-  {% endif %}
-  <br />
-  <br />
-  <br />
-
-  <div class="page-header">
-    <h1><a href="/"></a>SPARK</h1>
-  </div>
-
-  <div class="container text-left">
+        <div class="collapse navbar-collapse" id="navbarCollapse">
+            <ul class="navbar-nav mr-auto">
+                <li class="nav-item"></li>
+            </ul>
+            <form class="form-inline mt-2 mt-md-0">
+                <ul class="navbar-nav mr-auto">
+                    <li class="nav-item">
+                        <a class="nav-link" id="help" href="/help">Help</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" id="login" href="{% url 'login' %}">Login</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" id="register" href="{% url 'register' %}">Register</a>
+                    </li>
+                </ul>
+            </form>
+        </div>
+    </nav>
+    {% endif %}
     <br />
-    <h2>การรีวิวผู้สอน</h2>
-    <p>ในกรณีเราต้องการที่จะให้คะแนนความพึ่งพอใจแก่ผู้สอนหรือเสนอความคิดเห็น ทำได้โดยขั้นตอนดังนี้</p>
-    <p>1.ทำการ login เข้ามาในเว็บไซต์</p>
-    <p>2.เลือกผู้สอนที่ต้องการจะรีวิวและไปยังหน้ารีวิวของผู้สอนคนนั้น</a></p>
-    <p>3.ทำการกำหนดคะแนนและกรอกข้อความที่ต้องการเสนอแนะต่อผู้สอน</p>
-    <p>4.ทำการกดปุ่ม Submit </p>
-    <p>5.จากนั้นคะแนนและข้อความที่กรอกจะไปรากฎอยู่ในหน้า Review</p>
+    <br />
+    <br />
 
-  </div>
 
-  <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js"
-    integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n"
-    crossorigin="anonymous"></script>
-  <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"
-    integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo"
-    crossorigin="anonymous"></script>
-  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"
-    integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6"
-    crossorigin="anonymous"></script>
 
-  <script>
-    var acc = document.getElementsByClassName("accordion");
-    var i;
+    <div class="container text-left">
+        <br />
+        <h2>การรีวิวผู้สอน</h2>
+        <p>ในกรณีเราต้องการที่จะให้คะแนนความพึ่งพอใจแก่ผู้สอนหรือเสนอความคิดเห็น ทำได้โดยขั้นตอนดังนี้</p>
+        <p>1.ทำการ login เข้ามาในเว็บไซต์</p>
+        <p>2.เลือกผู้สอนที่ต้องการจะรีวิวและไปยังหน้ารีวิวของผู้สอนคนนั้น</a>
+        </p>
+        <p>3.ทำการกำหนดคะแนนและกรอกข้อความที่ต้องการเสนอแนะต่อผู้สอน</p>
+        <p>4.ทำการกดปุ่ม Submit </p>
+        <p>5.จากนั้นคะแนนและข้อความที่กรอกจะไปรากฎอยู่ในหน้า Review</p>
 
-    for (i = 0; i < acc.length; i++) {
-      acc[i].addEventListener("click", function () {
-        this.classList.toggle("active");
-        var panel = this.nextElementSibling;
-        if (panel.style.maxHeight) {
-          panel.style.maxHeight = null;
-        } else {
-          panel.style.maxHeight = panel.scrollHeight + "px";
+    </div>
+
+    <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js" integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js" integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>
+
+    <script>
+        var acc = document.getElementsByClassName("accordion");
+        var i;
+
+        for (i = 0; i < acc.length; i++) {
+            acc[i].addEventListener("click", function() {
+                this.classList.toggle("active");
+                var panel = this.nextElementSibling;
+                if (panel.style.maxHeight) {
+                    panel.style.maxHeight = null;
+                } else {
+                    panel.style.maxHeight = panel.scrollHeight + "px";
+                }
+            });
         }
-      });
-    }
-  </script>
+    </script>
 
 </body>
 
