@@ -34,7 +34,7 @@ urlpatterns = [
     path('review/<int:tutor_id>',views.review, name='review'),
     path('about/group',views.about_group, name='about_group'),
     path('about/app',views.about_app, name='about_app'),
-    path('friendprofile/<str:username>',views.friend_profile, name='friend_profile'),
+    path('friendprofile/<int:tutor_id>',views.friend_profile, name='friend_profile'),
     path('help', views.help_user, name='help_user'),
     path('help/answer/<int:answer_page>', views.answer_user, name='answer_user'),
 ]

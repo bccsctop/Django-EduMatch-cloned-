@@ -22,11 +22,12 @@ def home_page(request):
     tutors = tutors.filter(city=city) if city != '' else tutors
     tutors = tutors.exclude(
         user=request.user) if request.user.is_authenticated else tutors
+    
         
     if request.user.is_authenticated:
-        tutors = tutors.exclude(user=request.user)
-        p = Tutor.objects.get(user=request.user)
-        rec_match_requests = Matched_Request.objects.filter(to_user=p.user)
+        tutors = tutors.exclude(user=request.user) 
+        current_user = Tutor.objects.get(user=request.user)
+        rec_match_requests = Matched_Request.objects.filter(to_user=current_user.user)
         if len(rec_match_requests) > 0 :
             return render(request, 'home.html', {
                 'tutors': tutors,
@@ -34,7 +35,8 @@ def home_page(request):
             })
 
     return render(request, 'home.html', {
-        'tutors': tutors
+        'tutors': tutors,
+        'current_user': current_user
     })
 
 
@@ -136,9 +138,9 @@ def match_result(request):
 
     contact = p.groupMatch.all()
     urlroom = {}
-    for i in contact:
+    for tutor in contact:
         listuser = []
-        name = i.user
+        name = tutor
         listuser.append(str(name))
         listuser.append(str(u))
         listuser.sort()
@@ -173,11 +175,11 @@ def about_group(request):
 def about_app(request):
     return render(request, "about_app.html")
 
-def friend_profile(request,username):
-    tutors = User.objects.get_by_natural_key(username)
-    data = Tutor.objects.get(user=tutors)
+def friend_profile(request,tutor_id):
+    tutor = Tutor.objects.get(pk=tutor_id)
+    user = tutor.user
     return render(request, 'friend_profile.html', {
-        'user': tutors , 'city' : data.city , 'gender': data.gender, 'expert': data.expert
+        'user': user , 'city' : tutor.city , 'gender': tutor.gender, 'expert': tutor.expert
     })
     
 def help_user(request):

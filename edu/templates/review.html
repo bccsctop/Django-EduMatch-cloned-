@@ -97,7 +97,7 @@
                 <ul class="navbar-nav mr-auto">
                     <li class="nav-item">
                         <a class="nav-link" id="help" href="/help">Help</a>
-                      </li>
+                    </li>
                     <li class="nav-item">
                         <a class="nav-link" id="logout" href="{% url 'logout' %}">Logout</a
               >
@@ -109,7 +109,7 @@
     <br />
     <br />
     <br />
-    <h2 id='review-header'>Review</h2>
+    <h2 id='review-header'>{{tutor.name}} 's Review</h2>
     
     <div id='review'>
     {% for review in reviews %}
