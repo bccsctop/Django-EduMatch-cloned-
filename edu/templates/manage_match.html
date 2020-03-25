@@ -136,7 +136,7 @@
 
         <ul>
             {% for s_request in sent_match_requests %}
-            <li id="sent_request_item">{{ s_request.to_user.username }}</li>
+            <li id="sent_request_item">{{ s_request.to_user.first_name }}  {{s_request.to_user.last_name}}</li>
             {% endfor %}
         </ul>
         <hr />
@@ -144,7 +144,7 @@
 
         {% for r_request in rec_match_requests %}
         <p>
-            <a id="recieve_request_item" href="/">{{ r_request.from_user.username }}</a
+            <a id="recieve_request_item" href="/">{{ r_request.from_user.first_name }}  {{r_request.to_user.last_name}}</a
         >
       </p>
       <small>

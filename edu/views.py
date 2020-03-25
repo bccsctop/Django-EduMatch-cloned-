@@ -113,6 +113,8 @@ def cancel_match_request(request, tutor_id):
 
 def accept_match_request(request, tutor_id):
     from_user = get_object_or_404(User, id=tutor_id)
+    matchUser = Tutor.objects.get(user=from_user)
+    matchUser.isMatched = 'False'
     frequest = Matched_Request.objects.filter(
         from_user=from_user, to_user=request.user).first()
     user1 = frequest.to_user
@@ -125,6 +127,8 @@ def accept_match_request(request, tutor_id):
 
 def delete_match_request(request, tutor_id):
     from_user = get_object_or_404(User, id=tutor_id)
+    matchUser = Tutor.objects.get(user=from_user)
+    matchUser.isMatched = 'False'
     frequest = Matched_Request.objects.filter(
         from_user=from_user, to_user=request.user).first()
     frequest.delete()
@@ -144,7 +148,8 @@ def match_result(request):
     for tutor in contact:
         listuser = []
         name = tutor
-        listuser.append(str(name))
+        user = tutor.user
+        listuser.append(str(user))
         listuser.append(str(u))
         listuser.sort()
         urlroom[name] = listuser[0]+'.'+listuser[1]
