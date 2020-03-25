@@ -245,7 +245,7 @@ class ProfileTest(TestCase):
         found = resolve('/profile/edit')
         self.assertEqual(found.func,edit_profile)
 
-    def test_rendering_ProfileTemplate(self):
+    def test_rendering_ProfileEditTemplate(self):
         frankin_user = User.objects.create_user('frankin','frankin@test.com','frankinpassword')
         frankin = Tutor.objects.create(user=frankin_user,name='Frankin',gender = 'Male',city = 'Bangkok',expert ='Statistic')
         self.client.login(username='frankin', password='frankinpassword') 
