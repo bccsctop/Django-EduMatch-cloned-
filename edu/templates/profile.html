@@ -82,21 +82,23 @@
     <br />
     {% csrf_token %}
     <div class='container'>
-      <div class='card' style="width: 18rem;">
-        <div class='card-body'>
-          <h3 class='card-title'>PROFILE</h3>
-          <p class='card-text'>
-            <h6 class='card-subtitle mb-2 text-muted' id="username"> Username : {{user}}</h6><br />
-            <p2 id="firstname"> Firstname : {{user.first_name}}</p2><br />
-            <p3 id="lastname"> Lastname : {{user.last_name}}</p3><br />
-            <p4 id="gender"> Gender : {{gender}}</p4><br />
-            <p5 id="city"> City : {{city}}</p5><br />
-            <p6 id="expert"> Subject expert : {{expert}}</p6><br/>
-          </p>
-          <div class='btn-group btn-group-toggle' data-toggle="buttons"><a class='btn btn-primary' href="/review/{{tutors.id}}">Go to your review</a>
+      <div class="row" style="justify-content: center;">
+        <div class='container card' style="width: 50%;">
+          <div class='card-body'>
+            <h3 class='card-title'>PROFILE</h3>
+            <p class='card-text'>
+              <h6 class='card-subtitle mb-2 text-muted' id="username"> Username : {{user}}</h6><br />
+              <p2 id="firstname"> Firstname : {{user.first_name}}</p2><br />
+              <p3 id="lastname"> Lastname : {{user.last_name}}</p3><br />
+              <p4 id="gender"> Gender : {{gender}}</p4><br />
+              <p5 id="city"> City : {{city}}</p5><br />
+              <p6 id="expert"> Subject expert : {{expert}}</p6><br/>
+            </p>
+            <div class='btn-group-block' data-toggle="buttons"><a class='btn btn-primary' href="/review/{{tutors.id}}">Go to your review</a>
                     <a class="btn btn-secondary" id="edit" href="/profile/edit">Edit profile</a>
         </div>
 
+        </div>
         </div>
         </div>
         </div>

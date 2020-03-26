@@ -205,12 +205,9 @@
 
       <select name="city_text" id="user_city_subject">
         <option value="">---------</option>
-        <option value="Ayutthaya">Ayutthaya</option>
-        <option value="Bangkok">Bangkok</option>
-        <option value="Chiangmai">Chiangmai</option>
-        <option value="Kanchanaburi">Kanchanaburi</option>
-        <option value="Krabi">Krabi</option>
-        <option value="Lampang">Lampang</option>
+        {% for city in cities %}
+        <option value="{{ city }}">{{ city }}</option>
+        {% endfor %}
       </select>
 
       <input

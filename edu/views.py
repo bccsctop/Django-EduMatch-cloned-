@@ -5,7 +5,7 @@ from django.contrib.auth.models import User
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.forms import UserChangeForm
 from edu.models import Tutor, Matched_Request, Review
-from edu.forms import SignUpForm, EditProfileForm, EditProfileForm2, ReviewForm
+from edu.forms import SignUpForm, EditProfileForm, EditProfileForm2, ReviewForm, CITY_CHOICES
 import time
 import datetime
 # Create your views here.
@@ -22,6 +22,7 @@ def home_page(request):
     gender = request.POST.get('gender_text', '')
     city = request.POST.get('city_text', '')
 
+    cities = [i[0] for i in CITY_CHOICES]
     tutors = tutors.filter(expert=subject) if subject != '' else tutors
     tutors = tutors.filter(gender=gender) if gender != '' else tutors
     tutors = tutors.filter(city=city) if city != '' else tutors
@@ -51,13 +52,15 @@ def home_page(request):
                 'requestedTutor': requestedTutor,
                 'unrequestedTutor': unrequestedTutor,
                 'amountRecieve': len(rec_match_requests),
-                'current_user': current_user 
+                'current_user': current_user,
+                'cites':cities
             })
 
     return render(request, 'home.html', {
         'requestedTutor': requestedTutor,
         'unrequestedTutor': unrequestedTutor,
-        'current_user': current_user
+        'current_user': current_user,
+        'cities':cities
     })
 
 
@@ -180,7 +183,7 @@ def match_result(request):
 def review(request, tutor_id):
     tutor = Tutor.objects.get(pk=tutor_id) # Get reviewed_tutor
     reviews = tutor.reviewed_tutor.all() # Get all reviews of tutor
-
+    
     total_point = 0
     if len(reviews) != 0:
         for review in reviews:
