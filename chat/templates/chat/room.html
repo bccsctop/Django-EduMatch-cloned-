@@ -75,9 +75,34 @@
         #user_list_table tr:hover {
             background-color: #f1f1f1;
         }
+        textarea{
+            background: white;
+            border: 0;
+            box-shadow: 0 0 5px black;
+            padding: 20px;
+            min-height: 100px;
+            background-color: #f8f8f8;
+        }
+        input[type=text]{
+          border: none;
+          border-bottom: 1px solid;
+          background-color: #f8f8f8;
+        }
+        .graybg{
+            border-radius: 5px;
+            background-color: #f2f2f2;
+            padding: 20px;
+            box-shadow: 0 0 5px black;
+        }
+        body{
+          background-image: url("/static/jpg/bg.jpg");
+          background-position: bottom;
+          background-size: 100%;
+          background-repeat: no-repeat;
+          background-attachment: fixed;
+        }
     </style>
 </head>
-
 <body>
     {% if user.is_authenticated %}
     <nav class="navbar navbar-expand-md navbar-dark fixed-top bg-dark">
@@ -177,16 +202,29 @@
     {% if user.username == "" %}
     <p>You are not loged in</p>
     <p>Please log in </p>
-    <input id="login" type="button" value="login" onclick="window.location.href='/accounts/login';" /> {%else%} {% if user.username in room_name %}
-    <p>Room : {{ room_name }}</p>
-    <p>Login as : {{user.username}} </p>
-    <textarea id="chat-log" cols="100" rows="20">{{ chat_log }}</textarea><br/>
-    <input id="chat-message-input" type="text" size="100" /><br/>
-    <input id="chat-message-submit" type="button" value="Send" /> {%else%}
-    <meta http-equiv="refresh" content="2; url = http://127.0.0.1:8000/match-result/" />
-    <h1>Your access denied</h1>
-    <h4>Redirect.......</h4>
-    {%endif%} {%endif%}
+    <input id="login" type="button" value="login" onclick="window.location.href='/accounts/login';" /> 
+    {%else%} 
+      {% if user.username in room_name %}
+      <center>
+        <div class="container">
+          <div class="graybg">
+            <p>Room : {{ room_name }}</p>
+            <p>Login as : {{user.username}} </p>
+            <textarea class="center" id="chat-log" cols="100" rows="20" readonly>{{ chat_log }}</textarea><br>
+            <br>
+            <input id="chat-message-input" type="text" size="97" />
+            <input id="chat-message-submit" type="button" value="Send" /> 
+            <br>
+            <br>
+          </div>
+        </div>
+      </center>
+      {%else%}
+      <meta http-equiv="refresh" content="2; url = http://127.0.0.1:8000/match-result/" />
+      <h1>Your access denied</h1>
+      <h4>Redirect.......</h4>
+      {%endif%} 
+    {%endif%}
 </body>
 <script>
     var roomName = "{{ room_name|escapejs }}";
@@ -194,6 +232,7 @@
     var chatSocket = new WebSocket(
         wss_protocol + window.location.host +
         '/ws/chat/' + roomName + '/');
+    document.getElementById("chat-log").scrollTop = document.getElementById("chat-log").scrollHeight //scoll to bottom when access chatroom
 
     chatSocket.onmessage = function(e) {
         var data = JSON.parse(e.data);
@@ -223,6 +262,7 @@
         }));
 
         messageInputDom.value = '';
+        document.getElementById("chat-log").scrollTop = document.getElementById("chat-log").scrollHeight //scoll to bottom when send the message
     };
 </script>
 
