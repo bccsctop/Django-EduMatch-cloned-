@@ -89,7 +89,7 @@ def register(request):
 
 def view_profile(request):
     """ In view_profile, it will get current user's obeject
-    and send to the template for display informations.
+    and send data to the template for display informations.
     """
     tutors = Tutor.objects.get(user=request.user)
     city = tutors.city
@@ -104,8 +104,11 @@ def view_profile(request):
 
 
 def edit_profile(request):
+    """ In edit_profile, it will get current user's object.
+    and check request type if it's a POST its will check the form that are validated
+    and save to the database
+    """
     tutors = Tutor.objects.get(user=request.user)
-
     if request.method == 'POST':
         form = EditProfileForm(request.POST, instance=request.user)
         tutor_form = EditProfileForm2(request.POST, instance=tutors)
@@ -113,10 +116,12 @@ def edit_profile(request):
             form.save()
             tutor_form.save()
             view_profile(request)
+
             return redirect('/profile')
     else:
         form = EditProfileForm(instance=request.user)
         tutor_form = EditProfileForm2(instance=tutors)
+
         return render(request, 'edit_profile.html', {'current_user':tutors,'form': form, 'tutor_form': tutor_form})
 
 
