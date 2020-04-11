@@ -126,10 +126,16 @@ def edit_profile(request):
 
 
 def send_match_request(request, tutor_id):
+    """ In send_match_request, this method will active when user authenticated.
+    we will get user'object which is the id of user that you want to send request
+    and create the request that include from_user and to_user. 
+    from_user is you and to_user is user who want to sent request.
+    """
     if request.user.is_authenticated:
         user = get_object_or_404(User, id=tutor_id)
         frequest, created = Matched_Request.objects.get_or_create(
             from_user=request.user, to_user=user)
+
         return HttpResponseRedirect('/')
 
 
