@@ -62,7 +62,12 @@ def home_page(request):
 
 
 def register(request):
-    if request.method == 'POST':
+    """ In register method, it will create user with data from SignUpForm in forms.py.
+    Before we save user to database we have to check the data is validated.
+    If form is validated we will create user as a object with
+    user, name, gender, city, subject.
+    """
+    if request.method == 'POST':                
         form = SignUpForm(request.POST)
         if form.is_valid():
             user = form.save()
@@ -78,6 +83,7 @@ def register(request):
             return redirect('login')
     else:
         form = SignUpForm()
+
     return render(request, 'register.html', {'form': form})
 
 
