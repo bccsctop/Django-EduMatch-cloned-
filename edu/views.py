@@ -12,42 +12,39 @@ import datetime
 
 
 def home_page(request):
+    if not request.user.is_authenticated:  #Check that user is logged in.
+        return redirect('login')           #If user is not logged in to the server page will redirect to login page
 
-    if not request.user.is_authenticated:
-        return redirect('login')
+    tutors = Tutor.objects.all()                     #Get Tutor object and store in tutors variable
+    subject = request.POST.get('subject_text', '')   #Get subject_text in the search box and store in subject variable
+    gender = request.POST.get('gender_text', '')     #Get gender_text at dropdown  and store in gender variable
+    city = request.POST.get('city_text', '')         #Get city_text at dropdown and store in city variable
 
-    tutors = Tutor.objects.all()
-    
-    subject = request.POST.get('subject_text', '')
-    gender = request.POST.get('gender_text', '')
-    city = request.POST.get('city_text', '')
+    cities = [i[0] for i in CITY_CHOICES]                                   #Store CITY_CHOICES that are declare in form.py to cities variable
+    tutors = tutors.filter(expert=subject) if subject != '' else tutors     #If subject is existed tutors will filter user that in condition.
+    tutors = tutors.filter(gender=gender) if gender != '' else tutors       #If gender is existed tutors will filter user that in condition.
+    tutors = tutors.filter(city=city) if city != '' else tutors             #If city is existed tutors will filter user that in condition.
+    tutors = tutors.exclude(user=request.user)                              #Take off the current user that is logged in out of tutors
+    current_user = Tutor.objects.get(user=request.user)                     #Get current user and store to current_user
 
-    cities = [i[0] for i in CITY_CHOICES]
-    tutors = tutors.filter(expert=subject) if subject != '' else tutors
-    tutors = tutors.filter(gender=gender) if gender != '' else tutors
-    tutors = tutors.filter(city=city) if city != '' else tutors
-    tutors = tutors.exclude(user=request.user) 
-    current_user = Tutor.objects.get(user=request.user) 
-
-    for match_user in current_user.groupMatch.all():
+    for match_user in current_user.groupMatch.all():                                    #Take off the user that already match with current user
         tutors = tutors.exclude(pk=match_user.id)
-    rec_match_requests = Matched_Request.objects.filter(to_user=current_user.user)
-    get_match_requests = Matched_Request.objects.filter(from_user=current_user.user)
+
+    rec_match_requests = Matched_Request.objects.filter(to_user=current_user.user)      #Filter the Match_Request that current user recieve request
+    get_match_requests = Matched_Request.objects.filter(from_user=current_user.user)    #Filter the Match_Request that current user sent request to other user
     
     requestedTutor = []
     unrequestedTutor = []
-
-    for i in tutors:
+    for i in tutors:                                #Check the user that curent user already sent the request
         numCount = 0
         for j in get_match_requests:
             if i.name == j.to_user.first_name:
-                requestedTutor.append(i)
+                requestedTutor.append(i)            #current user alreadr send the request 
                 numCount+=1
-
         if numCount == 0:
-            unrequestedTutor.append(i)
+            unrequestedTutor.append(i)              #current user never send the request
 
-    if len(rec_match_requests) > 0 :            
+    if len(rec_match_requests) > 0 :                #If current user have recieve request
         return render(request, 'home.html', {
                 'requestedTutor': requestedTutor,
                 'unrequestedTutor': unrequestedTutor,
@@ -56,7 +53,7 @@ def home_page(request):
                 'cites':cities
             })
 
-    return render(request, 'home.html', {
+    return render(request, 'home.html', {           #If current user not have recieve request
         'requestedTutor': requestedTutor,
         'unrequestedTutor': unrequestedTutor,
         'current_user': current_user,
