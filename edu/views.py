@@ -88,10 +88,18 @@ def register(request):
 
 
 def view_profile(request):
+    """ In view_profile, it will get current user's obeject
+    and send to the template for display informations.
+    """
     tutors = Tutor.objects.get(user=request.user)
-    #test = Tutor.objects.get(user = request.user)
+    city = tutors.city
+    gender = tutors.gender
+    expert = tutors.expert
+
     return render(request, 'profile.html', {
-        'user': request.user, 'tutors': tutors, 'city': tutors.city, 'gender': tutors.gender, 'expert': tutors.expert
+        'user': request.user, 'tutors': tutors, 
+        'city': city, 'gender': gender, 
+        'expert': expert
     })
 
 
