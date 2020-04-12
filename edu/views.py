@@ -249,6 +249,7 @@ def review(request, tutor_id):
     return render(request, "review.html", {"tutor":tutor,"form":form,"reviews":reviews,"range":range(1,6),'total_point':total_point})
 
 def about_group(request):
+    #In about_group, this method just send user's object to template for review button
     if request.user.is_authenticated:
         current_user = Tutor.objects.get(user=request.user)
         return render(request, "about_group.html",{'current_user':current_user})
