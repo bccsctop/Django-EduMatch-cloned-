@@ -182,9 +182,15 @@ def delete_match_request(request, tutor_id):
     return HttpResponseRedirect('/match-result/')
 
 def unfriend(request,tutor_id):
+    #Get current user's object
     current_user = Tutor.objects.get(user=request.user)
+    #Get user who want to unfriend 
     to_unfriend = Tutor.objects.get(pk=tutor_id)
+    #Remove relations/delete to_unfriend out of friend list
     current_user.groupMatch.remove(to_unfriend)
+    #I think we have to remove friend'match
+    #may be like -> to_unfriend.groupMatch.remove(current_user)
+    
     return HttpResponseRedirect('/match-result/')
 
 def match_result(request):
