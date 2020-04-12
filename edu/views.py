@@ -4,7 +4,7 @@ from django.contrib.auth import login, authenticate
 from django.contrib.auth.models import User
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.forms import UserChangeForm
-from edu.models import Tutor, Matched_Request, Review
+from edu.models import Tutor, MatchedRequest, Review
 from edu.forms import SignUpForm, EditProfileForm, EditProfileForm2, ReviewForm, CITY_CHOICES
 import time
 import datetime
@@ -30,8 +30,8 @@ def home_page(request):
     for match_user in current_user.groupMatch.all():                                    #Take off the user that already match with current user
         tutors = tutors.exclude(pk=match_user.id)
 
-    rec_match_requests = Matched_Request.objects.filter(to_user=current_user.user)      #Filter the Match_Request that current user recieve request
-    sent_match_requests = Matched_Request.objects.filter(from_user=current_user.user)    #Filter the Match_Request that current user sent request to other user
+    rec_match_requests = MatchedRequest.objects.filter(to_user=current_user.user)      #Filter the MatchRequest that current user recieve request
+    sent_match_requests = MatchedRequest.objects.filter(from_user=current_user.user)    #Filter the MatchRequest that current user sent request to other user
     
     requestedTutor = []
     unrequestedTutor = []
@@ -133,7 +133,7 @@ def send_match_request(request, tutor_id):
     """
     if request.user.is_authenticated:
         user = get_object_or_404(User, id=tutor_id)
-        frequest, created = Matched_Request.objects.get_or_create(
+        frequest, created = MatchedRequest.objects.get_or_create(
             from_user=request.user, to_user=user)
 
         return HttpResponseRedirect('/')
@@ -147,7 +147,7 @@ def cancel_match_request(request, tutor_id):
     """
     if request.user.is_authenticated:
         user = get_object_or_404(User, id=tutor_id)
-        frequest = Matched_Request.objects.filter(
+        frequest = MatchedRequest.objects.filter(
             from_user=request.user, to_user=user).first()
         frequest.delete()
 
@@ -158,7 +158,7 @@ def accept_match_request(request, tutor_id):
     #In accept_match_request, we will get user'object which is the id of user that you want to accept request.
     from_user = get_object_or_404(User, id=tutor_id)
     #Filter Match_Request and store the request to frequest
-    frequest = Matched_Request.objects.filter(
+    frequest = MatchedRequest.objects.filter(
         from_user=from_user, to_user=request.user).first()  
     user1 = frequest.to_user
     user2 = from_user
@@ -174,7 +174,7 @@ def delete_match_request(request, tutor_id):
     #In delete_match_request, we will get user'object which is the id of user that you want to delete request.
     from_user = get_object_or_404(User, id=tutor_id)
     #Filter Match_Request and store the request to frequest
-    frequest = Matched_Request.objects.filter(
+    frequest = MatchedRequest.objects.filter(
         from_user=from_user, to_user=request.user).first()
     #delete frequest
     frequest.delete()
@@ -199,8 +199,8 @@ def match_result(request):
     #Get current user's username
     current_username = current_user.user
     #Filter Match_Request that belong to current user
-    sent_match_requests = Matched_Request.objects.filter(from_user=current_user.user)
-    rec_match_requests = Matched_Request.objects.filter(to_user=current_user.user)
+    sent_match_requests = MatchedRequest.objects.filter(from_user=current_user.user)
+    rec_match_requests = MatchedRequest.objects.filter(to_user=current_user.user)
     #Get all user that current user are matched
     contact = current_user.groupMatch.all()
     #Create room's name for chatting by using both username ,sorting and use "." to seperate two names

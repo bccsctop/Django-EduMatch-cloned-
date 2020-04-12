@@ -16,7 +16,7 @@ class Tutor(models.Model):
         return self.name
     
     
-class Matched_Request(models.Model):
+class MatchedRequest(models.Model):
     to_user = models.ForeignKey(User, on_delete=models.CASCADE,related_name='to_user')
     from_user = models.ForeignKey(User, on_delete=models.CASCADE,related_name='from_user')
     timestamp = models.DateTimeField(auto_now_add=True)
