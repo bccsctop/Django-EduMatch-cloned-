@@ -155,7 +155,7 @@ def cancel_match_request(request, tutor_id):
 
 
 def accept_match_request(request, tutor_id):
-    # In accept_match_request, we will get user'object which is the id of user that you want to accept request.
+    #In accept_match_request, we will get user'object which is the id of user that you want to accept request.
     from_user = get_object_or_404(User, id=tutor_id)
     #Filter Match_Request and store the request to frequest
     frequest = Matched_Request.objects.filter(
@@ -165,15 +165,18 @@ def accept_match_request(request, tutor_id):
     #Add user match to both of user
     user1.tutor.groupMatch.add(user2.tutor)
     user2.tutor.groupMatch.add(user1.tutor)
-    frequest.delete()   #Reset frequest value
+    frequest.delete()   #delete frequest
     
     return HttpResponseRedirect('/match-result/')
 
 
 def delete_match_request(request, tutor_id):
+    #In delete_match_request, we will get user'object which is the id of user that you want to delete request.
     from_user = get_object_or_404(User, id=tutor_id)
+    #Filter Match_Request and store the request to frequest
     frequest = Matched_Request.objects.filter(
         from_user=from_user, to_user=request.user).first()
+    #delete frequest
     frequest.delete()
 
     return HttpResponseRedirect('/match-result/')
