@@ -226,24 +226,26 @@ def match_result(request):
     return render(request, "manage_match.html", context)
 
 def review(request, tutor_id):
-    tutor = Tutor.objects.get(pk=tutor_id) # Get reviewed_tutor
+    tutor = Tutor.objects.get(pk=tutor_id) # Get user that want to review
     reviews = tutor.reviewed_tutor.all() # Get all reviews of tutor
-    
+    #Find average score
     total_point = 0
     if len(reviews) != 0:
         for review in reviews:
             total_point += review.rate
         total_point = float(f'{(total_point / len(reviews)):.2f}')
-
-    if request.method == "POST": # After submit review
+    # When submit review
+    if request.method == "POST": 
         form = ReviewForm(request.POST)
         if form.is_valid():
-            reviewer = Tutor.objects.get(user=request.user) # Get Reviewer
-            rating_point = request.POST.get('rating','')
+            reviewer = Tutor.objects.get(user=request.user) # Get Reviewer/current user
+            rating_point = request.POST.get('rating','')    #Get rating_point
+            #Create new review
             Review.objects.create(comment=form.cleaned_data['comment'],reviewer=reviewer, reviewed_tutor=tutor, rate=rating_point)
             redirect(f'/review/{tutor_id}')
     else: 
-        form = ReviewForm() 
+        form = ReviewForm()
+
     return render(request, "review.html", {"tutor":tutor,"form":form,"reviews":reviews,"range":range(1,6),'total_point':total_point})
 
 def about_group(request):
