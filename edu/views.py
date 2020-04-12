@@ -286,5 +286,6 @@ def help_user(request):
     return render(request, 'help.html')
         
 def answer_user(request, answer_page):
+    #Redirect to each answer page
     return render(request, 'answers/answer%s.html' % answer_page)
 
