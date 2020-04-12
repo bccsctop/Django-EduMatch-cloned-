@@ -257,7 +257,7 @@ def about_group(request):
     return render(request, "about_group.html")
 
 def about_app(request):
-    #In about_group, this method just send user's object to template for review button
+    #In about_app, this method just send user's object to template for review button
     if request.user.is_authenticated:
         current_user = Tutor.objects.get(user=request.user)
         return render(request, "about_app.html",{'current_user':current_user})
@@ -278,9 +278,11 @@ def friend_profile(request,tutor_id):
     })
     
 def help_user(request):
+    #In help_user, this method just send user's object to template for review button
     if request.user.is_authenticated:
         current_user = Tutor.objects.get(user=request.user)
         return render(request, "help.html",{'current_user':current_user})
+        
     return render(request, 'help.html')
         
 def answer_user(request, answer_page):
