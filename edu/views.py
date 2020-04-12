@@ -31,13 +31,13 @@ def home_page(request):
         tutors = tutors.exclude(pk=match_user.id)
 
     rec_match_requests = Matched_Request.objects.filter(to_user=current_user.user)      #Filter the Match_Request that current user recieve request
-    get_match_requests = Matched_Request.objects.filter(from_user=current_user.user)    #Filter the Match_Request that current user sent request to other user
+    sent_match_requests = Matched_Request.objects.filter(from_user=current_user.user)    #Filter the Match_Request that current user sent request to other user
     
     requestedTutor = []
     unrequestedTutor = []
     for i in tutors:                                #Check the user that curent user already sent the request
         numCount = 0
-        for j in get_match_requests:
+        for j in sent_match_requests:
             if i.name == j.to_user.first_name:
                 requestedTutor.append(i)            #current user alreadr send the request 
                 numCount+=1
@@ -190,36 +190,39 @@ def unfriend(request,tutor_id):
     current_user.groupMatch.remove(to_unfriend)
     #I think we have to remove friend'match
     #may be like -> to_unfriend.groupMatch.remove(current_user)
-    
+
     return HttpResponseRedirect('/match-result/')
 
 def match_result(request):
+    #Get current user's object
     current_user = Tutor.objects.get(user=request.user)
-    p = Tutor.objects.get(user=request.user)
-    u = p.user
-
-    sent_match_requests = Matched_Request.objects.filter(from_user=p.user)
-    rec_match_requests = Matched_Request.objects.filter(to_user=p.user)
-
-    contact = p.groupMatch.all()
+    #Get current user's username
+    current_username = current_user.user
+    #Filter Match_Request that belong to current user
+    sent_match_requests = Matched_Request.objects.filter(from_user=current_user.user)
+    rec_match_requests = Matched_Request.objects.filter(to_user=current_user.user)
+    #Get all user that current user are matched
+    contact = current_user.groupMatch.all()
+    #Create room's name for chatting by using both username ,sorting and use "." to seperate two names
     urlroom = {}
     for tutor in contact:
         listuser = []
         name = tutor
-        user = tutor.user
-        listuser.append(str(user))
-        listuser.append(str(u))
+        another_user = tutor.user
+        listuser.append(str(another_user))
+        listuser.append(str(current_username))
         listuser.sort()
         urlroom[name] = listuser[0]+'.'+listuser[1]
-
+    #Data that will be send to template
     context = {
         'current_user':current_user,
-        'u': u,
+        'current_username': current_username,
         'contact_list': contact,
         'sent_match_requests': sent_match_requests,
         'rec_match_requests': rec_match_requests,
         'urlroom': urlroom
     }
+
     return render(request, "manage_match.html", context)
 
 def review(request, tutor_id):

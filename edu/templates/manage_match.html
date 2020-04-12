@@ -110,7 +110,7 @@
     {% if user.is_authenticated %}
 
     <div class="container text-left">
-      {% if request.user == u %}
+      {% if request.user == current_user %}
 
       <div class="container">
         <h1 class="row">My Tutor/Student</h1>
