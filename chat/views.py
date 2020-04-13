@@ -3,7 +3,7 @@ from .models import Chatroom_message
 from edu.models import Tutor
 
 
-def room(request, room_name):
+def chat_room(request, room_name):
     #Get current user's object
     current_user = Tutor.objects.get(user=request.user)
     #Get room name
