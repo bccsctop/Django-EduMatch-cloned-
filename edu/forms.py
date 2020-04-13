@@ -2,7 +2,7 @@ from django import forms
 from django.forms import ModelForm
 from django.contrib.auth.forms import UserCreationForm, UserChangeForm
 from django.contrib.auth.models import User
-from edu.models import Tutor,Matched_Request
+from edu.models import Tutor
 
 GENDER_CHOICES= [
     ('Male','Male'),
