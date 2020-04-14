@@ -246,7 +246,10 @@ def review(request, tutor_id):
     else: 
         form = ReviewForm()
 
-    return render(request, "review.html", {"tutor":tutor,"form":form,"reviews":reviews,"range":range(1,6),'total_point':total_point})
+    return render(request, "review.html", {
+        "tutor":tutor, "form":form, 
+        "reviews":reviews, "range":range(1,6),
+        "total_point":total_point})
 
 def about_group(request):
     #In about_group, this method just send user's object to template for review button
