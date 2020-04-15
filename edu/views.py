@@ -108,7 +108,7 @@ def view_profile(request):
 
 def edit_profile(request):
     """ In edit_profile, it will get current user's object.
-    and check request type if it's a POST its will check the form that are validated
+    and check request type if it's a POST it will check the form that are verified
     and save to the database
     """
     tutors = Tutor.objects.get(user=request.user)
@@ -116,9 +116,10 @@ def edit_profile(request):
         form = EditProfileForm(request.POST, instance=request.user)
         tutor_form = EditProfileForm2(request.POST, instance=tutors)
         if form.is_valid():
+            #Save firstname, lastname, username
             form.save()
+            #Save gender, city, expert
             tutor_form.save()
-            view_profile(request)
 
             return redirect('/profile')
     else:
