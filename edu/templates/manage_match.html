@@ -115,7 +115,7 @@
       <div class="container">
         <h1 class="row">My Tutor/Student</h1>
 
-        {% for key,value in urlroom.items %}
+        {% for key,value in room_url.items %}
         <div class="row" style="margin: 5px;">
           <div class="col-2">
             <a href="/friendprofile/{{ key.id }}">{{ key.name }}</a>
@@ -139,7 +139,7 @@
         <hr />
         <h1>Received Tutor Requests</h1>
 
-        {% for r_request in rec_match_requests %}
+        {% for r_request in recieve_match_requests %}
         <p>
           <a id="recieve_request_item" href="/friendprofile/{{ r_request.from_user.id }}">{{ r_request.from_user.first_name }}  {{r_request.from_user.last_name}}</a
         >

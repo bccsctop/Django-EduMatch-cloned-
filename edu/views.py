@@ -205,27 +205,27 @@ def match_result(request):
     current_username = current_user.user
     #Filter Match_Request that belong to current user
     sent_match_requests = MatchedRequest.objects.filter(from_user=current_user.user)
-    rec_match_requests = MatchedRequest.objects.filter(to_user=current_user.user)
+    recieve_match_requests = MatchedRequest.objects.filter(to_user=current_user.user)
     #Get all user that current user are matched
     contact = current_user.groupMatch.all()
-    #Create room's name for chatting by using both username ,sorting and use "." to seperate two names
-    urlroom = {}
+    #Create room's name for chatting by using both username, sorting and use "." to seperate two names
+    room_url = {}
     for tutor in contact:
-        listuser = []
+        list_user = []
         name = tutor
         another_user = tutor.user
-        listuser.append(str(another_user))
-        listuser.append(str(current_username))
-        listuser.sort()
-        urlroom[name] = listuser[0]+'.'+listuser[1]
-    #Data that will be send to template
+        list_user.append(str(another_user))
+        list_user.append(str(current_username))
+        list_user.sort()
+        room_url[name] = list_user[0]+'.'+list_user[1]
+    #Context that will be send to template
     context = {
         'current_user':current_user,
         'current_username': current_username,
         'contact_list': contact,
         'sent_match_requests': sent_match_requests,
-        'rec_match_requests': rec_match_requests,
-        'urlroom': urlroom
+        'recieve_match_requests': recieve_match_requests,
+        'room_url': room_url
     }
 
     return render(request, "manage_match.html", context)
