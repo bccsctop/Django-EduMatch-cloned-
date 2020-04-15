@@ -62,22 +62,26 @@ def home_page(request):
 
 def register(request):
     """ In register method, it will create user with data from SignUpForm in forms.py.
-    Before we save user to database we have to check the data is validated.
-    If form is validated we will create user as a object with
+    Before we save user to database we have to check the data is verified.
+    If form is verified we will create user as a object with
     user, name, gender, city, subject.
     """
     if request.method == 'POST':                
         form = SignUpForm(request.POST)
         if form.is_valid():
+            #Save data to database / register successful
             user = form.save()
             user.refresh_from_db()
             user.save()
-            raw_password = form.cleaned_data.get('password1')
-            user = authenticate(username=user.username, password=raw_password)
+            #Get password from form and store in raw_password
+            password = form.cleaned_data.get('password1')
+            #Test login 
+            user = authenticate(username=user.username, password=password)
             login(request, user)
-
-            tutor = Tutor.objects.create(user=user, name=form.cleaned_data['first_name'], gender=form.cleaned_data[
-                                         'gender'], city=form.cleaned_data['city'], expert=form.cleaned_data['subject'])
+            #Create use object
+            tutor = Tutor.objects.create(user=user, 
+                                        name=form.cleaned_data['first_name'], gender=form.cleaned_data['gender'], 
+                                        city=form.cleaned_data['city'], expert=form.cleaned_data['subject'])
 
             return redirect('login')
     else:
