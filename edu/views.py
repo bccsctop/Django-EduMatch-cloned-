@@ -91,7 +91,7 @@ def register(request):
 
 
 def view_profile(request):
-    """ In view_profile, it will get current user's obeject
+    """ In view_profile, it will get current user's object
     and send data to the template for display informations.
     """
     tutors = Tutor.objects.get(user=request.user)
