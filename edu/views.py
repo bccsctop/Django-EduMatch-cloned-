@@ -176,13 +176,13 @@ def accept_match_request(request, tutor_id):
 
 
 def delete_match_request(request, tutor_id):
-    #In delete_match_request, we will get user'object which is the id of user that you want to delete request.
+    #In delete_match_request, we will get user'object which can select by id of user that you want to delete request.
     from_user = get_object_or_404(User, id=tutor_id)
     #Filter Match_Request and store the request to frequest
-    frequest = MatchedRequest.objects.filter(
+    request = MatchedRequest.objects.filter(
         from_user=from_user, to_user=request.user).first()
     #delete frequest
-    frequest.delete()
+    request.delete()
 
     return HttpResponseRedirect('/match-result/')
 
