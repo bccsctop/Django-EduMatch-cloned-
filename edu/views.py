@@ -145,15 +145,16 @@ def send_match_request(request, tutor_id):
 
 def cancel_match_request(request, tutor_id):
     """ In cancel_match_request, this method will active when user authenticated.
-    we will get user'object which is the id of user that you want to cancel request
+    we will get user'object which can select by id of user that you want to cancel request
     and filter the Match_Request by your username and username of user that you send 
     the request and delete the request.
     """
     if request.user.is_authenticated:
         user = get_object_or_404(User, id=tutor_id)
-        frequest = MatchedRequest.objects.filter(
+        request = MatchedRequest.objects.filter(
             from_user=request.user, to_user=user).first()
-        frequest.delete()
+        #Delete request
+        request.delete()
 
         return HttpResponseRedirect('/')
 
