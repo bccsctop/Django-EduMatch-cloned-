@@ -8,7 +8,6 @@ from edu.models import Tutor, MatchedRequest, Review
 from edu.forms import SignUpForm, EditProfileForm, EditProfileForm2, ReviewForm, CITY_CHOICES
 import time
 import datetime
-# Create your views here.
 
 
 def home_page(request):
@@ -17,45 +16,45 @@ def home_page(request):
 
     tutors = Tutor.objects.all()                     #Get Tutor object and store in tutors variable
     subject = request.POST.get('subject_text', '')   #Get subject_text in the search box and store in subject variable
-    gender = request.POST.get('gender_text', '')     #Get gender_text at dropdown  and store in gender variable
+    gender = request.POST.get('gender_text', '')     #Get gender_text at dropdown and store in gender variable
     city = request.POST.get('city_text', '')         #Get city_text at dropdown and store in city variable
 
     cities = [i[0] for i in CITY_CHOICES]                                   #Store CITY_CHOICES that are declare in form.py to cities variable
     tutors = tutors.filter(expert=subject) if subject != '' else tutors     #If subject is existed tutors will filter user that in condition.
     tutors = tutors.filter(gender=gender) if gender != '' else tutors       #If gender is existed tutors will filter user that in condition.
     tutors = tutors.filter(city=city) if city != '' else tutors             #If city is existed tutors will filter user that in condition.
-    tutors = tutors.exclude(user=request.user)                              #Take off the current user that is logged in out of tutors
-    current_user = Tutor.objects.get(user=request.user)                     #Get current user and store to current_user
+    tutors = tutors.exclude(user=request.user)                              #Remove current user out of tutors
+    current_user = Tutor.objects.get(user=request.user)                     #Get current user and store to current_user variable
 
-    for match_user in current_user.groupMatch.all():                                    #Take off the user that already match with current user
+    for match_user in current_user.groupMatch.all():                                    #Remove the user that already match with current user
         tutors = tutors.exclude(pk=match_user.id)
 
-    rec_match_requests = MatchedRequest.objects.filter(to_user=current_user.user)      #Filter the MatchRequest that current user recieve request
-    sent_match_requests = MatchedRequest.objects.filter(from_user=current_user.user)    #Filter the MatchRequest that current user sent request to other user
+    recieve_match_requests = MatchedRequest.objects.filter(to_user=current_user.user)   #Filter the MatchRequest that current user recieved
+    sent_match_requests = MatchedRequest.objects.filter(from_user=current_user.user)    #Filter the MatchRequest that current user sent to another user
     
-    requestedTutor = []
-    unrequestedTutor = []
+    requested_tutor = []
+    unrequested_tutor = []
     for i in tutors:                                #Check the user that curent user already sent the request
         numCount = 0
         for j in sent_match_requests:
             if i.name == j.to_user.first_name:
-                requestedTutor.append(i)            #current user alreadr send the request 
+                requested_tutor.append(i)            #current user already sent the request 
                 numCount+=1
         if numCount == 0:
-            unrequestedTutor.append(i)              #current user never send the request
+            unrequested_tutor.append(i)              #current user never send the request
 
-    if len(rec_match_requests) > 0 :                #If current user have recieve request
+    if len(recieve_match_requests) > 0 :                #If current user have recieved request
         return render(request, 'home.html', {
-                'requestedTutor': requestedTutor,
-                'unrequestedTutor': unrequestedTutor,
-                'amountRecieve': len(rec_match_requests),
+                'requested_tutor': requested_tutor,
+                'unrequested_tutor': unrequested_tutor,
+                'amount_recieve': len(recieve_match_requests),
                 'current_user': current_user,
                 'cites':cities
             })
 
-    return render(request, 'home.html', {           #If current user not have recieve request
-        'requestedTutor': requestedTutor,
-        'unrequestedTutor': unrequestedTutor,
+    return render(request, 'home.html', {           #If current user not have recieved request
+        'requestedTutor': requested_tutor,
+        'unrequestedTutor': unrequested_tutor,
         'current_user': current_user,
         'cities':cities
     })
