@@ -272,7 +272,7 @@ def about_app(request):
     return render(request, "about_app.html")
 
 def friend_profile(request,tutor_id):
-    #Get friend's object and fetch information to store in variable
+    #Get friend's object and fetch information and store in variable
     tutor = Tutor.objects.get(pk=tutor_id)
     user = tutor.user
     city = tutor.city
