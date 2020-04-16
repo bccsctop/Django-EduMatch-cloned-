@@ -40,10 +40,16 @@ class MatchedRequest(models.Model):
         return "From {}, to {}".format(self.from_user.username, self.to_user.username)
 
 class Review(models.Model):
+    #In Review , it will store point that each other user voted
+    #reviewer store who are review this tutor
     reviewer = models.ForeignKey(Tutor, on_delete=models.CASCADE,related_name='reviewer')
+    #reviewed_tutor store tutor that be reviewed
     reviewed_tutor = models.ForeignKey(Tutor, on_delete=models.CASCADE,related_name='reviewed_tutor')
+    #comment store message that explain to this tutor
     comment = models.TextField(default='',blank=True)
+    #rate store point that be reviewed
     rate = models.IntegerField(default=1,blank=True)
+    #date store when this review happend
     date = models.DateTimeField(auto_now_add=True, blank=True)
 
 
