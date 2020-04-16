@@ -20,6 +20,7 @@ class Tutor(models.Model):
     #Store relations between this user to others user who are matched
     groupMatch = models.ManyToManyField("Tutor", blank=True)
 
+    #when you in admin site you can see each object with the name by this function
     def __str__(self):
         return self.name
     
