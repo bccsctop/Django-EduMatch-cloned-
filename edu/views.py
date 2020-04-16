@@ -62,8 +62,8 @@ def home_page(request):
 
 def register(request):
     """ In register method, it will create user with data from SignUpForm in forms.py.
-    Before we save user to database we have to check the data is verified.
-    If form is verified we will create user as a object with
+    Before we save user to database we have to check the data is validated.
+    If form is validated we will create user as a object with
     user, name, gender, city, subject.
     """
     if request.method == 'POST':                
@@ -108,7 +108,7 @@ def view_profile(request):
 
 def edit_profile(request):
     """ In edit_profile, it will get current user's object.
-    and check request type if it's a POST it will check the form that are verified
+    and check request type if it's a POST it will check the form that are validated
     and save to the database
     """
     tutors = Tutor.objects.get(user=request.user)
