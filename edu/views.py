@@ -73,7 +73,7 @@ def register(request):
             user = form.save()
             user.refresh_from_db()
             user.save()
-            #Get password from form and store in raw_password
+            #Get password from form and store in password
             password = form.cleaned_data.get('password1')
             #Test login 
             user = authenticate(username=user.username, password=password)
