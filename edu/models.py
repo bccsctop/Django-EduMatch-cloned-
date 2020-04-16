@@ -5,11 +5,19 @@ from django.db.models.signals import post_save
 from django.dispatch import receiver
 
 class Tutor(models.Model):
+    #In Tutor model , it will store user's information from all user by object
+    #It store user information such as 
+    #user -> username, password
     user = models.OneToOneField(User, on_delete=models.CASCADE ,default=None)
+    #name -> firstname
     name = models.TextField(default='',blank=True)
+    #gender can be = Male, Female, Neutral
     gender = models.TextField(default='',blank=True)
+    #city can be all of CITY_CHOICES in form.py
     city = models.TextField(default='',blank=True)
+    #expert -> subject that each user expert
     expert = models.TextField(default='',blank=True)
+    #Store relations between this user to others user who are matched
     groupMatch = models.ManyToManyField("Tutor", blank=True)
 
     def __str__(self):
