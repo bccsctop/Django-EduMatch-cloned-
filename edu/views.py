@@ -197,11 +197,12 @@ def unfriend(request,tutor_id):
     if to_unfriend in current_user.group_of_tutor.all():
         current_user.group_of_tutor.remove(to_unfriend)
         to_unfriend.group_of_student.remove(current_user)
+        return HttpResponseRedirect('/match-result/')
     if to_unfriend in current_user.group_of_student.all():
         current_user.group_of_student.remove(to_unfriend)
         to_unfriend.group_of_tutor.remove(current_user)
+        return HttpResponseRedirect('/match-result/')
 
-    return HttpResponseRedirect('/match-result/')
 
 def match_result(request):
     #Get current user's object
