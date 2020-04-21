@@ -18,7 +18,8 @@ class Tutor(models.Model):
     #expert -> subject that each user expert
     expert = models.TextField(default='',blank=True)
     #Store relations between this user to others user who are matched
-    groupMatch = models.ManyToManyField("Tutor", blank=True)
+    group_of_tutor = models.ManyToManyField("Tutor", blank=True, related_name='list_of_tutor')
+    group_of_student = models.ManyToManyField("Tutor", blank=True, related_name='list_of_student')
 
     #when you in admin site you can see each object with the name by this function
     def __str__(self):

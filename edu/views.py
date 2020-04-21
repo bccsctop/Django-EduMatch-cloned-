@@ -168,8 +168,8 @@ def accept_match_request(request, tutor_id):
     user1 = request.to_user
     user2 = from_user
     #Add user match to both of user
-    user1.tutor.groupMatch.add(user2.tutor)
-    user2.tutor.groupMatch.add(user1.tutor)
+    user1.tutor.group_of_student.add(user2.tutor)
+    user2.tutor.group_of_tutor.add(user1.tutor)
     request.delete()   #delete request
     
     return HttpResponseRedirect('/match-result/')
