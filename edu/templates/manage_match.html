@@ -110,24 +110,43 @@
     {% if user.is_authenticated %}
 
     <div class="container text-left">
-      {% if request.user == current_user %}
+      {% if request.user == current_username %}
 
       <div class="container">
-        <h1 class="row">My Tutor/Student</h1>
+        <h1 class="row">My Tutor</h1>
 
-        {% for key,value in room_url.items %}
+        {% for key,value in tutor_chatroom.items %}
         <div class="row" style="margin: 5px;">
           <div class="col-2">
             <a href="/friendprofile/{{ key.id }}">{{ key.name }}</a>
-        </div>
-        <div class="col-1 btn-group btn-group-toggle">
+          </div>
+          <div class="col-1 btn-group btn-group-toggle">
             <a class="btn btn-primary" href="/chat/{{ value }}">Chat</a>
             <a class="btn btn-secondary" href="/review/{{ key.id }}">Review</a>
             <a class="btn btn-danger" href="/match-request/unfriend/{{ key.id }}">Unfriend</a>
-        </div>
+          </div>
         </div>
         {% endfor %}
+      </div>
+      
+      <div class="container">
+        <hr />
+        <h1 class="row">My Student</h1>
+
+        {% for key,value in student_chatroom.items %}
+        <div class="row" style="margin: 5px;">
+          <div class="col-2">
+            <a href="/friendprofile/{{ key.id }}">{{ key.name }}</a>
+          </div>
+          <div class="col-1 btn-group btn-group-toggle">
+            <a class="btn btn-primary" href="/chat/{{ value }}">Chat</a>
+            <a class="btn btn-secondary" href="/review/{{ key.id }}">Review</a>
+            <a class="btn btn-danger" href="/match-request/unfriend/{{ key.id }}">Unfriend</a>
+          </div>
         </div>
+        {% endfor %}
+      </div>
+
         <hr />
         <h1>Sent Tutor Requests</h1>
 

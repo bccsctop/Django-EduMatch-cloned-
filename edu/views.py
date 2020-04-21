@@ -219,13 +219,13 @@ def match_result(request):
         name = tutor
         another_user = tutor.user
         list_user.append(str(another_user))
-        list_user.append(str(current_username))
+        list_user.append(str(current_username)) 
         list_user.sort()
         tutor_chatroom[name] = list_user[0]+'.'+list_user[1]
     for student in student_contact:
         list_user = []
-        name = tutor
-        another_user = tutor.user
+        name = student
+        another_user = student.user
         list_user.append(str(another_user))
         list_user.append(str(current_username))
         list_user.sort()
