@@ -53,8 +53,8 @@ def home_page(request):
             })
 
     return render(request, 'home.html', {           #If current user not have recieved request
-        'requestedTutor': requested_tutor,
-        'unrequestedTutor': unrequested_tutor,
+        'requested_tutor': requested_tutor,
+        'unrequested_tutor': unrequested_tutor,
         'current_user': current_user,
         'cities':cities
     })
