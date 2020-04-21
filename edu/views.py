@@ -26,7 +26,9 @@ def home_page(request):
     tutors = tutors.exclude(user=request.user)                              #Remove current user out of tutors
     current_user = Tutor.objects.get(user=request.user)                     #Get current user and store to current_user variable
 
-    for match_user in current_user.groupMatch.all():                                    #Remove the user that already match with current user
+    for match_user in current_user.group_of_tutor.all():                                    #Remove the user that already match with current user
+        tutors = tutors.exclude(pk=match_user.id)
+    for match_user in current_user.group_of_student.all():                                  
         tutors = tutors.exclude(pk=match_user.id)
 
     recieve_match_requests = MatchedRequest.objects.filter(to_user=current_user.user)   #Filter the MatchRequest that current user recieved
