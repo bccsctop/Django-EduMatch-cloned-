@@ -26,9 +26,9 @@ def home_page(request):
     tutors = tutors.exclude(user=request.user)                              #Remove current user out of tutors
     current_user = Tutor.objects.get(user=request.user)                     #Get current user and store to current_user variable
 
-    for match_user in current_user.group_of_tutor.all():                                    #Remove the user that already match with current user
+    for match_user in current_user.tutors.all():                                    #Remove the user that already match with current user
         tutors = tutors.exclude(pk=match_user.id)
-    for match_user in current_user.group_of_student.all():                                  
+    for match_user in current_user.students.all():                                  
         tutors = tutors.exclude(pk=match_user.id)
 
     recieve_match_requests = MatchedRequest.objects.filter(to_user=current_user.user)   #Filter the MatchRequest that current user recieved
@@ -170,8 +170,8 @@ def accept_match_request(request, tutor_id):
     user1 = request.to_user
     user2 = from_user
     #Add user match to both of user
-    user1.tutor.group_of_student.add(user2.tutor)
-    user2.tutor.group_of_tutor.add(user1.tutor)
+    user1.tutor.students.add(user2.tutor)
+    user2.tutor.tutors.add(user1.tutor)
     request.delete()   #delete request
     
     return HttpResponseRedirect('/match-result/')
@@ -194,15 +194,15 @@ def unfriend(request,tutor_id):
     #Get user who want to unfriend 
     to_unfriend = Tutor.objects.get(pk=tutor_id)
     #Remove relations/delete to_unfriend out of friend list
-    if to_unfriend in current_user.group_of_tutor.all():
-        current_user.group_of_tutor.remove(to_unfriend)
-        to_unfriend.group_of_student.remove(current_user)
+    if to_unfriend in current_user.tutors.all():
+        current_user.tutors.remove(to_unfriend)
+        to_unfriend.students.remove(current_user)
         return HttpResponseRedirect('/match-result/')
-    if to_unfriend in current_user.group_of_student.all():
-        current_user.group_of_student.remove(to_unfriend)
-        to_unfriend.group_of_tutor.remove(current_user)
+    if to_unfriend in current_user.students.all():
+        current_user.students.remove(to_unfriend)
+        to_unfriend.tutors.remove(current_user)
         return HttpResponseRedirect('/match-result/')
-
+    
 
 def match_result(request):
     #Get current user's object
@@ -213,8 +213,8 @@ def match_result(request):
     sent_match_requests = MatchedRequest.objects.filter(from_user=current_user.user)
     recieve_match_requests = MatchedRequest.objects.filter(to_user=current_user.user)
     #Get all user that current user are matched
-    tutor_contact = current_user.group_of_tutor.all()
-    student_contact = current_user.group_of_student.all()
+    tutor_contact = current_user.tutors.all()
+    student_contact = current_user.students.all()
     #Create room's name for chatting by using both username, sorting and use "." to seperate two names
     tutor_chatroom = {}
     student_chatroom = {}

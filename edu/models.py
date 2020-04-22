@@ -4,8 +4,8 @@ from django.contrib.auth.models import User
 from django.db.models.signals import post_save
 from django.dispatch import receiver
 
-class Tutor(models.Model):
-    #In Tutor model , it will store user's information from all user by object
+class UserAccount(models.Model):
+    #In UserAccount model , it will store user's information from all user by object
     #It store user information such as 
     #user -> username, password
     user = models.OneToOneField(User, on_delete=models.CASCADE ,default=None)
@@ -18,8 +18,8 @@ class Tutor(models.Model):
     #expert -> subject that each user expert
     expert = models.TextField(default='',blank=True)
     #Store relations between this user to others user who are matched
-    group_of_tutor = models.ManyToManyField("Tutor", blank=True, related_name='list_of_tutor')
-    group_of_student = models.ManyToManyField("Tutor", blank=True, related_name='list_of_student')
+    tutors = models.ManyToManyField("UserAccount", blank=True, related_name='list_of_tutor')
+    students = models.ManyToManyField("UserAccount", blank=True, related_name='list_of_student')
 
     #when you in admin site you can see each object with the name by this function
     def __str__(self):
@@ -43,9 +43,9 @@ class MatchedRequest(models.Model):
 class Review(models.Model):
     #In Review , it will store point that each other user voted
     #reviewer store who are review this tutor
-    reviewer = models.ForeignKey(Tutor, on_delete=models.CASCADE,related_name='reviewer')
+    reviewer = models.ForeignKey(UserAccount, on_delete=models.CASCADE,related_name='reviewer')
     #reviewed_tutor store tutor that be reviewed
-    reviewed_tutor = models.ForeignKey(Tutor, on_delete=models.CASCADE,related_name='reviewed_tutor')
+    reviewed_tutor = models.ForeignKey(UserAccount, on_delete=models.CASCADE,related_name='reviewed_tutor')
     #comment store message that explain to this tutor
     comment = models.TextField(default='',blank=True)
     #rate store point that be reviewed
