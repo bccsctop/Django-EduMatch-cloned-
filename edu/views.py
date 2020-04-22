@@ -270,7 +270,7 @@ def review(request, tutor_id):
         form = ReviewForm()
 
     return render(request, "review.html", {
-        "tutor":tutor_user, "form":form, 
+        "tutor_user":tutor_user, "form":form, 
         "reviews":reviews, "range":range(1,6),
         "total_point":total_point})
 
@@ -291,14 +291,14 @@ def about_app(request):
 
 def friend_profile(request,tutor_id):
     #Get friend's object and fetch information and store in variable
-    user = UserAccount.objects.get(pk=tutor_id)
-    user = user.user
-    city = user.city
-    gender = user.gender
-    expert = user.expert
+    friend_user = UserAccount.objects.get(pk=tutor_id)
+    user = friend_user.user
+    city = friend_user.city
+    gender = friend_user.gender
+    expert = friend_user.expert
 
     return render(request, 'friend_profile.html', {
-        'tutors':user, 'user': user,
+        'friend_user':friend_user, 'user': user,
         'city' : city, 'gender': gender, 
         'expert': expert
     })

@@ -96,7 +96,7 @@
                     </a>
                 </li>
                 <li class="nav-item active">
-                    <a id="review_btn" class="nav-link" href="/review/{{tutor.id}}">Review</a
+                    <a id="review_btn" class="nav-link" href="/review/{{tutor_user.id}}">Review</a
         >
       </li>
       <li lass="nav-item dropdown">
@@ -143,7 +143,7 @@
     <br/>
     <div class='container'>
       <div class='row'><h2 id="review-header">Review</h2>
-        <div style="color: gray; align-self: center; margin-left: 5px;">of {{tutor.name}} </div>
+        <div style="color: gray; align-self: center; margin-left: 5px;">of {{tutor_user.name}} </div>
       </div>
       
       <hr>
@@ -194,14 +194,14 @@
               </div>
             </div>  
             <br>
-            {% if user != tutor.user %}
+            {% if user != tutor_user.user %}
             <div class='row'>
               <h4>Review and Rating</h4>
             </div>
             <hr>
             <form
             style="padding-left:10px;"
-            action="{{tutor.id}}"
+            action="{{tutor_user.id}}"
             id="reviewform"
             name="reviewform"
             method="POST"
