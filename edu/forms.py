@@ -2,7 +2,7 @@ from django import forms
 from django.forms import ModelForm
 from django.contrib.auth.forms import UserCreationForm, UserChangeForm
 from django.contrib.auth.models import User
-from edu.models import Tutor
+from edu.models import UserAccount
 
 GENDER_CHOICES= [
     ('Male','Male'),
@@ -51,7 +51,7 @@ class EditProfileForm2(ModelForm):
     city = forms.CharField(max_length=30, required=False, help_text='Optional.',widget=forms.Select(choices=CITY_CHOICES))
     expert = forms.CharField(max_length=30, required=False, help_text='Subject that you are expert')
     class Meta:
-        model = Tutor
+        model = UserAccount
         fields = ('gender', 'city', 'expert')
 
 class ReviewForm(forms.Form):

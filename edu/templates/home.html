@@ -225,7 +225,7 @@
         <th style="width:20%;">Gender</th>
         <th style="width:20%;">City</th>
       </tr>
-      {% for tutor in requested_tutor %}
+      {% for tutor in requested_users %}
       <tr>
         <td>{{tutor.expert}}</td>
         <td>{{tutor.name}}</td>
@@ -241,7 +241,7 @@
             <a class='btn btn-info' href="/friendprofile/{{ tutor.id }}">See Profile</a></div>
                     </td>
                     </tr>
-                    {% endfor %} {% for tutor in unrequested_tutor %}
+                    {% endfor %} {% for tutor in unrequest_users %}
                     <tr>
                         <td>{{tutor.expert}}</td>
                         <td>{{tutor.name}}</td>

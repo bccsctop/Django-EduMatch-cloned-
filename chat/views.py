@@ -1,11 +1,11 @@
 from django.shortcuts import render
 from .models import Chatroom_message
-from edu.models import Tutor
+from edu.models import UserAccount
 
 
 def chat_room(request, room_name):
     #Get current user's object
-    current_user = Tutor.objects.get(user=request.user)
+    current_user = UserAccount.objects.get(user=request.user)
     #Get room name
     room_name = str(room_name)
     #Ger chat log
