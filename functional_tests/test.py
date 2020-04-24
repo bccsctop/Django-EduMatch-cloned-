@@ -425,18 +425,18 @@ class ReviewTest(unittest.TestCase):
         self.browser = webdriver.Firefox()
 
         # Create a database for testing
-        #frankin_user = User.objects.create_user(username='frankin',email='frankin@test.com',password='frankinpassword',first_name='Frankin',last_name='Alibaba')
-        #ronnie_user = User.objects.create_user(username='ronnie',email='ronnie@test.com',password='ronniepassword',first_name='Ronnie',last_name='Bacham')
-        #betty_user = User.objects.create_user(username='betty',email='betty@test.com',password='bettypassword',first_name='Betty',last_name='Caesar')
-        #henderson_user = User.objects.create_user(username='henderson',email='henderson@test.com',password='hendersonpassword',first_name='Henderson',last_name='Dabney')
-        #frankin = UserAccount.objects.create(
-        #    user=frankin_user, name='Frankin', gender='Male', city='Bangkok', expert='Statistic')
-        #ronnie = UserAccount.objects.create(
-        #    user=ronnie_user, name='Ronnie', gender='Male', city='Bangkok', expert='Signal')
-        #betty = UserAccount.objects.create(
-        #  user=betty_user, name='Betty', gender='Female', city='Bangkok', expert='Signal')
-        #henderson = UserAccount.objects.create(
-        #    user=henderson_user, name='Henderson', gender='Male', city='Chiangmai', expert='Signal')
+        frankin_user = User.objects.create_user(username='frankin',email='frankin@test.com',password='frankinpassword',first_name='Frankin',last_name='Alibaba')
+        ronnie_user = User.objects.create_user(username='ronnie',email='ronnie@test.com',password='ronniepassword',first_name='Ronnie',last_name='Bacham')
+        betty_user = User.objects.create_user(username='betty',email='betty@test.com',password='bettypassword',first_name='Betty',last_name='Caesar')
+        henderson_user = User.objects.create_user(username='henderson',email='henderson@test.com',password='hendersonpassword',first_name='Henderson',last_name='Dabney')
+        frankin = UserAccount.objects.create(
+            user=frankin_user, name='Frankin', gender='Male', city='Bangkok', expert='Statistic')
+        ronnie = UserAccount.objects.create(
+            user=ronnie_user, name='Ronnie', gender='Male', city='Bangkok', expert='Signal')
+        betty = UserAccount.objects.create(
+          user=betty_user, name='Betty', gender='Female', city='Bangkok', expert='Signal')
+        henderson = UserAccount.objects.create(
+            user=henderson_user, name='Henderson', gender='Male', city='Chiangmai', expert='Signal')
 
     def tearDown(self):
         self.browser.quit()
@@ -486,6 +486,10 @@ class ReviewTest(unittest.TestCase):
         # So he type 'Frankin is very good tutor'
         comment_box = self.browser.find_element_by_id('id_comment')
         comment_box.send_keys('Frankin is very good tutor.')
+
+        star_button = Select(self.browser.find_element_by_id('rating'))
+        star_button.select_by_value("5")       
+        time.sleep(2)
 
         # He click on submit button
         submit_button = self.browser.find_element_by_id('submit')
@@ -551,6 +555,10 @@ class ReviewTest(unittest.TestCase):
         comment_box = self.browser.find_element_by_id('id_comment')
         comment_box.send_keys(
             'Frankin is the best tutor, I have ever seen in my life.')
+
+        star_button = Select(self.browser.find_element_by_id('rating'))
+        star_button.select_by_value("3")       
+        time.sleep(2)
 
         # She click on submit button
         submit_button = self.browser.find_element_by_id('submit')
