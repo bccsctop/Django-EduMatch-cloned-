@@ -276,7 +276,9 @@ def review(request, tutor_id):
 
 def remove_review(request, review_id, tutor_id):
     review = get_object_or_404(Review, id=review_id)
-    review.delete()
+    reviewer = review.reviewer
+    if request.user.is_authenticated and request.user == reviewer.user  :
+        review.delete()
     return HttpResponseRedirect(f'/review/{tutor_id}')
 
 def about_group(request):
