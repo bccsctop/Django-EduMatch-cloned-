@@ -69,6 +69,14 @@
         .checked {
             color: goldenrod;
         }
+        #remove {
+            position: absolute;
+            top: 95px;
+            right: 10px;
+            font-size: 12px;
+            text-decoration: underline;
+          }
+
     </style>
     <title>Review</title>
 </head>
@@ -164,6 +172,11 @@
            <br>
           
           <span id='review_{{forloop.counter}}' style="padding-left:5px;">{{review.comment}}</span>
+          {% if user == review.reviewer.user and user != tutor_user %}
+          <div id="remove">
+            <a href="/review/remove/{{tutor_user.id}}/{{review.id}}">Remove</a>
+          </div>
+          {% endif %}
         </div>
         {% endfor %}
       </div>

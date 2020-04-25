@@ -274,6 +274,11 @@ def review(request, tutor_id):
         "reviews":reviews, "range":range(1,6),
         "total_point":total_point})
 
+def remove_review(request, review_id, tutor_id):
+    review = get_object_or_404(Review, id=review_id)
+    review.delete()
+    return HttpResponseRedirect(f'/review/{tutor_id}')
+
 def about_group(request):
     #In about_group, this method just send user's object to template for review button
     if request.user.is_authenticated:

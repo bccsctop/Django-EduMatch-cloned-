@@ -33,6 +33,7 @@ urlpatterns = [
     path('chat/', include('chat.urls')),
     path('profile/edit', views.edit_profile, name='edit_profile'),
     path('review/<int:tutor_id>',views.review, name='review'),
+    path('review/remove/<int:tutor_id>/<int:review_id>', views.remove_review, name='remove_review'),
     path('about/group',views.about_group, name='about_group'),
     path('about/app',views.about_app, name='about_app'),
     path('friendprofile/<int:tutor_id>',views.friend_profile, name='friend_profile'),
