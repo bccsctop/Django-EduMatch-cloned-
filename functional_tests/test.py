@@ -40,7 +40,7 @@ class NewVisitorTest(LiveServerTestCase):
                     raise e
                 time.sleep(0.5)
 
-    def test_user_can_register_then_login_to_each_user_URL(self):
+    def est_user_can_register_then_login_to_each_user_URL(self):
 
         #Mark is a student at KMUTNB(Bangkok). 
         #He feel very stressed about upcomming midterm exam.
@@ -317,7 +317,7 @@ class NewVisitorTest(LiveServerTestCase):
         
         self.fail('finist the test !!')
 
-    def test_user_can_view_profile_and_edit_profile(self):
+    def est_user_can_view_profile_and_edit_profile(self):
 
         #Frankin is a student at KMUTNB(Bangkok). 
         #His has member
@@ -419,24 +419,26 @@ class NewVisitorTest(LiveServerTestCase):
         self.fail('finist the test !!')
 
 
-class ReviewTest(unittest.TestCase):
+class OldUserTest(unittest.TestCase):
 
     def setUp(self):
         self.browser = webdriver.Firefox()
 
-        # Create a database for testing
-        frankin_user = User.objects.create_user(username='frankin',email='frankin@test.com',password='frankinpassword',first_name='Frankin',last_name='Alibaba')
-        ronnie_user = User.objects.create_user(username='ronnie',email='ronnie@test.com',password='ronniepassword',first_name='Ronnie',last_name='Bacham')
-        betty_user = User.objects.create_user(username='betty',email='betty@test.com',password='bettypassword',first_name='Betty',last_name='Caesar')
-        henderson_user = User.objects.create_user(username='henderson',email='henderson@test.com',password='hendersonpassword',first_name='Henderson',last_name='Dabney')
-        frankin = UserAccount.objects.create(
-            user=frankin_user, name='Frankin', gender='Male', city='Bangkok', expert='Statistic')
-        ronnie = UserAccount.objects.create(
-            user=ronnie_user, name='Ronnie', gender='Male', city='Bangkok', expert='Signal')
-        betty = UserAccount.objects.create(
-          user=betty_user, name='Betty', gender='Female', city='Bangkok', expert='Signal')
-        henderson = UserAccount.objects.create(
-            user=henderson_user, name='Henderson', gender='Male', city='Chiangmai', expert='Signal')
+        print(User.objects.all())
+        if len(User.objects.all()) == 0:
+            # Create a database for testing
+            frankin_user = User.objects.create_user(username='frankin',email='frankin@test.com',password='frankinpassword',first_name='Frankin',last_name='Alibaba')
+            ronnie_user = User.objects.create_user(username='ronnie',email='ronnie@test.com',password='ronniepassword',first_name='Ronnie',last_name='Bacham')
+            betty_user = User.objects.create_user(username='betty',email='betty@test.com',password='bettypassword',first_name='Betty',last_name='Caesar')
+            henderson_user = User.objects.create_user(username='henderson',email='henderson@test.com',password='hendersonpassword',first_name='Henderson',last_name='Dabney')
+            frankin = UserAccount.objects.create(user=frankin_user,name='Frankin',gender = 'Male',city = 'Bangkok',expert ='Statistic')
+            ronnie = UserAccount.objects.create(user=ronnie_user,name='Ronnie',gender = 'Male',city = 'Bangkok',expert ='Signal')
+            betty = UserAccount.objects.create(user=betty_user,name='Betty',gender = 'Female',city = 'Bangkok',expert ='Signal')
+            henderson = UserAccount.objects.create(user=henderson_user,name='Henderson',gender = 'Male',city = 'Chiangmai',expert ='Signal')
+            #
+            frankin.students.add(ronnie)
+            ronnie.tutors.add(frankin)
+        print(User.objects.all())
 
     def tearDown(self):
         self.browser.quit()
@@ -622,36 +624,7 @@ class ReviewTest(unittest.TestCase):
 
         self.fail('finish the test')
 
-        #finish 
-
-
-class ChatTest(unittest.TestCase):
-
-    def setUp(self):
-        self.browser = webdriver.Firefox()
-        self.browser2 = webdriver.Firefox()
-
-        # Create a database for testing
-        frankin_user = User.objects.create_user(username='frankin',email='frankin@test.com',password='frankinpassword',first_name='Frankin',last_name='Alibaba')
-        ronnie_user = User.objects.create_user(username='ronnie',email='ronnie@test.com',password='ronniepassword',first_name='Ronnie',last_name='Bacham')
-        betty_user = User.objects.create_user(username='betty',email='betty@test.com',password='bettypassword',first_name='Betty',last_name='Caesar')
-        henderson_user = User.objects.create_user(username='henderson',email='henderson@test.com',password='hendersonpassword',first_name='Henderson',last_name='Dabney')
-        frankin = UserAccount.objects.create(
-            user=frankin_user, name='Frankin', gender='Male', city='Bangkok', expert='Statistic')
-        ronnie = UserAccount.objects.create(
-            user=ronnie_user, name='Ronnie', gender='Male', city='Bangkok', expert='Signal')
-        betty = UserAccount.objects.create(
-          user=betty_user, name='Betty', gender='Female', city='Bangkok', expert='Signal')
-        henderson = UserAccount.objects.create(
-            user=henderson_user, name='Henderson', gender='Male', city='Chiangmai', expert='Signal')
-        frankin.students.add(ronnie)
-        ronnie.tutors.add(frankin)
-
-    def tearDown(self):
-        self.browser.quit()
-
     def test_when_both_of_user_are_matched_can_chat_to_each_other(self):
-
 
         self.browser.get('http://127.0.0.1:8000/')
 
@@ -700,6 +673,7 @@ class ChatTest(unittest.TestCase):
         self.browser.find_element_by_id('chat-message-submit')
 
         #Ronnie login to chat with Frankin ,so Ronnie open browser.
+        self.browser2 = webdriver.Firefox()
         self.browser2.get('http://127.0.0.1:8000/')
 
         #The page will show that You are not logged in .
@@ -772,12 +746,10 @@ class ChatTest(unittest.TestCase):
         self.assertIn('Hello , How are you ?',textarea1.get_attribute('value'))
         self.assertIn('Hello , How are you ?',textarea2.get_attribute('value'))
 
+        self.browser2.quit()
+
         #and they make appointment to study together.
         
         time.sleep(1)
         self.fail('finist the test !!')
 
-
-        #test_when_both_of_user_are_matched_can_chat_to_each_other
-        #frankin.useraccount.students.add(ronnie.useraccount)
-        #ronnie.useraccount.tutors.add(frankin.useraccount)
