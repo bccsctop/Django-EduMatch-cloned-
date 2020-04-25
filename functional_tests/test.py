@@ -40,7 +40,7 @@ class NewVisitorTest(LiveServerTestCase):
                     raise e
                 time.sleep(0.5)
 
-    def est_user_can_register_then_login_to_each_user_URL(self):
+    def test_user_can_register_then_login_to_each_user_URL(self):
 
         #Mark is a student at KMUTNB(Bangkok). 
         #He feel very stressed about upcomming midterm exam.
@@ -317,7 +317,7 @@ class NewVisitorTest(LiveServerTestCase):
         
         self.fail('finist the test !!')
 
-    def est_user_can_view_profile_and_edit_profile(self):
+    def test_user_can_view_profile_and_edit_profile(self):
 
         #Frankin is a student at KMUTNB(Bangkok). 
         #His has member
@@ -422,7 +422,7 @@ class NewVisitorTest(LiveServerTestCase):
 class OldUserTest(unittest.TestCase):
 
     def setUp(self):
-        self.browser = webdriver.Firefox()
+        self.browser = webdriver.Chrome()
 
         print(User.objects.all())
         if len(User.objects.all()) == 0:
@@ -509,7 +509,7 @@ class OldUserTest(unittest.TestCase):
         # Then He logout from the website
         logout = self.browser.find_element_by_id('logout')
         logout.send_keys(Keys.ENTER)
-        time.sleep(5)
+        time.sleep(3)
 
         # Betty is also a student of Frankin
         # She have study with him for long time but he forget to review her tutor
@@ -541,7 +541,7 @@ class OldUserTest(unittest.TestCase):
         # Betty is going to review his tutor Frankin
         frankin = UserAccount.objects.get(name='Frankin')
         self.browser.get(f'http://127.0.0.1:8000/review/{frankin.id}')
-        time.sleep(5)
+        time.sleep(3)
 
         # She see Review in header of website
         header = self.browser.find_element_by_id('review-header').text
@@ -578,7 +578,7 @@ class OldUserTest(unittest.TestCase):
         # Then She logout from the website
         logout = self.browser.find_element_by_id('logout')
         logout.send_keys(Keys.ENTER)
-        time.sleep(5)
+        time.sleep(2)
 
         # Frankin login to the website
         header_text = self.browser.find_element_by_tag_name('h2').text
@@ -606,7 +606,7 @@ class OldUserTest(unittest.TestCase):
         # Frankin want to see the feedback from their student
         # So He go to review page to see reviews of him
         self.browser.get(f'http://127.0.0.1:8000/review/{frankin.id}')
-        time.sleep(5)
+        time.sleep(3)
 
         # He see Review in header of website
         header = self.browser.find_element_by_id('review-header').text
@@ -617,6 +617,62 @@ class OldUserTest(unittest.TestCase):
         page_text = self.browser.find_element_by_id('review').text
         self.assertIn('Ronnie', page_text)
         self.assertIn('Frankin is very good tutor.', page_text)
+        self.assertIn('Betty', page_text)
+        self.assertIn(
+            'Frankin is the best tutor, I have ever seen in my life.', page_text)
+        time.sleep(3)
+
+        # Then he logout from the website
+        logout = self.browser.find_element_by_id('logout')
+        logout.send_keys(Keys.ENTER)
+        time.sleep(2)
+
+        #Ronnie want to remove his review, then he turn back to login
+        #He see textbox with "Username".So he enter username
+        #He types "ronnie" into a text box
+        username_box = self.browser.find_element_by_id('id_username') 
+        username_box.send_keys('ronnie')
+        
+        #He see textbox with "Password".So he enter password
+        #He types "ronniepassword" into a text box
+        password1_box = self.browser.find_element_by_id('id_password')  
+        password1_box.send_keys('ronniepassword')
+
+        #He click on a sign_in button.
+        sign_in_button = self.browser.find_element_by_id('sign_in')
+        sign_in_button.send_keys(Keys.ENTER)
+        time.sleep(1)
+
+        #He mention that he is already login 
+        page_text = self.browser.find_element_by_tag_name('body').text
+        self.assertIn('Hi ronnie!',page_text)
+
+        # Ronnie is going to review his tutor
+        frankin = UserAccount.objects.get(name='Frankin')
+        id = str(frankin.id)
+        self.browser.get('http://127.0.0.1:8000'+'/review/'+id)
+        time.sleep(2)
+
+        # He see Review in title of website
+        #He see Review of frankin
+        self.assertIn('Review',self.browser.title)
+        page_text = self.browser.find_element_by_id('review').text
+        self.assertIn('Ronnie', page_text)
+        self.assertIn('Frankin is very good tutor.', page_text)
+        self.assertIn('Betty', page_text)
+        self.assertIn(
+            'Frankin is the best tutor, I have ever seen in my life.', page_text)
+        time.sleep(3)
+
+        #He see remove button, then he click on it
+        remove_button = self.browser.find_element_by_id('remove_1')
+        remove_button.send_keys(Keys.ENTER)
+        time.sleep(2)
+
+        #He see that his review has been removed
+        page_text = self.browser.find_element_by_id('review').text
+        self.assertNotIn('Ronnie', page_text)
+        self.assertNotIn('Frankin is very good tutor.', page_text)
         self.assertIn('Betty', page_text)
         self.assertIn(
             'Frankin is the best tutor, I have ever seen in my life.', page_text)
