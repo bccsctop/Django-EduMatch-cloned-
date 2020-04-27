@@ -177,8 +177,8 @@ def accept_match_request(request, tutor_id):
     return HttpResponseRedirect('/match-result/')
 
 
-def delete_match_request(request, tutor_id):
-    #In delete_match_request, we will get user'object which can select by id of user that you want to delete request.
+def reject_match_request(request, tutor_id):
+    #In reject_match_request, we will get user'object which can select by id of user that you want to delete request.
     from_user = get_object_or_404(User, id=tutor_id)
     #Filter Match_Request and store the request to frequest
     request = MatchedRequest.objects.filter(
