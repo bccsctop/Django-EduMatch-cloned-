@@ -20,19 +20,20 @@ class HomepageTest(TestCase):
         self.assertEqual(found.func,home_page)
     
     def test_rendering_homepageTemplate(self):
-        frankin_user = User.objects.create_user('frankin','frankin@test.com','frankinpassword')
+        frankin_user = User.objects.create_user(username='frankin',email='frankin@test.com',password='frankinpassword',first_name='Frankin',last_name='Alibaba')
         frankin = UserAccount.objects.create(user=frankin_user,name='Frankin',gender = 'Male',city = 'Bangkok',expert ='Statistic')
         self.client.login(username='frankin', password='frankinpassword') 
         response = self.client.get('/')
         self.assertTemplateUsed(response, 'home.html')
 
     def test_search_itemInTable_(self):
-        frankin_user = User.objects.create_user('frankin','frankin@test.com','frankinpassword')
-        ronnie_user = User.objects.create_user('ronnie','ronnie@test.com','ronniepassword')
-        betty_user = User.objects.create_user('betty','betty@test.com','bettypassword')
-        UserAccount.objects.create(user=frankin_user,name='Frankin',gender = 'Male',city = 'Bangkok',expert ='Statistic')
-        UserAccount.objects.create(user=ronnie_user,name='Ronnie',gender = 'Male',city = 'Bangkok',expert ='Signal')
-        UserAccount.objects.create(user=betty_user,name='Betty',gender = 'Female',city = 'Bangkok',expert ='Signal')
+        frankin_user = User.objects.create_user(username='frankin',email='frankin@test.com',password='frankinpassword',first_name='Frankin',last_name='Alibaba')
+        ronnie_user = User.objects.create_user(username='ronnie',email='ronnie@test.com',password='ronniepassword',first_name='Ronnie',last_name='Bacham')
+        betty_user = User.objects.create_user(username='betty',email='betty@test.com',password='bettypassword',first_name='Betty',last_name='Caesar')
+        henderson_user = User.objects.create_user(username='henderson',email='henderson@test.com',password='hendersonpassword',first_name='Henderson',last_name='Dabney')
+        frankin = UserAccount.objects.create(user=frankin_user,name='Frankin',gender = 'Male',city = 'Bangkok',expert ='Statistic')
+        ronnie = UserAccount.objects.create(user=ronnie_user,name='Ronnie',gender = 'Male',city = 'Bangkok',expert ='Signal')
+        betty = UserAccount.objects.create(user=betty_user,name='Betty',gender = 'Female',city = 'Bangkok',expert ='Signal')
         self.client.login(username='frankin', password='frankinpassword') 
         response = self.client.post('/', data={'subject_text': 'Signal','gender_text' : 'Male','city_text' : 'Bangkok'})
         self.assertNotContains(response,'Betty')
@@ -48,7 +49,7 @@ class TutorRequestTest(TestCase):
 
     
     def test_rendering_matchResultTemplate(self):
-        frankin_user = User.objects.create_user('frankin','frankin@test.com','frankinpassword')
+        frankin_user = User.objects.create_user(username='frankin',email='frankin@test.com',password='frankinpassword',first_name='Frankin',last_name='Alibaba')
         frankin = UserAccount.objects.create(user=frankin_user,name='Frankin',gender = 'Male',city = 'Bangkok',expert ='Statistic')
         self.client.login(username='frankin', password='frankinpassword') 
         response = self.client.get('/match-result/')
@@ -57,9 +58,10 @@ class TutorRequestTest(TestCase):
     def test_sent_and_recieve_request(self):
         
         #Create three user that have thier own characteristic. 
-        frankin_user = User.objects.create_user('frankin','frankin@test.com','frankinpassword')
-        ronnie_user = User.objects.create_user('ronnie','ronnie@test.com','ronniepassword')
-        betty_user = User.objects.create_user('betty','betty@test.com','bettypassword')
+        frankin_user = User.objects.create_user(username='frankin',email='frankin@test.com',password='frankinpassword',first_name='Frankin',last_name='Alibaba')
+        ronnie_user = User.objects.create_user(username='ronnie',email='ronnie@test.com',password='ronniepassword',first_name='Ronnie',last_name='Bacham')
+        betty_user = User.objects.create_user(username='betty',email='betty@test.com',password='bettypassword',first_name='Betty',last_name='Caesar')
+        henderson_user = User.objects.create_user(username='henderson',email='henderson@test.com',password='hendersonpassword',first_name='Henderson',last_name='Dabney')
         frankin = UserAccount.objects.create(user=frankin_user,name='Frankin',gender = 'Male',city = 'Bangkok',expert ='Statistic')
         ronnie = UserAccount.objects.create(user=ronnie_user,name='Ronnie',gender = 'Male',city = 'Bangkok',expert ='Signal')
         betty = UserAccount.objects.create(user=betty_user,name='Betty',gender = 'Female',city = 'Bangkok',expert ='Signal')
@@ -87,9 +89,10 @@ class TutorRequestTest(TestCase):
 
     def test_send_and_cancel_request(self):
         #Create three user that have thier own characteristic. 
-        frankin_user = User.objects.create_user('frankin','frankin@test.com','frankinpassword')
-        ronnie_user = User.objects.create_user('ronnie','ronnie@test.com','ronniepassword')
-        betty_user = User.objects.create_user('betty','betty@test.com','bettypassword')
+        frankin_user = User.objects.create_user(username='frankin',email='frankin@test.com',password='frankinpassword',first_name='Frankin',last_name='Alibaba')
+        ronnie_user = User.objects.create_user(username='ronnie',email='ronnie@test.com',password='ronniepassword',first_name='Ronnie',last_name='Bacham')
+        betty_user = User.objects.create_user(username='betty',email='betty@test.com',password='bettypassword',first_name='Betty',last_name='Caesar')
+        henderson_user = User.objects.create_user(username='henderson',email='henderson@test.com',password='hendersonpassword',first_name='Henderson',last_name='Dabney')
         frankin = UserAccount.objects.create(user=frankin_user,name='Frankin',gender = 'Male',city = 'Bangkok',expert ='Statistic')
         ronnie = UserAccount.objects.create(user=ronnie_user,name='Ronnie',gender = 'Male',city = 'Bangkok',expert ='Signal')
         betty = UserAccount.objects.create(user=betty_user,name='Betty',gender = 'Female',city = 'Bangkok',expert ='Signal')
@@ -122,9 +125,10 @@ class TutorRequestTest(TestCase):
 
     def test_recieve_and_accept_request(self):
         #Create three user that have thier own characteristic. 
-        frankin_user = User.objects.create_user('frankin','frankin@test.com','frankinpassword')
-        ronnie_user = User.objects.create_user('ronnie','ronnie@test.com','ronniepassword')
-        betty_user = User.objects.create_user('betty','betty@test.com','bettypassword')
+        frankin_user = User.objects.create_user(username='frankin',email='frankin@test.com',password='frankinpassword',first_name='Frankin',last_name='Alibaba')
+        ronnie_user = User.objects.create_user(username='ronnie',email='ronnie@test.com',password='ronniepassword',first_name='Ronnie',last_name='Bacham')
+        betty_user = User.objects.create_user(username='betty',email='betty@test.com',password='bettypassword',first_name='Betty',last_name='Caesar')
+        henderson_user = User.objects.create_user(username='henderson',email='henderson@test.com',password='hendersonpassword',first_name='Henderson',last_name='Dabney')
         frankin = UserAccount.objects.create(user=frankin_user,name='Frankin',gender = 'Male',city = 'Bangkok',expert ='Statistic')
         ronnie = UserAccount.objects.create(user=ronnie_user,name='Ronnie',gender = 'Male',city = 'Bangkok',expert ='Signal')
         betty = UserAccount.objects.create(user=betty_user,name='Betty',gender = 'Female',city = 'Bangkok',expert ='Signal')
@@ -157,9 +161,10 @@ class TutorRequestTest(TestCase):
 
     def test_recieve_and_reject_request(self):
         #Create three user that have thier own characteristic. 
-        frankin_user = User.objects.create_user('frankin','frankin@test.com','frankinpassword')
-        ronnie_user = User.objects.create_user('ronnie','ronnie@test.com','ronniepassword')
-        betty_user = User.objects.create_user('betty','betty@test.com','bettypassword')
+        frankin_user = User.objects.create_user(username='frankin',email='frankin@test.com',password='frankinpassword',first_name='Frankin',last_name='Alibaba')
+        ronnie_user = User.objects.create_user(username='ronnie',email='ronnie@test.com',password='ronniepassword',first_name='Ronnie',last_name='Bacham')
+        betty_user = User.objects.create_user(username='betty',email='betty@test.com',password='bettypassword',first_name='Betty',last_name='Caesar')
+        henderson_user = User.objects.create_user(username='henderson',email='henderson@test.com',password='hendersonpassword',first_name='Henderson',last_name='Dabney')
         frankin = UserAccount.objects.create(user=frankin_user,name='Frankin',gender = 'Male',city = 'Bangkok',expert ='Statistic')
         ronnie = UserAccount.objects.create(user=ronnie_user,name='Ronnie',gender = 'Male',city = 'Bangkok',expert ='Signal')
         betty = UserAccount.objects.create(user=betty_user,name='Betty',gender = 'Female',city = 'Bangkok',expert ='Signal')
@@ -188,9 +193,10 @@ class TutorRequestTest(TestCase):
 
     def test_recieve_and_accept_request(self):
         #Create three user that have thier own characteristic. 
-        frankin_user = User.objects.create_user('frankin','frankin@test.com','frankinpassword')
-        ronnie_user = User.objects.create_user('ronnie','ronnie@test.com','ronniepassword')
-        betty_user = User.objects.create_user('betty','betty@test.com','bettypassword')
+        frankin_user = User.objects.create_user(username='frankin',email='frankin@test.com',password='frankinpassword',first_name='Frankin',last_name='Alibaba')
+        ronnie_user = User.objects.create_user(username='ronnie',email='ronnie@test.com',password='ronniepassword',first_name='Ronnie',last_name='Bacham')
+        betty_user = User.objects.create_user(username='betty',email='betty@test.com',password='bettypassword',first_name='Betty',last_name='Caesar')
+        henderson_user = User.objects.create_user(username='henderson',email='henderson@test.com',password='hendersonpassword',first_name='Henderson',last_name='Dabney')
         frankin = UserAccount.objects.create(user=frankin_user,name='Frankin',gender = 'Male',city = 'Bangkok',expert ='Statistic')
         ronnie = UserAccount.objects.create(user=ronnie_user,name='Ronnie',gender = 'Male',city = 'Bangkok',expert ='Signal')
         betty = UserAccount.objects.create(user=betty_user,name='Betty',gender = 'Female',city = 'Bangkok',expert ='Signal')
@@ -210,8 +216,8 @@ class TutorRequestTest(TestCase):
         response = self.client.get('/match-result/')
 
         #Check that remain sender and reciever are right person
-        self.assertContains(response,'ronnie')
-        self.assertContains(response,'betty')
+        self.assertContains(response,'Ronnie  Bacham')
+        self.assertContains(response,'Betty  Caesar')
 
 class ProfileTest(TestCase):
     def test_URL_maping_to_PorfileVIEW(self):
@@ -219,19 +225,20 @@ class ProfileTest(TestCase):
         self.assertEqual(found.func,view_profile)
 
     def test_rendering_ProfileTemplate(self):
-        frankin_user = User.objects.create_user('frankin','frankin@test.com','frankinpassword')
+        frankin_user = User.objects.create_user(username='frankin',email='frankin@test.com',password='frankinpassword',first_name='Frankin',last_name='Alibaba')
         frankin = UserAccount.objects.create(user=frankin_user,name='Frankin',gender = 'Male',city = 'Bangkok',expert ='Statistic')
         self.client.login(username='frankin', password='frankinpassword') 
         response = self.client.get('/profile')
         self.assertTemplateUsed(response, 'profile.html')
 
     def test_show_Profile(self):
-        frankin_user = User.objects.create_user('frankin','frankin@test.com','frankinpassword')
-        ronnie_user = User.objects.create_user('ronnie','ronnie@test.com','ronniepassword')
-        betty_user = User.objects.create_user('betty','betty@test.com','bettypassword')
-        UserAccount.objects.create(user=frankin_user,name='Frankin',gender = 'Male',city = 'Bangkok',expert ='Statistic')
-        UserAccount.objects.create(user=ronnie_user,name='Ronnie',gender = 'Male',city = 'Bangkok',expert ='Signal')
-        UserAccount.objects.create(user=betty_user,name='Betty',gender = 'Female',city = 'Bangkok',expert ='Signal')
+        frankin_user = User.objects.create_user(username='frankin',email='frankin@test.com',password='frankinpassword',first_name='Frankin',last_name='Alibaba')
+        ronnie_user = User.objects.create_user(username='ronnie',email='ronnie@test.com',password='ronniepassword',first_name='Ronnie',last_name='Bacham')
+        betty_user = User.objects.create_user(username='betty',email='betty@test.com',password='bettypassword',first_name='Betty',last_name='Caesar')
+        henderson_user = User.objects.create_user(username='henderson',email='henderson@test.com',password='hendersonpassword',first_name='Henderson',last_name='Dabney')
+        frankin = UserAccount.objects.create(user=frankin_user,name='Frankin',gender = 'Male',city = 'Bangkok',expert ='Statistic')
+        ronnie = UserAccount.objects.create(user=ronnie_user,name='Ronnie',gender = 'Male',city = 'Bangkok',expert ='Signal')
+        betty = UserAccount.objects.create(user=betty_user,name='Betty',gender = 'Female',city = 'Bangkok',expert ='Signal')
         self.client.login(username='frankin', password='frankinpassword') 
         response = self.client.post('/profile')
         self.assertContains(response,'frankin')
@@ -246,7 +253,7 @@ class ProfileTest(TestCase):
         self.assertEqual(found.func,edit_profile)
 
     def test_rendering_ProfileEditTemplate(self):
-        frankin_user = User.objects.create_user('frankin','frankin@test.com','frankinpassword')
+        frankin_user = User.objects.create_user(username='frankin',email='frankin@test.com',password='frankinpassword',first_name='Frankin',last_name='Alibaba')
         frankin = UserAccount.objects.create(user=frankin_user,name='Frankin',gender = 'Male',city = 'Bangkok',expert ='Statistic')
         self.client.login(username='frankin', password='frankinpassword') 
         response = self.client.get('/profile/edit')
@@ -265,18 +272,18 @@ class ProfileTest(TestCase):
         self.assertEqual(found.func,friend_profile)
 
     def test_rendering_FriendProfileTemplate(self):
-        frankin_user = User.objects.create_user('frankin','frankin@test.com','frankinpassword')
+        frankin_user = User.objects.create_user(username='frankin',email='frankin@test.com',password='frankinpassword',first_name='Frankin',last_name='Alibaba')
         frankin = UserAccount.objects.create(user=frankin_user,name='Frankin',gender = 'Male',city = 'Bangkok',expert ='Statistic')
-        ronnie_user = User.objects.create_user('ronnie','ronnie@test.com','ronniepassword')
+        ronnie_user = User.objects.create_user(username='ronnie',email='ronnie@test.com',password='ronniepassword',first_name='Ronnie',last_name='Bacham')
         ronnie = UserAccount.objects.create(user=ronnie_user,name='Ronnie',gender = 'Male',city = 'Bangkok',expert ='Signal')
         self.client.login(username='frankin', password='frankinpassword') 
         response = self.client.get(f'/friendprofile/{ronnie.id}')
         self.assertTemplateUsed(response, 'friend_profile.html')
 
     def test_view_friend_profile(self):
-        frankin_user = User.objects.create_user('frankin','frankin@test.com','frankinpassword')
-        ronnie_user = User.objects.create_user('ronnie','ronnie@test.com','ronniepassword')
+        frankin_user = User.objects.create_user(username='frankin',email='frankin@test.com',password='frankinpassword',first_name='Frankin',last_name='Alibaba')
         frankin = UserAccount.objects.create(user=frankin_user,name='Frankin',gender = 'Male',city = 'Bangkok',expert ='Statistic')
+        ronnie_user = User.objects.create_user(username='ronnie',email='ronnie@test.com',password='ronniepassword',first_name='Ronnie',last_name='Bacham')
         ronnie = UserAccount.objects.create(user=ronnie_user,name='Ronnie',gender = 'Male',city = 'Bangkok',expert ='Signal')
         self.client.login(username='frankin', password='frankinpassword') 
         response = self.client.get(f'/friendprofile/{ronnie.id}')
@@ -289,27 +296,28 @@ class ProfileTest(TestCase):
 
 class ReviewTest(TestCase):
     def test_URL_maping_to_review(self):
-        frankin_user = User.objects.create_user('frankin','frankin@test.com','frankinpassword')
+        frankin_user = User.objects.create_user(username='frankin',email='frankin@test.com',password='frankinpassword',first_name='Frankin',last_name='Alibaba')
         frankin = UserAccount.objects.create(user=frankin_user,name='Frankin',gender = 'Male',city = 'Bangkok',expert ='Statistic')
         found = resolve(f'/review/{frankin.id}')
-        self.assertEqual(found.func,review)
+        self.assertEqual(found.url_name,'review')
 
     
     def test_rendering_ReviewTemplate(self):
-        frankin_user = User.objects.create_user('frankin','frankin@test.com','frankinpassword')
+        frankin_user = User.objects.create_user(username='frankin',email='frankin@test.com',password='frankinpassword',first_name='Frankin',last_name='Alibaba')
         frankin = UserAccount.objects.create(user=frankin_user,name='Frankin',gender = 'Male',city = 'Bangkok',expert ='Statistic')
-        ronnie_user = User.objects.create_user('ronnie','ronnie@test.com','ronniepassword')
+        ronnie_user = User.objects.create_user(username='ronnie',email='ronnie@test.com',password='ronniepassword',first_name='Ronnie',last_name='Bacham')
         ronnie = UserAccount.objects.create(user=ronnie_user,name='Ronnie',gender = 'Male',city = 'Bangkok',expert ='Signal')
         self.client.login(username='frankin', password='frankinpassword') 
         response = self.client.get(f'/review/{ronnie.id}')
         self.assertTemplateUsed(response, 'review.html')
     
     def test_after_POST_pass_correct_review_to_template(self):
-        frankin_user = User.objects.create_user('frankin','frankin@test.com','frankinpassword')
-        frankin = UserAccount.objects.create(user=frankin_user,name='Frankin',gender = 'Male',city = 'Bangkok',expert ='Statistic')            
-        ronnie_user = User.objects.create_user('ronnie','ronnie@test.com','ronniepassword')
-        ronnie = UserAccount.objects.create(user=ronnie_user,name='Ronnie',gender = 'Male',city = 'Bangkok',expert ='Signal')           
-        betty_user = User.objects.create_user('betty','betty@test.com','bettypassword')
+        frankin_user = User.objects.create_user(username='frankin',email='frankin@test.com',password='frankinpassword',first_name='Frankin',last_name='Alibaba')
+        ronnie_user = User.objects.create_user(username='ronnie',email='ronnie@test.com',password='ronniepassword',first_name='Ronnie',last_name='Bacham')
+        betty_user = User.objects.create_user(username='betty',email='betty@test.com',password='bettypassword',first_name='Betty',last_name='Caesar')
+        henderson_user = User.objects.create_user(username='henderson',email='henderson@test.com',password='hendersonpassword',first_name='Henderson',last_name='Dabney')
+        frankin = UserAccount.objects.create(user=frankin_user,name='Frankin',gender = 'Male',city = 'Bangkok',expert ='Statistic')
+        ronnie = UserAccount.objects.create(user=ronnie_user,name='Ronnie',gender = 'Male',city = 'Bangkok',expert ='Signal')
         betty = UserAccount.objects.create(user=betty_user,name='Betty',gender = 'Female',city = 'Bangkok',expert ='Signal')
 
         self.client.login(username='frankin', password='frankinpassword') 
@@ -321,7 +329,7 @@ class ReviewTest(TestCase):
         self.assertEqual(response.context['reviews'][0].reviewed_tutor,ronnie)
 
         self.client.login(username='betty', password='bettypassword') 
-        response = self.client.post(f'/review/{ronnie.id}',data={'comment':'ronnie is the best','rating':4})
+        response = self.client.post(reverse('review',args=[ronnie.id]),{'comment':'ronnie is the best','rating':4}, follow=True)
 
         self.assertEqual(response.context['reviews'][1].comment,'ronnie is the best')
         self.assertEqual(response.context['reviews'][1].rate,4)
@@ -329,21 +337,22 @@ class ReviewTest(TestCase):
         self.assertEqual(response.context['reviews'][1].reviewed_tutor,ronnie)
 
     def test_after_POST__review_template_show_review(self):
-        frankin_user = User.objects.create_user('frankin','frankin@test.com','frankinpassword')
+        frankin_user = User.objects.create_user(username='frankin',email='frankin@test.com',password='frankinpassword',first_name='Frankin',last_name='Alibaba')
+        ronnie_user = User.objects.create_user(username='ronnie',email='ronnie@test.com',password='ronniepassword',first_name='Ronnie',last_name='Bacham')
+        betty_user = User.objects.create_user(username='betty',email='betty@test.com',password='bettypassword',first_name='Betty',last_name='Caesar')
+        henderson_user = User.objects.create_user(username='henderson',email='henderson@test.com',password='hendersonpassword',first_name='Henderson',last_name='Dabney')
         frankin = UserAccount.objects.create(user=frankin_user,name='Frankin',gender = 'Male',city = 'Bangkok',expert ='Statistic')
-        ronnie_user = User.objects.create_user('ronnie','ronnie@test.com','ronniepassword')
         ronnie = UserAccount.objects.create(user=ronnie_user,name='Ronnie',gender = 'Male',city = 'Bangkok',expert ='Signal')
-        betty_user = User.objects.create_user('betty','betty@test.com','bettypassword')
         betty = UserAccount.objects.create(user=betty_user,name='Betty',gender = 'Female',city = 'Bangkok',expert ='Signal')
 
         self.client.login(username='frankin', password='frankinpassword') 
-        response = self.client.post(f'/review/{ronnie.id}',data={'comment':'ronnie is very good','rating':5})
+        response = self.client.post(reverse('review',args=[ronnie.id]),{'comment':'ronnie is very good','rating':5}, follow=True)
 
         self.assertContains(response,'Frankin')
         self.assertContains(response,'ronnie is very good')
 
         self.client.login(username='betty', password='bettypassword') 
-        response = self.client.post(f'/review/{ronnie.id}',data={'comment':'ronnie is the best','rating':4})
+        response = self.client.post(reverse('review',args=[ronnie.id]),{'comment':'ronnie is the best','rating':4}, follow=True)
 
         self.assertContains(response,'Frankin')
         self.assertContains(response,'ronnie is very good')
