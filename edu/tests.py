@@ -358,3 +358,40 @@ class ReviewTest(TestCase):
         self.assertContains(response,'ronnie is very good')
         self.assertContains(response,'Betty')
         self.assertContains(response,'ronnie is the best')
+
+    def test_remove_review(self):
+        frankin_user = User.objects.create_user(username='frankin',email='frankin@test.com',password='frankinpassword',first_name='Frankin',last_name='Alibaba')
+        ronnie_user = User.objects.create_user(username='ronnie',email='ronnie@test.com',password='ronniepassword',first_name='Ronnie',last_name='Bacham')
+        betty_user = User.objects.create_user(username='betty',email='betty@test.com',password='bettypassword',first_name='Betty',last_name='Caesar')
+        henderson_user = User.objects.create_user(username='henderson',email='henderson@test.com',password='hendersonpassword',first_name='Henderson',last_name='Dabney')
+        frankin = UserAccount.objects.create(user=frankin_user,name='Frankin',gender = 'Male',city = 'Bangkok',expert ='Statistic')
+        ronnie = UserAccount.objects.create(user=ronnie_user,name='Ronnie',gender = 'Male',city = 'Bangkok',expert ='Signal')
+        betty = UserAccount.objects.create(user=betty_user,name='Betty',gender = 'Female',city = 'Bangkok',expert ='Signal')
+
+        Review.objects.create(comment='Ronnie is very good tutor',reviewer=frankin, reviewed_tutor=ronnie, rate=4)
+        Review.objects.create(comment='Ronnie is a best tutor',reviewer=betty, reviewed_tutor=ronnie, rate=5)
+
+        self.client.login(username='frankin', password='frankinpassword')
+        response = self.client.get(f'/review/{ronnie.id}')
+        self.assertTemplateUsed(response, 'review.html')
+
+        self.assertContains(response,'Frankin')
+        self.assertContains(response,'Ronnie is very good tutor')
+        self.assertContains(response,'Remove')
+        self.assertContains(response,'Betty')
+        self.assertContains(response,'Ronnie is a best tutor')
+
+        review = Review.objects.get(reviewer=frankin)
+        response = self.client.get(reverse('remove_review',args=[ronnie.id,review.id]), follow=True)
+
+        self.assertNotContains(response,'Frankin')
+        self.assertNotContains(response,'Ronnie is very good tutor')
+        self.assertNotContains(response,'Remove')
+        self.assertContains(response,'Betty')
+        self.assertContains(response,'Ronnie is a best tutor')
+
+        review = Review.objects.get(reviewer=betty)
+        response = self.client.get(reverse('remove_review',args=[ronnie.id,review.id]), follow=True)
+
+        self.assertContains(response,'Betty')
+        self.assertContains(response,'Ronnie is a best tutor')
