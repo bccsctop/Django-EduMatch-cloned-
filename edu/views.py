@@ -4,6 +4,7 @@ from django.contrib.auth import login, authenticate
 from django.contrib.auth.models import User
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.forms import UserChangeForm
+from django.urls import reverse
 from edu.models import UserAccount, MatchedRequest, Review
 from edu.forms import SignUpForm, EditProfileForm, EditProfileForm2, ReviewForm, CITY_CHOICES
 import time
@@ -265,7 +266,7 @@ def review(request, tutor_id):
             rating_point = request.POST.get('rating','')    #Get rating_point
             #Create new review
             Review.objects.create(comment=form.cleaned_data['comment'],reviewer=reviewer, reviewed_tutor=tutor_user, rate=rating_point)
-            redirect(f'/review/{tutor_id}')
+            return HttpResponseRedirect(reverse('review',args=(tutor_id,)))
     else: 
         form = ReviewForm()
 

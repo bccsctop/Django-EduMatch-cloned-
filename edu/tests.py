@@ -1,4 +1,4 @@
-from django.urls import resolve
+from django.urls import resolve,reverse
 from django.test import TestCase
 from django.http import HttpRequest
 from django.template.loader import render_to_string
@@ -10,7 +10,7 @@ from edu.views import edit_profile
 from edu.forms import EditProfileForm
 from edu.forms import EditProfileForm2
 from edu.views import match_result
-from edu.models import Tutor,Matched_Request
+from edu.models import UserAccount,MatchedRequest,Review
 from django.contrib.auth.models import User
 
 class HomepageTest(TestCase):
@@ -21,7 +21,7 @@ class HomepageTest(TestCase):
     
     def test_rendering_homepageTemplate(self):
         frankin_user = User.objects.create_user('frankin','frankin@test.com','frankinpassword')
-        frankin = Tutor.objects.create(user=frankin_user,name='Frankin',gender = 'Male',city = 'Bangkok',expert ='Statistic')
+        frankin = UserAccount.objects.create(user=frankin_user,name='Frankin',gender = 'Male',city = 'Bangkok',expert ='Statistic')
         self.client.login(username='frankin', password='frankinpassword') 
         response = self.client.get('/')
         self.assertTemplateUsed(response, 'home.html')
@@ -30,9 +30,9 @@ class HomepageTest(TestCase):
         frankin_user = User.objects.create_user('frankin','frankin@test.com','frankinpassword')
         ronnie_user = User.objects.create_user('ronnie','ronnie@test.com','ronniepassword')
         betty_user = User.objects.create_user('betty','betty@test.com','bettypassword')
-        Tutor.objects.create(user=frankin_user,name='Frankin',gender = 'Male',city = 'Bangkok',expert ='Statistic')
-        Tutor.objects.create(user=ronnie_user,name='Ronnie',gender = 'Male',city = 'Bangkok',expert ='Signal')
-        Tutor.objects.create(user=betty_user,name='Betty',gender = 'Female',city = 'Bangkok',expert ='Signal')
+        UserAccount.objects.create(user=frankin_user,name='Frankin',gender = 'Male',city = 'Bangkok',expert ='Statistic')
+        UserAccount.objects.create(user=ronnie_user,name='Ronnie',gender = 'Male',city = 'Bangkok',expert ='Signal')
+        UserAccount.objects.create(user=betty_user,name='Betty',gender = 'Female',city = 'Bangkok',expert ='Signal')
         self.client.login(username='frankin', password='frankinpassword') 
         response = self.client.post('/', data={'subject_text': 'Signal','gender_text' : 'Male','city_text' : 'Bangkok'})
         self.assertNotContains(response,'Betty')
@@ -49,7 +49,7 @@ class TutorRequestTest(TestCase):
     
     def test_rendering_matchResultTemplate(self):
         frankin_user = User.objects.create_user('frankin','frankin@test.com','frankinpassword')
-        frankin = Tutor.objects.create(user=frankin_user,name='Frankin',gender = 'Male',city = 'Bangkok',expert ='Statistic')
+        frankin = UserAccount.objects.create(user=frankin_user,name='Frankin',gender = 'Male',city = 'Bangkok',expert ='Statistic')
         self.client.login(username='frankin', password='frankinpassword') 
         response = self.client.get('/match-result/')
         self.assertTemplateUsed(response, 'manage_match.html')
@@ -60,9 +60,9 @@ class TutorRequestTest(TestCase):
         frankin_user = User.objects.create_user('frankin','frankin@test.com','frankinpassword')
         ronnie_user = User.objects.create_user('ronnie','ronnie@test.com','ronniepassword')
         betty_user = User.objects.create_user('betty','betty@test.com','bettypassword')
-        frankin = Tutor.objects.create(user=frankin_user,name='Frankin',gender = 'Male',city = 'Bangkok',expert ='Statistic')
-        ronnie = Tutor.objects.create(user=ronnie_user,name='Ronnie',gender = 'Male',city = 'Bangkok',expert ='Signal')
-        betty = Tutor.objects.create(user=betty_user,name='Betty',gender = 'Female',city = 'Bangkok',expert ='Signal')
+        frankin = UserAccount.objects.create(user=frankin_user,name='Frankin',gender = 'Male',city = 'Bangkok',expert ='Statistic')
+        ronnie = UserAccount.objects.create(user=ronnie_user,name='Ronnie',gender = 'Male',city = 'Bangkok',expert ='Signal')
+        betty = UserAccount.objects.create(user=betty_user,name='Betty',gender = 'Female',city = 'Bangkok',expert ='Signal')
         
         #Login as Frankin (Require User Authentication)
         self.client.login(username='frankin', password='frankinpassword') 
@@ -72,7 +72,7 @@ class TutorRequestTest(TestCase):
         self.client.get(f'/match-request/send/{betty.id}')
 
         #Check size of request that have been send
-        saved_requests = Matched_Request.objects.all()
+        saved_requests = MatchedRequest.objects.all()
         self.assertEqual(saved_requests.count(),2)
 
         #Seperate each request
@@ -90,16 +90,16 @@ class TutorRequestTest(TestCase):
         frankin_user = User.objects.create_user('frankin','frankin@test.com','frankinpassword')
         ronnie_user = User.objects.create_user('ronnie','ronnie@test.com','ronniepassword')
         betty_user = User.objects.create_user('betty','betty@test.com','bettypassword')
-        frankin = Tutor.objects.create(user=frankin_user,name='Frankin',gender = 'Male',city = 'Bangkok',expert ='Statistic')
-        ronnie = Tutor.objects.create(user=ronnie_user,name='Ronnie',gender = 'Male',city = 'Bangkok',expert ='Signal')
-        betty = Tutor.objects.create(user=betty_user,name='Betty',gender = 'Female',city = 'Bangkok',expert ='Signal')
+        frankin = UserAccount.objects.create(user=frankin_user,name='Frankin',gender = 'Male',city = 'Bangkok',expert ='Statistic')
+        ronnie = UserAccount.objects.create(user=ronnie_user,name='Ronnie',gender = 'Male',city = 'Bangkok',expert ='Signal')
+        betty = UserAccount.objects.create(user=betty_user,name='Betty',gender = 'Female',city = 'Bangkok',expert ='Signal')
 
         #Create a request to Ronnie and Betty
-        Matched_Request.objects.create(to_user=ronnie_user,from_user=frankin_user)
-        Matched_Request.objects.create(to_user=betty_user,from_user=frankin_user)
+        MatchedRequest.objects.create(to_user=ronnie_user,from_user=frankin_user)
+        MatchedRequest.objects.create(to_user=betty_user,from_user=frankin_user)
         
         #Check size of request that have send
-        saved_requests = Matched_Request.objects.all()
+        saved_requests = MatchedRequest.objects.all()
         self.assertEqual(saved_requests.count(),2)
 
         #Login as Frankin (Require User Authentication)
@@ -109,7 +109,7 @@ class TutorRequestTest(TestCase):
         self.client.get(f'/match-request/cancel/{ronnie.id}')
 
         #Check size of request that have been cancel
-        saved_requests = Matched_Request.objects.all()
+        saved_requests = MatchedRequest.objects.all()
         self.assertEqual(saved_requests.count(),1)
 
         #Seperate each request
@@ -125,16 +125,16 @@ class TutorRequestTest(TestCase):
         frankin_user = User.objects.create_user('frankin','frankin@test.com','frankinpassword')
         ronnie_user = User.objects.create_user('ronnie','ronnie@test.com','ronniepassword')
         betty_user = User.objects.create_user('betty','betty@test.com','bettypassword')
-        frankin = Tutor.objects.create(user=frankin_user,name='Frankin',gender = 'Male',city = 'Bangkok',expert ='Statistic')
-        ronnie = Tutor.objects.create(user=ronnie_user,name='Ronnie',gender = 'Male',city = 'Bangkok',expert ='Signal')
-        betty = Tutor.objects.create(user=betty_user,name='Betty',gender = 'Female',city = 'Bangkok',expert ='Signal')
+        frankin = UserAccount.objects.create(user=frankin_user,name='Frankin',gender = 'Male',city = 'Bangkok',expert ='Statistic')
+        ronnie = UserAccount.objects.create(user=ronnie_user,name='Ronnie',gender = 'Male',city = 'Bangkok',expert ='Signal')
+        betty = UserAccount.objects.create(user=betty_user,name='Betty',gender = 'Female',city = 'Bangkok',expert ='Signal')
 
         #Create a request from Ronnie and Betty
-        Matched_Request.objects.create(to_user=frankin_user,from_user=ronnie_user)
-        Matched_Request.objects.create(to_user=frankin_user,from_user=betty_user)
+        MatchedRequest.objects.create(to_user=frankin_user,from_user=ronnie_user)
+        MatchedRequest.objects.create(to_user=frankin_user,from_user=betty_user)
         
         #Check size of request that have been send
-        saved_requests = Matched_Request.objects.all()
+        saved_requests = MatchedRequest.objects.all()
         self.assertEqual(saved_requests.count(),2)
 
         #Login as Frankin (Require User Authentication)
@@ -144,7 +144,7 @@ class TutorRequestTest(TestCase):
         self.client.get(f'/match-request/accept/{ronnie.id}')
 
         #Check size of request that remain
-        saved_requests = Matched_Request.objects.all()
+        saved_requests = MatchedRequest.objects.all()
         self.assertEqual(saved_requests.count(),1)
 
         #Check that remain sender and reciever are right person
@@ -160,30 +160,30 @@ class TutorRequestTest(TestCase):
         frankin_user = User.objects.create_user('frankin','frankin@test.com','frankinpassword')
         ronnie_user = User.objects.create_user('ronnie','ronnie@test.com','ronniepassword')
         betty_user = User.objects.create_user('betty','betty@test.com','bettypassword')
-        frankin = Tutor.objects.create(user=frankin_user,name='Frankin',gender = 'Male',city = 'Bangkok',expert ='Statistic')
-        ronnie = Tutor.objects.create(user=ronnie_user,name='Ronnie',gender = 'Male',city = 'Bangkok',expert ='Signal')
-        betty = Tutor.objects.create(user=betty_user,name='Betty',gender = 'Female',city = 'Bangkok',expert ='Signal')
+        frankin = UserAccount.objects.create(user=frankin_user,name='Frankin',gender = 'Male',city = 'Bangkok',expert ='Statistic')
+        ronnie = UserAccount.objects.create(user=ronnie_user,name='Ronnie',gender = 'Male',city = 'Bangkok',expert ='Signal')
+        betty = UserAccount.objects.create(user=betty_user,name='Betty',gender = 'Female',city = 'Bangkok',expert ='Signal')
 
         #Create a request from Ronnie and Betty
-        Matched_Request.objects.create(to_user=frankin_user,from_user=ronnie_user)
-        Matched_Request.objects.create(to_user=frankin_user,from_user=betty_user)
+        MatchedRequest.objects.create(to_user=frankin_user,from_user=ronnie_user)
+        MatchedRequest.objects.create(to_user=frankin_user,from_user=betty_user)
         
         #Check size of request that have been send
-        saved_requests = Matched_Request.objects.all()
+        saved_requests = MatchedRequest.objects.all()
         self.assertEqual(saved_requests.count(),2)
 
         #Login as Frankin (Require User Authentication)
         self.client.login(username='frankin', password='frankinpassword') 
         
         #Reject a request from Ronnie
-        self.client.get(f'/match-request/delete/{ronnie.id}')
+        self.client.get(f'/match-request/reject/{ronnie.id}')
 
         #Check size of request that remain
-        saved_requests = Matched_Request.objects.all()
+        saved_requests = MatchedRequest.objects.all()
         self.assertEqual(saved_requests.count(),1)
 
         #Check that remain sender and reciever are right person
-        frankin_tutors = frankin.groupMatch.all()
+        frankin_tutors = frankin.students.all()
         self.assertEqual(frankin_tutors.count(),0)
 
     def test_recieve_and_accept_request(self):
@@ -191,16 +191,16 @@ class TutorRequestTest(TestCase):
         frankin_user = User.objects.create_user('frankin','frankin@test.com','frankinpassword')
         ronnie_user = User.objects.create_user('ronnie','ronnie@test.com','ronniepassword')
         betty_user = User.objects.create_user('betty','betty@test.com','bettypassword')
-        frankin = Tutor.objects.create(user=frankin_user,name='Frankin',gender = 'Male',city = 'Bangkok',expert ='Statistic')
-        ronnie = Tutor.objects.create(user=ronnie_user,name='Ronnie',gender = 'Male',city = 'Bangkok',expert ='Signal')
-        betty = Tutor.objects.create(user=betty_user,name='Betty',gender = 'Female',city = 'Bangkok',expert ='Signal')
+        frankin = UserAccount.objects.create(user=frankin_user,name='Frankin',gender = 'Male',city = 'Bangkok',expert ='Statistic')
+        ronnie = UserAccount.objects.create(user=ronnie_user,name='Ronnie',gender = 'Male',city = 'Bangkok',expert ='Signal')
+        betty = UserAccount.objects.create(user=betty_user,name='Betty',gender = 'Female',city = 'Bangkok',expert ='Signal')
 
         #Create a request from Ronnie and Betty
-        Matched_Request.objects.create(to_user=frankin_user,from_user=ronnie_user)
-        Matched_Request.objects.create(to_user=frankin_user,from_user=betty_user)
+        MatchedRequest.objects.create(to_user=frankin_user,from_user=ronnie_user)
+        MatchedRequest.objects.create(to_user=frankin_user,from_user=betty_user)
         
         #Check size of request that have been send
-        saved_requests = Matched_Request.objects.all()
+        saved_requests = MatchedRequest.objects.all()
         self.assertEqual(saved_requests.count(),2)
 
         #Login as Frankin (Require User Authentication)
@@ -220,7 +220,7 @@ class ProfileTest(TestCase):
 
     def test_rendering_ProfileTemplate(self):
         frankin_user = User.objects.create_user('frankin','frankin@test.com','frankinpassword')
-        frankin = Tutor.objects.create(user=frankin_user,name='Frankin',gender = 'Male',city = 'Bangkok',expert ='Statistic')
+        frankin = UserAccount.objects.create(user=frankin_user,name='Frankin',gender = 'Male',city = 'Bangkok',expert ='Statistic')
         self.client.login(username='frankin', password='frankinpassword') 
         response = self.client.get('/profile')
         self.assertTemplateUsed(response, 'profile.html')
@@ -229,9 +229,9 @@ class ProfileTest(TestCase):
         frankin_user = User.objects.create_user('frankin','frankin@test.com','frankinpassword')
         ronnie_user = User.objects.create_user('ronnie','ronnie@test.com','ronniepassword')
         betty_user = User.objects.create_user('betty','betty@test.com','bettypassword')
-        Tutor.objects.create(user=frankin_user,name='Frankin',gender = 'Male',city = 'Bangkok',expert ='Statistic')
-        Tutor.objects.create(user=ronnie_user,name='Ronnie',gender = 'Male',city = 'Bangkok',expert ='Signal')
-        Tutor.objects.create(user=betty_user,name='Betty',gender = 'Female',city = 'Bangkok',expert ='Signal')
+        UserAccount.objects.create(user=frankin_user,name='Frankin',gender = 'Male',city = 'Bangkok',expert ='Statistic')
+        UserAccount.objects.create(user=ronnie_user,name='Ronnie',gender = 'Male',city = 'Bangkok',expert ='Signal')
+        UserAccount.objects.create(user=betty_user,name='Betty',gender = 'Female',city = 'Bangkok',expert ='Signal')
         self.client.login(username='frankin', password='frankinpassword') 
         response = self.client.post('/profile')
         self.assertContains(response,'frankin')
@@ -247,7 +247,7 @@ class ProfileTest(TestCase):
 
     def test_rendering_ProfileEditTemplate(self):
         frankin_user = User.objects.create_user('frankin','frankin@test.com','frankinpassword')
-        frankin = Tutor.objects.create(user=frankin_user,name='Frankin',gender = 'Male',city = 'Bangkok',expert ='Statistic')
+        frankin = UserAccount.objects.create(user=frankin_user,name='Frankin',gender = 'Male',city = 'Bangkok',expert ='Statistic')
         self.client.login(username='frankin', password='frankinpassword') 
         response = self.client.get('/profile/edit')
         self.assertTemplateUsed(response, 'edit_profile.html')
@@ -266,9 +266,9 @@ class ProfileTest(TestCase):
 
     def test_rendering_FriendProfileTemplate(self):
         frankin_user = User.objects.create_user('frankin','frankin@test.com','frankinpassword')
-        frankin = Tutor.objects.create(user=frankin_user,name='Frankin',gender = 'Male',city = 'Bangkok',expert ='Statistic')
+        frankin = UserAccount.objects.create(user=frankin_user,name='Frankin',gender = 'Male',city = 'Bangkok',expert ='Statistic')
         ronnie_user = User.objects.create_user('ronnie','ronnie@test.com','ronniepassword')
-        ronnie = Tutor.objects.create(user=ronnie_user,name='Ronnie',gender = 'Male',city = 'Bangkok',expert ='Signal')
+        ronnie = UserAccount.objects.create(user=ronnie_user,name='Ronnie',gender = 'Male',city = 'Bangkok',expert ='Signal')
         self.client.login(username='frankin', password='frankinpassword') 
         response = self.client.get(f'/friendprofile/{ronnie.id}')
         self.assertTemplateUsed(response, 'friend_profile.html')
@@ -276,8 +276,8 @@ class ProfileTest(TestCase):
     def test_view_friend_profile(self):
         frankin_user = User.objects.create_user('frankin','frankin@test.com','frankinpassword')
         ronnie_user = User.objects.create_user('ronnie','ronnie@test.com','ronniepassword')
-        frankin = Tutor.objects.create(user=frankin_user,name='Frankin',gender = 'Male',city = 'Bangkok',expert ='Statistic')
-        ronnie = Tutor.objects.create(user=ronnie_user,name='Ronnie',gender = 'Male',city = 'Bangkok',expert ='Signal')
+        frankin = UserAccount.objects.create(user=frankin_user,name='Frankin',gender = 'Male',city = 'Bangkok',expert ='Statistic')
+        ronnie = UserAccount.objects.create(user=ronnie_user,name='Ronnie',gender = 'Male',city = 'Bangkok',expert ='Signal')
         self.client.login(username='frankin', password='frankinpassword') 
         response = self.client.get(f'/friendprofile/{ronnie.id}')
         self.assertContains(response,'ronnie')
@@ -290,30 +290,30 @@ class ProfileTest(TestCase):
 class ReviewTest(TestCase):
     def test_URL_maping_to_review(self):
         frankin_user = User.objects.create_user('frankin','frankin@test.com','frankinpassword')
-        frankin = Tutor.objects.create(user=frankin_user,name='Frankin',gender = 'Male',city = 'Bangkok',expert ='Statistic')
+        frankin = UserAccount.objects.create(user=frankin_user,name='Frankin',gender = 'Male',city = 'Bangkok',expert ='Statistic')
         found = resolve(f'/review/{frankin.id}')
         self.assertEqual(found.func,review)
 
     
     def test_rendering_ReviewTemplate(self):
         frankin_user = User.objects.create_user('frankin','frankin@test.com','frankinpassword')
-        frankin = Tutor.objects.create(user=frankin_user,name='Frankin',gender = 'Male',city = 'Bangkok',expert ='Statistic')
+        frankin = UserAccount.objects.create(user=frankin_user,name='Frankin',gender = 'Male',city = 'Bangkok',expert ='Statistic')
         ronnie_user = User.objects.create_user('ronnie','ronnie@test.com','ronniepassword')
-        ronnie = Tutor.objects.create(user=ronnie_user,name='Ronnie',gender = 'Male',city = 'Bangkok',expert ='Signal')
+        ronnie = UserAccount.objects.create(user=ronnie_user,name='Ronnie',gender = 'Male',city = 'Bangkok',expert ='Signal')
         self.client.login(username='frankin', password='frankinpassword') 
         response = self.client.get(f'/review/{ronnie.id}')
         self.assertTemplateUsed(response, 'review.html')
     
     def test_after_POST_pass_correct_review_to_template(self):
         frankin_user = User.objects.create_user('frankin','frankin@test.com','frankinpassword')
-        frankin = Tutor.objects.create(user=frankin_user,name='Frankin',gender = 'Male',city = 'Bangkok',expert ='Statistic')            
+        frankin = UserAccount.objects.create(user=frankin_user,name='Frankin',gender = 'Male',city = 'Bangkok',expert ='Statistic')            
         ronnie_user = User.objects.create_user('ronnie','ronnie@test.com','ronniepassword')
-        ronnie = Tutor.objects.create(user=ronnie_user,name='Ronnie',gender = 'Male',city = 'Bangkok',expert ='Signal')           
+        ronnie = UserAccount.objects.create(user=ronnie_user,name='Ronnie',gender = 'Male',city = 'Bangkok',expert ='Signal')           
         betty_user = User.objects.create_user('betty','betty@test.com','bettypassword')
-        betty = Tutor.objects.create(user=betty_user,name='Betty',gender = 'Female',city = 'Bangkok',expert ='Signal')
+        betty = UserAccount.objects.create(user=betty_user,name='Betty',gender = 'Female',city = 'Bangkok',expert ='Signal')
 
         self.client.login(username='frankin', password='frankinpassword') 
-        response = self.client.post(f'/review/{ronnie.id}',data={'comment':'ronnie is very good','rating':5})
+        response = self.client.post(reverse('review',args=[ronnie.id]),{'comment':'ronnie is very good','rating':5}, follow=True)
 
         self.assertEqual(response.context['reviews'][0].comment,'ronnie is very good')
         self.assertEqual(response.context['reviews'][0].rate,5)
@@ -330,11 +330,11 @@ class ReviewTest(TestCase):
 
     def test_after_POST__review_template_show_review(self):
         frankin_user = User.objects.create_user('frankin','frankin@test.com','frankinpassword')
-        frankin = Tutor.objects.create(user=frankin_user,name='Frankin',gender = 'Male',city = 'Bangkok',expert ='Statistic')
+        frankin = UserAccount.objects.create(user=frankin_user,name='Frankin',gender = 'Male',city = 'Bangkok',expert ='Statistic')
         ronnie_user = User.objects.create_user('ronnie','ronnie@test.com','ronniepassword')
-        ronnie = Tutor.objects.create(user=ronnie_user,name='Ronnie',gender = 'Male',city = 'Bangkok',expert ='Signal')
+        ronnie = UserAccount.objects.create(user=ronnie_user,name='Ronnie',gender = 'Male',city = 'Bangkok',expert ='Signal')
         betty_user = User.objects.create_user('betty','betty@test.com','bettypassword')
-        betty = Tutor.objects.create(user=betty_user,name='Betty',gender = 'Female',city = 'Bangkok',expert ='Signal')
+        betty = UserAccount.objects.create(user=betty_user,name='Betty',gender = 'Female',city = 'Bangkok',expert ='Signal')
 
         self.client.login(username='frankin', password='frankinpassword') 
         response = self.client.post(f'/review/{ronnie.id}',data={'comment':'ronnie is very good','rating':5})

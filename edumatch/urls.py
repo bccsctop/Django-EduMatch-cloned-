@@ -26,7 +26,7 @@ urlpatterns = [
     path('match-request/send/<int:tutor_id>', views.send_match_request, name='send_match_request'),
     path('match-request/cancel/<int:tutor_id>', views.cancel_match_request, name='cancel_match_request'),
     path('match-request/accept/<int:tutor_id>', views.accept_match_request, name='accept_match_request'),
-    path('match-request/delete/<int:tutor_id>', views.reject_match_request, name='reject_match_request'),
+    path('match-request/reject/<int:tutor_id>', views.reject_match_request, name='reject_match_request'),
     path('match-request/unfriend/<int:tutor_id>', views.unfriend, name='unfriend'),
     path('accounts/', include('django.contrib.auth.urls')),
     path('profile', views.view_profile, name='view_profile'),
