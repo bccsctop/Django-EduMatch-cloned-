@@ -71,7 +71,7 @@
         }
         #remove {
             position: absolute;
-            top: 95px;
+            top: 50px;
             right: 10px;
             font-size: 12px;
             text-decoration: underline;
@@ -173,9 +173,15 @@
           
           <span id='review_{{forloop.counter}}' style="padding-left:5px;">{{review.comment}}</span>
           {% if user == review.reviewer.user and user != tutor_user %}
-          <div id="remove">
-            <a id="remove_{{forloop.counter}}" href="/review/remove/{{tutor_user.id}}/{{review.id}}">Remove</a>
-          </div>
+          <form 
+          method="POST"
+          action="{% url 'remove_review' tutor_user.id review.id %}"
+          >
+            {% csrf_token %}
+            <div id="remove">
+              <input type="submit" id="remove_review_{{forloop.counter}}" value="Remove">
+            </div>
+          </form>
           {% endif %}
         </div>
         {% endfor %}
