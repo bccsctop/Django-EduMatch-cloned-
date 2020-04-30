@@ -276,13 +276,16 @@ def review(request, tutor_id):
         "total_point":total_point})
 
 def remove_review(request, review_id, tutor_id):
+    #get review object by id
     review = get_object_or_404(Review, id=review_id)
+    #fetch reviewer to check before delete review
     reviewer = review.reviewer
+    #check user are loged in, his own review and method post
     if  request.user.is_authenticated and \
         request.user == reviewer.user and \
         request.method == "POST" :
             review.delete()
-            
+
     return HttpResponseRedirect(f'/review/{tutor_id}')
 
 def about_group(request):
