@@ -280,10 +280,9 @@ def remove_review(request, review_id, tutor_id):
     review = get_object_or_404(Review, id=review_id)
     #fetch reviewer to check before delete review
     reviewer = review.reviewer
-    #check user are loged in, his own review and method post
-    if  request.user.is_authenticated and \
-        request.user == reviewer.user and \
-        request.method == "POST" :
+    #check user are loged in and method post
+    if  request.method == "POST" and \
+        request.user.is_authenticated :
             review.delete()
 
     return HttpResponseRedirect(f'/review/{tutor_id}')
