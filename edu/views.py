@@ -282,7 +282,8 @@ def remove_review(request, review_id, tutor_id):
     reviewer = review.reviewer
     #check user are loged in and method post
     if  request.method == "POST" and \
-        request.user.is_authenticated :
+        request.user.is_authenticated and \
+        request.user == reviewer.user :
             review.delete()
 
     return HttpResponseRedirect(f'/review/{tutor_id}')

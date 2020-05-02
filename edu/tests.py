@@ -384,7 +384,7 @@ class ReviewTest(TestCase):
         self.assertContains(response,'Ronnie is a best tutor')
         #remove frankin review
         review = Review.objects.get(reviewer=frankin)
-        response = self.client.get(reverse('remove_review',args=[ronnie.id,review.id]), follow=True)
+        response = self.client.post(reverse('remove_review',args=[ronnie.id,review.id]), follow=True)
         #check frankin review has been removed
         self.assertNotContains(response,'Frankin')
         self.assertNotContains(response,'Ronnie is very good tutor')
@@ -394,7 +394,7 @@ class ReviewTest(TestCase):
         #still login as frankin
         #remove other review by sending url
         review = Review.objects.get(reviewer=betty)
-        response = self.client.get(reverse('remove_review',args=[ronnie.id,review.id]), follow=True)
+        response = self.client.post(reverse('remove_review',args=[ronnie.id,review.id]), follow=True)
         #review still display on template
         self.assertContains(response,'Betty')
         self.assertContains(response,'Ronnie is a best tutor')
